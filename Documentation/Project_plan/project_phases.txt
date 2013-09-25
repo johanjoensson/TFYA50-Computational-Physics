@@ -1,0 +1,24 @@
+Plan for the project phases
+============================
+
+Before
+------
+In the ''before'' phase focus will be on planning the work to be done during
+the two remaining phases. In addition to planning the project there will also
+be some education to prepare the group members for the project, ie.
+laborations, lectures and information regarding what tools will be used during
+the project.
+
+During
+------
+During the ''during'' phase, focus will be on writing the code for the
+MD-simulation and writing the documentation to be handed in with the finished
+program.
+
+After
+-----
+After the delivery of the finished MD-simulation software, at this point the
+client will determine whether or not the finished product satisfies the
+requirements specified inte the project requirements document. Afterwards
+every group member will have to fill out an evaluation and a summary of these
+evaluations will be handed in to the client.
