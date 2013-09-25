@@ -1,12 +1,22 @@
 CC = pdflatex
 
-FILE = project_plan.tex
+MAIN_FILE = project_plan.tex
 
-OUTPUT = $(FILE:tex=pdf)
+SECTIONS = 	priorities.tex\
+		project_phases.tex\
+		priorities.tex\
+		quality_plan.tex\
+		training_plan.tex\
 
-AUX = $(FILE:tex=aux)
-TOC = $(FILE:tex=toc)
-LOG = $(FILE:tex=log)
+BASE_DEF = LIPS.tex
+
+FILES = $(MAIN_FILE) $(BASE_DEF) $(SECTIONS)
+
+OUTPUT = $(MAIN_FILE:tex=pdf)
+
+AUX = $(FILES:tex=aux)
+TOC = $(FILES:tex=toc)
+LOG = $(FILES:tex=log)
 
 TEMP = $(AUX) $(TOC) $(LOG)
 
@@ -19,7 +29,7 @@ all:	$(OUTPUT)
 # table of contents, tags etc) you need to compile a minimum of 2 times, I do
 # 3 just to be sure
 	for counter in 1 2 3 ; do \
-		pdflatex $(FILE) ; \
+		$(CC) $(FILES) ; \
 	done
 
 view:	$(OUTPUT)
