@@ -1,0 +1,32 @@
+Suggested activities
+====================
+
+1) Design of the potential and force calculations
+2) Design numerical integrator
+3) Design MD setup
+4) Design neighbour list for system
+5) Design average properties
+6) Design instant properties
+7) Design I/O handling
+
+8) Code for potential and force calculations
+9) Code for numerical integrator
+10) Code MD setup
+11) Code neighbour list
+12) Code average properties
+13) Code instant properties
+14) Code I/O handling
+
+16) Integration of code for different modules
+
+17) Testing of full program
+18) Verification of modules and full program
+
+19) Research parameters and material
+20) Simulations for final report
+21) Analysis of simulations
+
+22) Completion of technical documentation
+23) Completion of user's manual
+24) Prepare presentation
+25) Evaluation of project
