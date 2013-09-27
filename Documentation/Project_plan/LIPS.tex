@@ -116,6 +116,10 @@
     \hline
   \end{tabular}
 }
+\newcommand{\LIPSmilstolpe}[3]{\hline {#1} & {#2} & {#3} \\}
+\newcounter{LIPSaktivitetsnummer}
+\newcommand{\LIPSaktivitet}[3]{\hline\stepcounter{LIPSaktivitetsnummer}\textbf{\arabic{LIPSaktivitetsnummer}} & {#1} & {#2} & {#3} \\}
+
 \newcommand{\LIPSkrav}[3]{\hline\stepcounter{LIPSkravnummer}\textbf{Krav nr \arabic{LIPSkravnummer}} & \textbf{{#1}} & {#2} & \textbf{{#3}} \\}
 \newcommand{\LIPSunderkrav}[3]{\hline\stepcounter{LIPSunderkravnummer}\textbf{Requirement nr. \arabic{LIPSkravnummer}\Alph{LIPSunderkravnummer}} & \textbf{{#1}} & {#2} & \textbf{{#3}} \\}
 
