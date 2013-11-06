@@ -9,10 +9,11 @@ class integrator
 {
 private:
 	float h;
+	float cutoff;
 	vector_3d calculate_force(atom *a, atom *b);
 public:
 	integrator();
-//	float calculate_force(atom *a, atom *b);
+	void set_cutoff(float r);
 
 	void verlet_integration_position(verlet_list particle);
 	void verlet_integration_velocity(verlet_list particle);

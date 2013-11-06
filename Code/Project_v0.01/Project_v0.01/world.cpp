@@ -7,6 +7,7 @@
 
 world::world()
 {
+	cutoff = 0;
 	N = 0;
 	atoms = NULL;
 	bulk = NULL;
@@ -17,7 +18,7 @@ world::world()
 /* TODO: Add proper constructor that is actually useful */
 world::world(unsigned int n)
 {
-
+	cutoff = 100;
 	verlet_integrator = integrator();
 	N = n;
 
@@ -31,6 +32,7 @@ world::world(unsigned int n)
 	/* Link each cell in the array of verlet lists to the corresponding atom */
 	for(int i = 0; i < n; i++){
 		bulk[i].data = &atoms[i];
+		bulk[i].set_verlet_skin(1.5*cutoff);
 	}
 }
 

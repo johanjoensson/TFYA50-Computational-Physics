@@ -7,6 +7,11 @@ integrator::integrator()
 	h = 0.2;
 }
 
+void integrator::set_cutoff(float r)
+{
+	cutoff = r;
+}
+
 /* TODO - insert the Lenard Jones potential and force calculations */
 vector_3d integrator::calculate_force(atom *a, atom *b)
 {
@@ -26,6 +31,11 @@ void integrator::verlet_integration_position(verlet_list particle)
 	particle.data->next_acc = vector_3d(0, 0, 0);
 }
 
+float distance_atoms(vector_3d a, vector_3d b)
+{
+	return (a-b).abs();
+}
+
 /* The second part of the Velocity verlet algorithm, updates velocity */
 void integrator::verlet_integration_velocity(verlet_list particle)
 {
@@ -33,19 +43,15 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 	vector_3d tmp_force;
 
 	while(current != 0){
-		std::cout << "Räkna acc!" << std::endl;
-		/* Update velocity and acceleration of the particle */
-		tmp_force = calculate_force(particle.data, current->data);
-		/* Add division by mass of particle */
-		particle.data->next_acc += tmp_force;
-		current->data->next_acc -= tmp_force;
-
+		if(distance_atoms(current->data->pos, particle.data->pos) < cutoff){
+			/* Update velocity and acceleration of the particle */
+			tmp_force = calculate_force(particle.data, current->data);
+			/* Add division by mass of particle */
+			particle.data->next_acc += tmp_force;
+			current->data->next_acc -= tmp_force;
+		}
 		current = current->next;
-	}
-
-	std::cout << "Acceleration is : (" << particle.data->next_acc.x << ", " << particle.data->next_acc.y << ", " << particle.data->next_acc.z << ")" << std::endl;
-	std::cout << "Acceleration is : (" << particle.data->acc.x << ", " << particle.data->acc.y << ", " << particle.data->acc.z << ")" << std::endl;
-	
+	}	
 	
 	particle.data->vel += 0.5*(particle.data->acc + particle.data->next_acc)*h;
 }

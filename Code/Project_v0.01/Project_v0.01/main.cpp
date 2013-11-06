@@ -5,7 +5,7 @@
 
 int main()
 {
-/*	world test(5);
+	world test(5);
 	test.bulk[0].data->pos = vector_3d(1.0, 0.0, 0.0);
 	test.bulk[1].data->pos = vector_3d(0.0, 1.0, 0.0);
 	test.bulk[2].data->pos = vector_3d(0.0, 0.0, 1.0);
@@ -21,7 +21,7 @@ int main()
 	test.update_verlet_lists();
 
 	/* Move system to next time step */
-/*
+
 	for(unsigned int i = 0; i < test.N; i++){
 		std::cout << "Old position of particle " << i << ": (" << test.bulk[i].data->pos.x << ", " << test.bulk[i].data->pos.y << ", " << test.bulk[i].data->pos.z << ",)" << std::endl;
 		std::cout << "Old velocity of particle " << i << ": (" << test.bulk[i].data->vel.x << ", " << test.bulk[i].data->vel.y << ", " << test.bulk[i].data->vel.z << ",)" << std::endl;
@@ -37,13 +37,13 @@ int main()
 	for(unsigned int i = 0; i < test.N; i++){
 		test.bulk[i].clear_verlet_list();
 	}
-*/	
 
-
+/*
 	world w(5, 5, 5, 1);
 	
 	std::cout << w.atoms[1].pos.x;
 	
+*/
 	int temp;
 	std::cin >> temp;
 

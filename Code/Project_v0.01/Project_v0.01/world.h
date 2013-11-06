@@ -3,6 +3,8 @@
 #include "velocity_verlet_integration.h"
 
 class world{
+private:
+	float cutoff;
 public:
 	world();
 	world(unsigned int n);
