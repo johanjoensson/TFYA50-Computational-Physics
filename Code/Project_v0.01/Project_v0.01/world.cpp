@@ -40,14 +40,14 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a)
 	
 	/* Adding atoms in bcc-lattice */
 	int n = 0;	//atom count
-	for(int a = 0; a < x; a++){
-		for(int b = 0; b < y; b++){
-			for(int c = 0; c < z; c++){
+	for(unsigned int i = 0; i < x; i++){
+		for(unsigned int j = 0; j < y; j++){
+			for(unsigned int k = 0; k < z; k++){
 
-				atoms[n] = atom(vector_3d(a*x, a*y, a*z), vector_3d(), vector_3d());
+				atoms[n] = atom(vector_3d(a*i, a*j, a*k), vector_3d(), vector_3d());
 				n++;
-				if(a<x && b<y && c<z){	//add body atom if inside bulk
-					atoms[n] = atom(vector_3d(a*(x+0.5), a*(y+0.5), a*(z+0.5)), vector_3d(), vector_3d());
+				if(i<x && j<y && k<z){	//add body atom if inside bulk
+					atoms[n] = atom(vector_3d(a*(i+0.5), a*(j+0.5), a*(k+0.5)), vector_3d(), vector_3d());
 					n++;
 				}
 			}
@@ -72,17 +72,4 @@ void world::update_verlet_lists()
 			this->bulk[j].add_atom(this->bulk[i]);
 		}
 	}
-}
-
-void test_bcc_positions()
-{
-	
-	unsigned int x = 5;
-	unsigned int y = 5;
-	unsigned int z = 5;
-	float a = 1;
-
-	world w(x, y, z, a);
-
-	std::cout << "xpos" << w.atoms[1].pos.x;
 }

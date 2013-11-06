@@ -5,15 +5,19 @@
 
 int main()
 {
-	world test(5);
+/*	world test(5);
 	test.update_verlet_lists();
 
 	for(int i = 0; i < test.N; i++){
 		test.bulk[i].clear_verlet_list();
 	}
+*/	
+
+
+	world w(5, 5, 5, 1);
 	
-	world::test_bcc_positions;
-	 
+	std::cout << w.atoms[1].pos.x;
+	
 	int temp;
 	std::cin >> temp;
 
