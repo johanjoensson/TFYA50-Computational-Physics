@@ -20,6 +20,9 @@ public:
 	float y;
 	float z;
 
+	void normalise();
+	float abs();
+
 	/**************************************************************************
 	* Empty constructor, initializes the coordinates to 0.					  *
 	* I.e. x = 0, y = 0, z = 0.												  *

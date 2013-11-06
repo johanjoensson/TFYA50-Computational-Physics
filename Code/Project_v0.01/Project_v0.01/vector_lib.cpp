@@ -1,7 +1,29 @@
 #include "vector_lib.h"
 
 #include <iostream>
+#include <math.h>
 
+
+/******************************************************************************
+* Normalise the vector, so that it has absolute value 1						  *
+* Sets (x,y,z) = (x,y,z)/((x^2 + y^2 + z^2)^1/2)							  *
+******************************************************************************/
+void vector_3d::normalise()
+{
+	float norm = this->abs();
+	if( norm != 0){
+		*this /= norm;
+	}
+}
+
+/******************************************************************************
+* Calculate the absolute value of the vector (the norm)						  *
+* returns (x^2 + y^2 + z^2)^1/2												  *
+******************************************************************************/
+float vector_3d::abs()
+{
+	return sqrt(x*x + y*y + z*z);
+}
 
 vector_3d vector_3d::operator* (float a)
 {
