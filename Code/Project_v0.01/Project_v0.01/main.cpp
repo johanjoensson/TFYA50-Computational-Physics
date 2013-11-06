@@ -35,7 +35,9 @@ int main()
 		test.bulk[i].clear_verlet_list();
 	}
 
-	system("PAUSE");
+	/* This is necessary when using Visual Studio and works only on windows
+	 */
+//	system("PAUSE");
 	
 	return 0;
 }
