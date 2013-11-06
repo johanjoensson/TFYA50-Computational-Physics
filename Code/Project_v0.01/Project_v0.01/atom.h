@@ -6,6 +6,7 @@
 class atom{
 public:
 	atom();
+	atom(vector_3d position, vector_3d velocity, vector_3d acceleration);
 
 	vector_3d pos;
 	vector_3d vel;

@@ -5,6 +5,7 @@ class world{
 public:
 	world();
 	world(unsigned int n);
+	world(unsigned int x, unsigned int y, unsigned int z, float a);
 
 	unsigned int N;
 	atom *atoms;
