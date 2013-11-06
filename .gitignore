@@ -3,6 +3,14 @@
 *.lo
 *.o
 *.exe
+*.vcxproj
+*.tlog
+*.opensdf
+*.sdf
+*.obj
+*.idb
+*.pdb
+*.filters
 
 # Visual Studio files
 *.suo
