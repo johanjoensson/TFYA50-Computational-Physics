@@ -35,7 +35,7 @@ world::world(unsigned int n)
 }
 
 
-world::world(unsigned int x, unsigned int y, unsigned int z, float a) 
+world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant
 {
 	N = x*y*z+(x-1)*(y-1)*(z-1); //Number of atoms in total in a bcc crystal based on a x*y*z cubic lattice;
 
@@ -43,14 +43,18 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a)
 	
 	/* Adding atoms in bcc-lattice */
 	int n = 0;	//atom count
-	for(unsigned int i = 0; i < x; i++){
-		for(unsigned int j = 0; j < y; j++){
-			for(unsigned int k = 0; k < z; k++){
+	for(int i = 0; i < x; i++){
+		for(int j = 0; j < y; j++){
+			for(int k = 0; k < z; k++){
 
-				atoms[n] = atom(vector_3d(a*i, a*j, a*k), vector_3d(), vector_3d());
+				float xpos = a*i;
+				float ypos = a*j;
+				float zpos = a*k;
+				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
 				n++;
-				if(i<x && j<y && k<z){	//add body atom if inside bulk
-					atoms[n] = atom(vector_3d(a*(i+0.5), a*(j+0.5), a*(k+0.5)), vector_3d(), vector_3d());
+				
+				if(i<(x-1) && j<(y-1) && k<(z-1)){	//add body atom if inside bulk
+					atoms[n] = atom(vector_3d(xpos+0.5*a, ypos+0.5*a, zpos+0.5*a), vector_3d(0,0,0), vector_3d(0,0,0));
 					n++;
 				}
 			}
