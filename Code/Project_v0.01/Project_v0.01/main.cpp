@@ -44,6 +44,12 @@ int main()
 	std::cout << w.atoms[1].pos.x;
 	
 */
+
+	world w(3, 3, 3, 1);
+	std::cout << w.N << std::endl;
+	for(int i=0; i<w.N; i++){
+		std::cout << w.atoms[i].pos.x << "\t" << w.atoms[i].pos.y << "\t" << w.atoms[i].pos.z << "   (" << i+1 << ")" << std::endl;
+	}
 	int temp;
 	std::cin >> temp;
 
