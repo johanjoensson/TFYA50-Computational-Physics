@@ -11,6 +11,7 @@ public:
 	vector_3d pos;
 	vector_3d vel;
 	vector_3d acc;
+	vector_3d next_acc;
 };
 
 #endif /* ATOM_H */
