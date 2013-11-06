@@ -12,9 +12,12 @@ world::world()
 }
 
 
-
+/* A simple and stupid constructor, takes the number of atoms to be created only */
+/* TODO: Add proper constructor that is actually useful */
 world::world(unsigned int n)
 {
+
+	verlet_integrator = integrator();
 	N = n;
 
 	/* Create all the atoms */
@@ -35,7 +38,8 @@ void world::update_verlet_lists()
 	for(int i = 0; i < this->N; i++){
 		for(int j = i + 1; j < this->N; j++){
 			this->bulk[i].add_atom(this->bulk[j]);
-			this->bulk[j].add_atom(this->bulk[i]);
+			/* This might seem like a good optimization, but it will lead to double counting of force, if you "optimize" that part */
+//			this->bulk[j].add_atom(this->bulk[i]);
 		}
 	}
 }
