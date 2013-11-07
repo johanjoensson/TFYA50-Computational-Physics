@@ -1,6 +1,6 @@
 CC = g++
 
-LDFLAGS = -lm
+LDFLAGS = -lm -g -Wall -Wextra -w
 
 EXE = program
 
@@ -13,8 +13,8 @@ OBJECTS = 	main.o\
 
 all : $(EXE)
 
-%.o : %.c
-	$(CC) -o $@ -c $^
+%.o : %.cpp
+	$(CC) -o $@ $(LDFLAGS) -c $^
 
 program : $(OBJECTS)
 	$(CC) $^ $(LDFLAGS) -o $@
