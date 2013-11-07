@@ -18,8 +18,9 @@ world::world()
 /* TODO: Add proper constructor that is actually useful */
 world::world(unsigned int n)
 {
-	cutoff = 100;
+	cutoff = 1;
 	verlet_integrator = integrator();
+	verlet_integrator.set_cutoff(cutoff);
 	N = n;
 
 	/* Create all the atoms */
@@ -73,13 +74,17 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = latt
 }
 
 
+void world::set_cutoff(float r)
+{
+	cutoff = r;
+}
+
 void world::update_verlet_lists()
 {
 	for(int i = 0; i < this->N; i++){
+		this->bulk[i].data->zero_displacement();
 		for(int j = i + 1; j < this->N; j++){
 			this->bulk[i].add_atom(this->bulk[j]);
-			/* This might seem like a good optimization, but it will lead to double counting of force, if you "optimize" that part */
-//			this->bulk[j].add_atom(this->bulk[i]);
 		}
 	}
 }

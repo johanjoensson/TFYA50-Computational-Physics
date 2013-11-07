@@ -1,3 +1,4 @@
+#include "vector_lib.h"
 #include "world.h"
 #include "verlet_list.h"
 #include <iostream>
@@ -21,17 +22,20 @@ int main()
 	test.update_verlet_lists();
 
 	/* Move system to next time step */
-
+	float max_disp = 0;
 	for(unsigned int i = 0; i < test.N; i++){
-		std::cout << "Old position of particle " << i << ": (" << test.bulk[i].data->pos.x << ", " << test.bulk[i].data->pos.y << ", " << test.bulk[i].data->pos.z << ",)" << std::endl;
-		std::cout << "Old velocity of particle " << i << ": (" << test.bulk[i].data->vel.x << ", " << test.bulk[i].data->vel.y << ", " << test.bulk[i].data->vel.z << ",)" << std::endl;
+		std::cout << "Old position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
+		std::cout << "Old velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
 		test.verlet_integrator.verlet_integration_position(test.bulk[i]);
-		std::cout << "New position of particle " << i << ": (" << test.bulk[i].data->pos.x << ", " << test.bulk[i].data->pos.y << ", " << test.bulk[i].data->pos.z << ",)" << std::endl;
+		if(test.bulk[i].data->get_displacement() > max_disp){
+			max_disp = test.bulk[i].data->get_displacement();
+		}
+		std::cout << "New position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
 	}
 	std::cout << std::endl;
 	for(unsigned int i = 0; i < test.N; i++){
 		test.verlet_integrator.verlet_integration_velocity(test.bulk[i]);
-		std::cout << "New velocity of particle " << i << ": (" << test.bulk[i].data->vel.x << ", " << test.bulk[i].data->vel.y << ", " << test.bulk[i].data->vel.z << ",)" << std::endl;
+		std::cout << "New velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
 	}
 
 	for(unsigned int i = 0; i < test.N; i++){
@@ -50,6 +54,7 @@ int main()
 	for(int i=0; i<w.N; i++){
 		std::cout << w.atoms[i].pos.x << "\t" << w.atoms[i].pos.y << "\t" << w.atoms[i].pos.z << "   (" << i+1 << ")" << std::endl;
 	}
+
 	int temp;
 	std::cin >> temp;
 
