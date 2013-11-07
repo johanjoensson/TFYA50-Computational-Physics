@@ -29,7 +29,6 @@ float distance(vector_3d a, vector_3d b)
 	return res.abs();
 }
 
-/* This function needs the proper cutoff distance, somehow, perhaps as a private member or something? */
 void verlet_list::add_atom(verlet_list atom)
 {
 	verlet_list *next_atom = this->next;

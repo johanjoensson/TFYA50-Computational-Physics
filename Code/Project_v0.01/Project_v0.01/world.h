@@ -10,6 +10,8 @@ public:
 	world(unsigned int n);
 	world(unsigned int x, unsigned int y, unsigned int z, float a);
 
+	void set_cutoff(float r);
+
 	integrator verlet_integrator;
 	unsigned int N;
 	atom *atoms;
