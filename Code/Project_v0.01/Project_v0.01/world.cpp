@@ -11,6 +11,9 @@ world::world()
 	N = 0;
 	atoms = NULL;
 	bulk = NULL;
+	x_tot = 0;
+	y_tot = 0;
+	z_tot = 0;
 }
 
 
@@ -22,6 +25,9 @@ world::world(unsigned int n)
 	verlet_integrator = integrator();
 	verlet_integrator.set_cutoff(cutoff);
 	N = n;
+	x_tot = 1;
+	y_tot = 1;
+	z_tot = 1;
 
 	/* Create all the atoms */
 	/* Currently all atoms are placed in origin, with velocity and acceleration equal to zero */
@@ -41,6 +47,9 @@ world::world(unsigned int n)
 world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant
 {
 	N = x*y*z+(x-1)*(y-1)*(z-1); //Number of atoms in total in a bcc crystal based on a x*y*z cubic lattice;
+        x_tot = x*a;
+	y_tot = y*a;
+	z_tot = z*a;
 
 	atoms = new atom[N];
 	

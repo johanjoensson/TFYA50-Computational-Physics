@@ -16,6 +16,9 @@ public:
 	unsigned int N;
 	atom *atoms;
 	verlet_list *bulk;
+	float x_tot;        // Total length of the crystal for the respective axes
+	float y_tot;
+	float z_tot;
 
 	void update_verlet_lists();
 };

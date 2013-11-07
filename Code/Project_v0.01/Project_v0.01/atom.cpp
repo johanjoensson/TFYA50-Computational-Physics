@@ -59,3 +59,32 @@ float atom::get_displacement()
 {
 	return displacement;
 }
+
+/*float atom::distance(vector_3d atom2_pos)
+{
+	if(abs(pos.x-atom2_pos.x) > 0.5*x_tot)
+	{
+		if(pos.x > atom2_pos.x)
+			atom2_pos.x += x_tot;
+		else
+			atom2_pos.x -= x_tot;
+	}
+	if(abs(pos.y-atom2_pos.y) > 0.5*y_tot)
+	{
+		if(pos.y > atom2_pos.y)
+			atom2_pos.y += y_tot;
+		else
+			atom2_pos.y -= y_tot;
+	}	
+	if(abs(pos.z-atom2_pos.z) > 0.5*z_tot)
+	{
+		if(pos.z > atom2_pos.z)
+			atom2_pos.z += z_tot;
+		else
+			atom2_pos.z -= z_tot;
+	}	
+	vector_3d difference = pos-atom2_pos;
+	float distance = difference*difference;
+	return distance;
+}*/
+                                                 

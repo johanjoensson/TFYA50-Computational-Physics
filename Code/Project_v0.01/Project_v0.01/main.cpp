@@ -3,6 +3,11 @@
 #include "verlet_list.h"
 #include <iostream>
 
+//Some global variables needed for testing. A better solution should be possible//
+float x_tot;
+float y_tot;
+float z_tot;
+float distance(vector_3d atom1_pos, vector_3d atom2_pos);
 
 int main()
 {
@@ -18,6 +23,9 @@ int main()
 	test.bulk[3].data->vel = vector_3d(1.0, 1.0, 0.0);
 	test.bulk[4].data->vel = vector_3d(0.1, 0.3, 0.3);
 
+	x_tot = test.x_tot;
+	y_tot = test.y_tot;
+	z_tot = test.z_tot;
 
 	test.update_verlet_lists();
 
@@ -59,4 +67,33 @@ int main()
 	std::cin >> temp;
 
 	return 0;
+}
+
+
+float distance(vector_3d atom1_pos, vector_3d atom2_pos)
+{
+	if(abs(atom1_pos.x-atom2_pos.x) > 0.5*x_tot)
+	{
+		if(atom1_pos.x > atom2_pos.x)
+			atom2_pos.x += x_tot;
+		else
+			atom2_pos.x -= x_tot;
+	}
+	if(abs(atom1_pos.y-atom2_pos.y) > 0.5*y_tot)
+	{
+		if(atom1_pos.y > atom2_pos.y)
+			atom2_pos.y += y_tot;
+		else
+			atom2_pos.y -= y_tot;
+	}	
+	if(abs(atom1_pos.z-atom2_pos.z) > 0.5*z_tot)
+	{
+		if(atom1_pos.z > atom2_pos.z)
+			atom2_pos.z += z_tot;
+		else
+			atom2_pos.z -= z_tot;
+	}	
+	vector_3d difference = atom1_pos-atom2_pos;
+	float distance = difference*difference;
+	return distance;
 }
