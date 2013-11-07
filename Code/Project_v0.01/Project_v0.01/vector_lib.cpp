@@ -1,6 +1,5 @@
 #include "vector_lib.h"
 
-#include <iostream>
 #include <math.h>
 
 
@@ -112,6 +111,8 @@ vector_3d::vector_3d()
 	y = 0;
 	z = 0;
 }
+
+
 
 /*
 int main()
