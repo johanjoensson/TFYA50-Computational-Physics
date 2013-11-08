@@ -23,7 +23,7 @@ void verlet_list::set_verlet_skin(float r){
 
 /* This function needs to be changed */
 /* Currently it does not care about periodic boundary conditions */
-float distance(vector_3d a, vector_3d b)
+float distance_bad(vector_3d a, vector_3d b)
 {
 	vector_3d res = a-b;
 	return res.abs();
@@ -32,7 +32,7 @@ float distance(vector_3d a, vector_3d b)
 void verlet_list::add_atom(verlet_list atom)
 {
 	verlet_list *next_atom = this->next;
-	if(distance(this->data->pos, atom.data->pos) < verlet_skin){
+	if(distance_bad(this->data->pos, atom.data->pos) < verlet_skin){
 		this->next = new verlet_list();
 		this->next->data = atom.data;
 		this->next->next = next_atom;

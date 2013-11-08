@@ -122,7 +122,9 @@ public:
 	{
 		out << "(" << a.x << ", " << a.y << ", " << a.z << ")";
 		return out;
-	}		
+	}
+	
+	float distance(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot);
 
 };
 

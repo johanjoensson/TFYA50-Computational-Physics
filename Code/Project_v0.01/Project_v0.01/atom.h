@@ -2,6 +2,7 @@
 #define ATOM_H
 
 #include "vector_lib.h"
+#include <cmath>
 
 class atom{
 private:
@@ -27,6 +28,7 @@ public:
 	vector_3d vel;
 	vector_3d acc;
 	float mass;
+
 };
 
 #endif /* ATOM_H */

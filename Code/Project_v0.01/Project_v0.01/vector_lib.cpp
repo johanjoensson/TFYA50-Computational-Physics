@@ -112,6 +112,32 @@ vector_3d::vector_3d()
 	z = 0;
 }
 
+float vector_3d::distance(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot)
+{
+	vector_3d dist = *this - atom2_pos;
+	if(dist.x*dist.x > 0.25*x_tot*x_tot)
+	{
+		if(this->x > atom2_pos.x)
+			dist.x -= x_tot;
+		else
+			dist.x += x_tot;
+	}
+	if(dist.y*dist.y > 0.25*y_tot*y_tot)
+	{
+		if(this->y > atom2_pos.y)
+			dist.y -= y_tot;
+		else
+			dist.y += y_tot;
+	}	
+	if(dist.z*dist.z > 0.25*z_tot*z_tot)
+	{
+		if(this->z > atom2_pos.z)
+			dist.z -= z_tot;
+		else
+			dist.z += z_tot;
+	}	
+	return dist*dist;
+}
 
 
 /*

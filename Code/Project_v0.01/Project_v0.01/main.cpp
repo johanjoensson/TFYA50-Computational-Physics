@@ -2,7 +2,11 @@
 #include "world.h"
 #include "verlet_list.h"
 #include <iostream>
+using namespace std;
 
+float x_tot; //Variable containing total length of the crystal;
+float y_tot;
+float z_tot;
 
 int main()
 {
@@ -18,6 +22,9 @@ int main()
 	test.bulk[3].data->vel = vector_3d(1.0, 1.0, 0.0);
 	test.bulk[4].data->vel = vector_3d(0.1, 0.3, 0.3);
 
+	x_tot = test.x_tot;
+	y_tot = test.y_tot;
+	z_tot = test.z_tot;
 
 	test.update_verlet_lists();
 
