@@ -19,7 +19,6 @@ public:
 	void incr_displacement(float r);
 	void zero_displacement();
 	float get_displacement();
-	//float distance(vector_3d atom2_pos); Function temporarily placed in main.cpp, problem obtaining the x,y,z_tot variables from world, since world already includes atom
 
 	vector_3d get_next_acc();
 
@@ -30,9 +29,6 @@ public:
 	vector_3d acc;
 	float mass;
 
-	//float x_tot;
-	//float y_tot;
-	//float z_tot;
 };
 
 #endif /* ATOM_H */

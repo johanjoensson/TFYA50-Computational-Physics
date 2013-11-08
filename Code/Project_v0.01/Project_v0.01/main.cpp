@@ -2,12 +2,11 @@
 #include "world.h"
 #include "verlet_list.h"
 #include <iostream>
+using namespace std;
 
-//Some global variables needed for testing. A better solution should be possible//
-float x_tot;
+float x_tot; //Variable containing total length of the crystal;
 float y_tot;
 float z_tot;
-float distance(vector_3d atom1_pos, vector_3d atom2_pos);
 
 int main()
 {
@@ -67,33 +66,4 @@ int main()
 	std::cin >> temp;
 
 	return 0;
-}
-
-
-float distance(vector_3d atom1_pos, vector_3d atom2_pos)
-{
-	if(abs(atom1_pos.x-atom2_pos.x) > 0.5*x_tot)
-	{
-		if(atom1_pos.x > atom2_pos.x)
-			atom2_pos.x += x_tot;
-		else
-			atom2_pos.x -= x_tot;
-	}
-	if(abs(atom1_pos.y-atom2_pos.y) > 0.5*y_tot)
-	{
-		if(atom1_pos.y > atom2_pos.y)
-			atom2_pos.y += y_tot;
-		else
-			atom2_pos.y -= y_tot;
-	}	
-	if(abs(atom1_pos.z-atom2_pos.z) > 0.5*z_tot)
-	{
-		if(atom1_pos.z > atom2_pos.z)
-			atom2_pos.z += z_tot;
-		else
-			atom2_pos.z -= z_tot;
-	}	
-	vector_3d difference = atom1_pos-atom2_pos;
-	float distance = difference*difference;
-	return distance;
 }
