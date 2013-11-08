@@ -18,4 +18,6 @@ public:
 	verlet_list *bulk;
 
 	void update_verlet_lists();
+
+	void world_2(unsigned int x, unsigned int y, unsigned int z, float a);
 };

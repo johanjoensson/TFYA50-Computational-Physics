@@ -39,8 +39,8 @@ world::world(unsigned int n)
 
 
 world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant
-	
-	if(struct==1){
+{	
+//	if(struct==1){
 	N = x*y*z+(x-1)*(y-1)*(z-1); //Number of atoms in total in a bcc crystal based on a x*y*z cubic lattice;
 
 	atoms = new atom[N];
@@ -63,7 +63,6 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = latt
 				}
 			}
 		}
-	}
 	}
 
 	/* Create the list of verlet lists */
@@ -91,10 +90,10 @@ void world::update_verlet_lists()
 	}
 }
 
-world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant
 
-	if(struct==0){
-	N = x*y*z+(x-1)*y*(z-1)+x*(y-1)*(z-1)+(x-1)*(y-1)*z //number of atoms in a x*y*z fcc lattice structure
+void world::world_2(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant
+{
+	N = x*y*z+(x-1)*y*(z-1)+x*(y-1)*(z-1)+(x-1)*(y-1)*z; //number of atoms in a x*y*z fcc lattice structure
 
 	atoms = new atom[N];
 	

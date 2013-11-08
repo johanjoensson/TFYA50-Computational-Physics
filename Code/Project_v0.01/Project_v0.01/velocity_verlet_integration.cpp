@@ -55,3 +55,22 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 	particle.data->update_acceleration();
 
 }
+
+vector_3d calculate_force(atom *atom_a, atom *atom_b, float cutoff)
+{
+	float ff=0;
+	vector_3d f = vector_3d();
+	vector_3d a = atom_a->pos;
+	vector_3d b = atom_b->pos;
+	vector_3d d = a-b;
+	float r = a.distance(b);
+	float ri = 1/r;
+	float ri2 = ri*ri;
+	float ri6 = ri2*ri2*ri2;
+	float ff = 48*(ri*ri6*ri6-0,5*ri*ri6);
+	vector_3d f = d*ff*ri;
+	float ecut = 4*ri6*(ri6-1);
+	float rc3 = cutoff*cutoff*cutoff;
+	float en = en +  4*rc3*rc3*(rc3*rc3-1) - ecut;
+	float partpint = partpint + d*f;
+}

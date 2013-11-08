@@ -10,7 +10,7 @@ class integrator
 private:
 	float h;
 	float cutoff;
-	vector_3d calculate_force(atom *a, atom *b);
+	vector_3d calculate_force(atom *atom_a, atom *atom_b);
 public:
 	integrator();
 	void set_cutoff(float r);
