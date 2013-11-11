@@ -33,7 +33,7 @@ all:	$(OUTPUT)
 	done
 
 view:	$(OUTPUT)
-	qpdfview $^
+	qpdfview $^ &
 
 clean:	
 	rm  $(TEMP)

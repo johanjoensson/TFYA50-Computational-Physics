@@ -1,5 +1,5 @@
 #include "world.h"
-#include "iostream"
+#include <iostream>
 
 #ifndef NULL
 #define NULL 0
@@ -87,4 +87,5 @@ void world::update_verlet_lists()
 			this->bulk[i].add_atom(this->bulk[j]);
 		}
 	}
+	bla();
 }
