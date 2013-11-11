@@ -46,6 +46,8 @@ void *velocity(void* arg)
 int main()
 {
 	world test(5);
+
+	std::cout << "Total number of particles: " << test.N << std::endl;
 	test.bulk[0].data->pos = vector_3d(1.0, 0.0, 0.0);
 	test.bulk[1].data->pos = vector_3d(0.0, 1.0, 0.0);
 	test.bulk[2].data->pos = vector_3d(0.0, 0.0, 1.0);
@@ -66,18 +68,20 @@ int main()
 	/* Move system to next time step */
 	float max_disp = 0;
 	for(unsigned int i = 0; i < test.N; i++){
-		std::cout << "Old position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
-		std::cout << "Old velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
+//		std::cout << "Old position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
+//		std::cout << "Old velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
+		std::cout << "Updating position of particle " << i << " of " << test.N << " particles" << std::endl;
 		test.verlet_integrator.verlet_integration_position(test.bulk[i]);
 		if(test.bulk[i].data->get_displacement() > max_disp){
 			max_disp = test.bulk[i].data->get_displacement();
 		}
-		std::cout << "New position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
+//		std::cout << "New position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
 	}
 	std::cout << std::endl;
 	for(unsigned int i = 0; i < test.N; i++){
+		std::cout << "Calculating force on particle: " << i << std::endl;
 		test.verlet_integrator.verlet_integration_velocity(test.bulk[i]);
-		std::cout << "New velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
+//		std::cout << "New velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
 	}
 	pthread_t thread[2];
 	int rc;
@@ -118,4 +122,3 @@ int main()
 
 	return 0;
 }
-

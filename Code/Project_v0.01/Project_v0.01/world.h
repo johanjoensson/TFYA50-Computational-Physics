@@ -2,6 +2,13 @@
 #include "verlet_list.h"
 #include "velocity_verlet_integration.h"
 
+typedef enum {
+	KINETIC_ENERGY,
+	POTENTIAL_ENERGY,
+	TEMPERATURE,
+	MSD
+}type_of_average;
+
 class world{
 private:
 	float cutoff;

@@ -1,5 +1,5 @@
 #include "world.h"
-#include "iostream"
+#include <iostream>
 
 #ifndef NULL
 #define NULL 0
@@ -21,9 +21,10 @@ world::world()
 /* TODO: Add proper constructor that is actually useful */
 world::world(unsigned int n)
 {
-	cutoff = 1;
+	cutoff = 100;
 	verlet_integrator = integrator();
 	verlet_integrator.set_cutoff(cutoff);
+//	std::cout << "Set number of atoms to: " << n << std::endl;
 	N = n;
 	x_tot = 1;
 	y_tot = 1;
