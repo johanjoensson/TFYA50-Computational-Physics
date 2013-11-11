@@ -2,11 +2,17 @@
 #include "world.h"
 #include "verlet_list.h"
 #include <iostream>
+using namespace std;
 
+float x_tot; //Variable containing total length of the crystal;
+float y_tot;
+float z_tot;
 
 int main()
 {
 	world test(5);
+
+	std::cout << "Total number of particles: " << test.N << std::endl;
 	test.bulk[0].data->pos = vector_3d(1.0, 0.0, 0.0);
 	test.bulk[1].data->pos = vector_3d(0.0, 1.0, 0.0);
 	test.bulk[2].data->pos = vector_3d(0.0, 0.0, 1.0);
@@ -18,24 +24,29 @@ int main()
 	test.bulk[3].data->vel = vector_3d(1.0, 1.0, 0.0);
 	test.bulk[4].data->vel = vector_3d(0.1, 0.3, 0.3);
 
+	x_tot = test.x_tot;
+	y_tot = test.y_tot;
+	z_tot = test.z_tot;
 
 	test.update_verlet_lists();
 
 	/* Move system to next time step */
 	float max_disp = 0;
 	for(unsigned int i = 0; i < test.N; i++){
-		std::cout << "Old position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
-		std::cout << "Old velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
+//		std::cout << "Old position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
+//		std::cout << "Old velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
+		std::cout << "Updating position of particle " << i << " of " << test.N << " particles" << std::endl;
 		test.verlet_integrator.verlet_integration_position(test.bulk[i]);
 		if(test.bulk[i].data->get_displacement() > max_disp){
 			max_disp = test.bulk[i].data->get_displacement();
 		}
-		std::cout << "New position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
+//		std::cout << "New position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
 	}
 	std::cout << std::endl;
 	for(unsigned int i = 0; i < test.N; i++){
+		std::cout << "Calculating force on particle: " << i << std::endl;
 		test.verlet_integrator.verlet_integration_velocity(test.bulk[i]);
-		std::cout << "New velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
+//		std::cout << "New velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
 	}
 
 	for(unsigned int i = 0; i < test.N; i++){
