@@ -12,7 +12,7 @@ void integrator::set_cutoff(float r)
 	cutoff = r;
 }
 
-/* TODO - insert the Lenard Jones potential and force calculations */
+/* TODO - insert the Lennard-Jones potential and force calculations */
 vector_3d integrator::calculate_force(atom *a, atom *b)
 {
 	/* THIS IS WRONG, PLEASE CHANGE IT!!! */
@@ -74,3 +74,17 @@ vector_3d calculate_force(atom *atom_a, atom *atom_b, float cutoff)
 	float en = en +  4*rc3*rc3*(rc3*rc3-1) - ecut;
 	float partpint = partpint + d*f;
 }
+
+
+const float kB = 8.6173324e-5;
+
+//Temperature
+float T = 0;
+
+for(i=0; i<N; i++){
+	T = T + atom_mass * atoms[i].vel * atoms[i].vel;
+}
+T = T / (3*kB*N);
+
+//internal pressure
+float P = N*kB*T/V;
