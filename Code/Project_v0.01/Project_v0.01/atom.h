@@ -24,6 +24,7 @@ public:
 
 	void update_acceleration();
 
+	vector_3d orig_pos;
 	vector_3d pos;
 	vector_3d vel;
 	vector_3d acc;
