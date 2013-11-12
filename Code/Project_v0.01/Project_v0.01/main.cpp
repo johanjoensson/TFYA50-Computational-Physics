@@ -1,6 +1,7 @@
 #include "vector_lib.h"
 #include "world.h"
 #include "verlet_list.h"
+#include "msd.h"
 #include <iostream>
 using namespace std;
 
@@ -32,11 +33,27 @@ int main()
 
 	/* Move system to next time step */
 	float max_disp = 0;
+	float r_msd = 0;
 	for(unsigned int i = 0; i < test.N; i++){
 //		std::cout << "Old position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
 //		std::cout << "Old velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
 		std::cout << "Updating position of particle " << i << " of " << test.N << " particles" << std::endl;
 		test.verlet_integrator.verlet_integration_position(test.bulk[i]);
+		
+		
+		//calculate the msd
+		//calling this function is not working at the moment
+		//r_msd = msd(test.atoms[i], i, test.N);
+		
+		//this below is working for the MSD
+		/*
+		*vector_3d r = test.atoms[i].pos.diff(test.atoms[i].orig_pos, x_tot, y_tot, z_tot);
+		*msd += (r*r)/test.N;
+		*/
+		//Print the MSD to track that it's working
+		//std::cout << "------> MSD: " << r_msd << std::endl;
+		
+		
 		if(test.bulk[i].data->get_displacement() > max_disp){
 			max_disp = test.bulk[i].data->get_displacement();
 		}
@@ -65,7 +82,6 @@ int main()
 	for(int i=0; i<w.N; i++){
 		std::cout << w.atoms[i].pos.x << "\t" << w.atoms[i].pos.y << "\t" << w.atoms[i].pos.z << "   (" << i+1 << ")" << std::endl;
 	}
-
 	int temp;
 	std::cin >> temp;
 
