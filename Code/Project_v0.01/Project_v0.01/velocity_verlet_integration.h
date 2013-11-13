@@ -27,6 +27,8 @@ public:
 
 	void verlet_integration_position(verlet_list particle);
 	void verlet_integration_velocity(verlet_list particle);
+	float get_p_int();
+	void reset_p_int();
 };
 
 #endif /* VELOCITY_VERLET_INTEGRATION_H */

@@ -14,6 +14,7 @@ world::world()
 	x_tot = 0;
 	y_tot = 0;
 	z_tot = 0;
+	V = x_tot*y_tot*z_tot;
 }
 
 /* A simple and stupid constructor, takes the number of atoms to be created only */
@@ -28,6 +29,7 @@ world::world(unsigned int n)
 	x_tot = 1;
 	y_tot = 1;
 	z_tot = 1;
+	V = x_tot*y_tot*z_tot;
 
 	/* Create all the atoms */
 	/* Currently all atoms are placed in origin, with velocity and acceleration equal to zero */
@@ -42,6 +44,7 @@ world::world(unsigned int n)
 		bulk[i].set_verlet_skin(1.5*cutoff);
 	}
 }
+
 
 /* 
 set positions for all atoms in structure
@@ -213,6 +216,20 @@ void world::update_verlet_lists()
 	}
 }
 
+void world::increase_kinetic_energy()
+{
+	kinetic_energy = 0;
+}
+
+void world::increase_kinetic_energy(atom a)
+{
+	kinetic_energy += a.mass*a.vel*a.vel;
+}
+
+float world::get_kinetic_energy()
+{
+	return kinetic_energy;
+}
 
 float world::msd(atom a, int N)
 {
