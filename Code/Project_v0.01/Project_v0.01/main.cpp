@@ -1,6 +1,7 @@
 #include "vector_lib.h"
 #include "world.h"
 #include "verlet_list.h"
+#include "output.h"
 #include <iostream>
 using namespace std;
 
@@ -11,6 +12,8 @@ float z_tot;
 int main()
 {
 	world test(5);
+
+	outputter writer("toto.txt", "titi.txt");
 
 	std::cout << "Total number of particles: " << test.N << std::endl;
 	test.bulk[0].data->pos = vector_3d(1.0, 0.0, 0.0);
@@ -75,6 +78,7 @@ int main()
 	}
 
 	for(unsigned int i = 0; i < test.N; i++){
+		writer.store_atom(*test.bulk[i].data);
 		test.bulk[i].clear_verlet_list();
 	}
 

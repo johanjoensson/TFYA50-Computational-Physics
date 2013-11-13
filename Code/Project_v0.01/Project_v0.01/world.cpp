@@ -47,7 +47,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = latt
 {
 //	if(struct==1){
 	N = x*y*z+(x-1)*(y-1)*(z-1); //Number of atoms in total in a bcc crystal based on a x*y*z cubic lattice;
-    x_tot = x*a;
+	x_tot = x*a;
 	y_tot = y*a;
 	z_tot = z*a;
 
