@@ -64,5 +64,10 @@ public:
 *but that shoudn't be nessesary.
 */
 	float cohEnergy (int N, float totEnergy);
+
+
+	void bccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
+	void fccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
+	void diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 };
 

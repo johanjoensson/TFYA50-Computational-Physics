@@ -104,7 +104,7 @@ int main()
 	
 */
 
-	world w(2, 2, 2, 1, DIAMOND);
+	world w(2, 2, 2, 1, BCC);
 	std::cout << w.N << std::endl;
 	for(int i=0; i<(w.N); i++){
 		std::cout << w.atoms[i].pos.x << "\t" << w.atoms[i].pos.y << "\t" << w.atoms[i].pos.z << "   (" << i+1 << ")" << std::endl;
