@@ -16,7 +16,6 @@ world::world()
 	z_tot = 0;
 }
 
-
 /* A simple and stupid constructor, takes the number of atoms to be created only */
 /* TODO: Add proper constructor that is actually useful */
 world::world(unsigned int n)
@@ -50,7 +49,6 @@ x,y,z = a = lattice constant, type = type of crystal structure (BCC or FCC)
 */
 world::world(unsigned int x, unsigned int y, unsigned int z, float a, enum crystalStructure type)	
 {	
-
 	int n = 0;	//atom count
 	/* BCC */
 	switch (type)
@@ -200,7 +198,6 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, enum cryst
 	}
 }
 
-
 void world::set_cutoff(float r)
 {
 	cutoff = r;
@@ -217,3 +214,22 @@ void world::update_verlet_lists()
 }
 
 
+float world::msd(atom a, int N)
+{
+	vector_3d R = a.pos.diff(a.orig_pos, x_tot, y_tot, z_tot);
+	float r=(R*R)/N;
+	return(r);
+}
+
+float world::debye_temp(float msd, float T, float m)
+{
+	float k_b = .0000861734;
+	float theta_D = (3*T)/(m*k_b*msd);
+	return(theta_D);
+}
+
+float world::cohEnergy (int N, float totEnergy)
+{
+	float cE = totEnergy/N;
+	return(cE);
+}

@@ -16,9 +16,11 @@ private:
 	float y_dim;
 	float z_dim;
 
-	float e_pot;
+
 	float p_int;
 public:
+	float e_pot;
+
 	integrator();
 	void set_cutoff(float r);
 	void set_dimensions(float x, float y, float z);
