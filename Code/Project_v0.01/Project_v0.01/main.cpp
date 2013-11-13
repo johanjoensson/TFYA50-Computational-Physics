@@ -1,6 +1,7 @@
 #include "vector_lib.h"
 #include "world.h"
 #include "verlet_list.h"
+#include "output.h"
 #include <iostream>
 using namespace std;
 
@@ -11,6 +12,8 @@ float z_tot;
 int main()
 {
 	world test(5);
+
+	outputter writer("toto.txt");
 
 	std::cout << "Total number of particles: " << test.N << std::endl;
 	test.bulk[0].data->pos = vector_3d(1.0, 0.0, 0.0);
@@ -90,6 +93,22 @@ int main()
 	for(int i=0; i<w.N; i++){
 		std::cout << w.atoms[i].pos.x << "\t" << w.atoms[i].pos.y << "\t" << w.atoms[i].pos.z << "   (" << i+1 << ")" << std::endl;
 	}
+
+	float data[8];
+
+	data[0] = 8;
+	data[1] = max_disp;
+	data[2] = r_msd;
+	data[3] = E_kin;
+	data[4] = 4;
+	data[5] = 5;
+	data[6] = 6;
+	data[7] = 7;
+	
+
+	writer.store_data(data);
+	writer.store_data(data);
+
 	int temp;
 	std::cin >> temp;
 
