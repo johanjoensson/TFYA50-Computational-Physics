@@ -77,9 +77,9 @@ int main()
 	
 */
 
-	world w(3, 3, 3, 1);
+	world w(2, 2, 2, 1, DIAMOND);
 	std::cout << w.N << std::endl;
-	for(int i=0; i<w.N; i++){
+	for(int i=0; i<(w.N); i++){
 		std::cout << w.atoms[i].pos.x << "\t" << w.atoms[i].pos.y << "\t" << w.atoms[i].pos.z << "   (" << i+1 << ")" << std::endl;
 	}
 	int temp;
