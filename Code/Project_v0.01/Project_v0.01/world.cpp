@@ -14,6 +14,7 @@ world::world()
 	x_tot = 0;
 	y_tot = 0;
 	z_tot = 0;
+	V = x_tot*y_tot*z_tot;
 }
 
 
@@ -29,6 +30,7 @@ world::world(unsigned int n)
 	x_tot = 1;
 	y_tot = 1;
 	z_tot = 1;
+	V = x_tot*y_tot*z_tot;
 
 	/* Create all the atoms */
 	/* Currently all atoms are placed in origin, with velocity and acceleration equal to zero */
@@ -52,6 +54,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = latt
     x_tot = x*a;
 	y_tot = y*a;
 	z_tot = z*a;
+	V = x_tot*y_tot*z_tot;
 
 	atoms = new atom[N];
 	
@@ -98,6 +101,21 @@ void world::update_verlet_lists()
 			this->bulk[i].add_atom(this->bulk[j]);
 		}
 	}
+}
+
+void world::increase_kinetic_energy()
+{
+	kinetic_energy = 0;
+}
+
+void world::increase_kinetic_energy(atom a)
+{
+	kinetic_energy += a.mass*a.vel*a.vel;
+}
+
+float world::get_kinetic_energy()
+{
+	return kinetic_energy;
 }
 
 void world::world_2(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant

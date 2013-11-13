@@ -6,6 +6,7 @@ integrator::integrator()
 {
 	h = 0.2;
 	e_pot = 0;
+	//p_int = 0;
 }
 
 void integrator::set_cutoff(float r)
@@ -13,12 +14,7 @@ void integrator::set_cutoff(float r)
 	cutoff = r;
 }
 
-<<<<<<< HEAD
-/* TODO - insert the Lennard-Jones potential and force calculations */
-vector_3d integrator::calculate_force(atom *a, atom *b)
-=======
 void integrator::set_dimensions(float x, float y, float z)
->>>>>>> b6e7666ca04abcdafdcf6e8485c0d7c779973196
 {
 	x_dim = x;
 	y_dim = y;
@@ -72,32 +68,22 @@ vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
 	vector_3d f = d*ff*ri;
 	float ecut = 4*ri6*(ri6-1);
 	float rc3 = cutoff*cutoff*cutoff;
-<<<<<<< HEAD
-	float en = en +  4*rc3*rc3*(rc3*rc3-1) - ecut;
-	float partpint = partpint + d*f;
-}
-
-
-const float kB = 8.6173324e-5;
-
-//Temperature
-float T = 0;
-
-for(i=0; i<N; i++){
-	T = T + atom_mass * atoms[i].vel * atoms[i].vel;
-}
-T = T / (3*kB*N);
-
-//internal pressure
-float P = N*kB*T/V;
-=======
-
 	/* accumulate the potential enegry */
 	e_pot += 4*rc3*rc3*(rc3*rc3-1) - ecut;
 	/* First part of internal pressure */
 	p_int += d*f;
-
 //	std::cout << "force: " << f << std::endl;
 	return f;
 }
->>>>>>> b6e7666ca04abcdafdcf6e8485c0d7c779973196
+
+float integrator::get_p_int()
+{
+	return p_int;
+}
+
+void integrator::reset_p_int()
+{
+	p_int = 0;
+}
+
+

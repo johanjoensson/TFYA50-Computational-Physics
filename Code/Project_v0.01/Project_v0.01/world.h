@@ -12,6 +12,7 @@ typedef enum {
 class world{
 private:
 	float cutoff;
+	float kinetic_energy;
 public:
 	world();
 	world(unsigned int n);
@@ -26,7 +27,11 @@ public:
 	float x_tot;        // Total length of the crystal for the respective axes
 	float y_tot;
 	float z_tot;
+	float V; //Volume
 
+	void increase_kinetic_energy(atom a);
+	void increase_kinetic_energy();
+	float get_kinetic_energy();
 	void update_verlet_lists();
 	void world_2(unsigned int x, unsigned int y, unsigned int z, float a);
 };
