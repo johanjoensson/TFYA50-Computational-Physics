@@ -1,7 +1,6 @@
 #include "vector_lib.h"
 #include "world.h"
 #include "verlet_list.h"
-#include "msd.h"
 #include <iostream>
 using namespace std;
 
@@ -43,7 +42,7 @@ int main()
 		
 		//calculate the msd
 		//calling this function is not working at the moment
-		//r_msd += msd(test.atoms[i], test.N);
+		r_msd += test.msd(test.atoms[i], test.N);
 		
 		//this below is working for the MSD
 		/*
@@ -51,7 +50,7 @@ int main()
 		*msd += (r*r)/test.N;
 		*/
 		//Print the MSD to track that it's working
-		//std::cout << "------> MSD: " << r_msd << std::endl;
+		std::cout << "------> MSD: " << r_msd << std::endl;
 		
 		
 		if(test.bulk[i].data->get_displacement() > max_disp){
