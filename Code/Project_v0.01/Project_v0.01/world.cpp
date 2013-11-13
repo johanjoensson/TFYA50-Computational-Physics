@@ -157,3 +157,11 @@ float world::debye_temp(float msd, float T, float m)
 	float theta_D = (3*T)/(m*k_b*msd);
 	return(theta_D);
 }
+
+float world::cohEnergy (int N, float totEnergy)
+{
+	float cE = totEnergy/N;
+	return(cE);
+}
+
+
