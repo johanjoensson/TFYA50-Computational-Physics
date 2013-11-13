@@ -6,6 +6,7 @@ integrator::integrator()
 {
 	h = 0.2;
 	e_pot = 0;
+	//p_int = 0;
 }
 
 void integrator::set_cutoff(float r)
@@ -67,12 +68,22 @@ vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
 	vector_3d f = d*ff*ri;
 	float ecut = 4*ri6*(ri6-1);
 	float rc3 = cutoff*cutoff*cutoff;
-
 	/* accumulate the potential enegry */
 	e_pot += 4*rc3*rc3*(rc3*rc3-1) - ecut;
 	/* First part of internal pressure */
 	p_int += d*f;
-
 //	std::cout << "force: " << f << std::endl;
 	return f;
 }
+
+float integrator::get_p_int()
+{
+	return p_int;
+}
+
+void integrator::reset_p_int()
+{
+	p_int = 0;
+}
+
+
