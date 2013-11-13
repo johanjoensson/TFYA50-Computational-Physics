@@ -28,7 +28,6 @@ int main()
 
 	outputter writer("toto.txt");
 
-	std::cout << "Total number of particles: " << test.N << std::endl;
 	test.bulk[0].data->pos = vector_3d(1.0, 0.0, 0.0);
 	test.bulk[1].data->pos = vector_3d(0.0, 1.0, 0.0);
 	test.bulk[2].data->pos = vector_3d(0.0, 0.0, 1.0);
@@ -46,66 +45,77 @@ int main()
 
 	test.update_verlet_lists();
 
-	/* Move system to next time step */
-	float max_disp = 0;
-	test.verlet_integrator.reset_p_int();
-	test.increase_kinetic_energy();
 	float r_msd = 0;
 	float E_kin = 0;
-	for(unsigned int i = 0; i < test.N; i++){
-//		std::cout << "Old position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
-//		std::cout << "Old velocity of particle " <<i << ": " << test.bulk[i].data->vel << std::endl;
-		std::cout << "Updating position of particle " << i << " of " << test.N << " particles" << std::endl;
-		test.verlet_integrator.verlet_integration_position(test.bulk[i]);
-		
-		
-		//calculate the msd
-		r_msd += test.msd(test.atoms[i], test.N);
-		//calculate the kinetic energy
-		E_kin += (test.atoms[i].mass*test.atoms[i].vel*test.atoms[i].vel)/2;
-		
-		
-		//this below is working for the MSD
-		/*
-		*vector_3d r = test.atoms[i].pos.diff(test.atoms[i].orig_pos, x_tot, y_tot, z_tot);
-		*msd += (r*r)/test.N;
-		*/
-		//Print the MSD to track that it's working
-		std::cout << "------> MSD: " << r_msd << std::endl;
- 
-		
-		if(test.bulk[i].data->get_displacement() > max_disp){
-			max_disp = test.bulk[i].data->get_displacement();
+	float max_disp = 0;
+	float cutoff = 4;
+	int t_max = 20;
+	float data[8];
+	/* Move system to next time step */
+	for(int t = 0; t < t_max; t++){
+		test.verlet_integrator.reset_p_int();
+		test.increase_kinetic_energy();
+		r_msd = 0;
+		E_kin = 0;
+		for(unsigned int i = 0; i < test.N; i++){
+			std::cout << "Updating position of particle " << i << " of " << test.N << " particles" << std::endl;
+			test.verlet_integrator.verlet_integration_position(test.bulk[i]);
+
+
+			//calculate the msd
+			r_msd += test.msd(test.atoms[i], test.N);
+			//calculate the kinetic energy
+			E_kin += (test.atoms[i].mass*test.atoms[i].vel*test.atoms[i].vel)/2;
+
+
+			//this below is working for the MSD
+			/*
+			*vector_3d r = test.atoms[i].pos.diff(test.atoms[i].orig_pos, x_tot, y_tot, z_tot);
+			*msd += (r*r)/test.N;
+			*/
+			//Print the MSD to track that it's working
+			std::cout << "------> MSD: " << r_msd << std::endl;
+
+
+			if(test.bulk[i].data->get_displacement() > max_disp){
+				max_disp = test.bulk[i].data->get_displacement();
+			}
 		}
+		std::cout << "------> Debey Temp: " << test.debye_temp(r_msd, 50, 1) << std::endl;
+		std::cout << "------> Energy tot: " <<  test.verlet_integrator.e_pot+E_kin << std::endl;
+		std::cout << "------> CohEnergy: " <<  test.cohEnergy(test.N, (test.verlet_integrator.e_pot+E_kin)) << std::endl;
 
-		
-//		std::cout << "New position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
-	}
-	std::cout << "------> Debey Temp: " << test.debye_temp(r_msd, 50, 1) << std::endl;
-	std::cout << "------> Energy tot: " <<  test.verlet_integrator.e_pot+E_kin << std::endl;
-	std::cout << "------> CohEnergy: " <<  test.cohEnergy(test.N, (test.verlet_integrator.e_pot+E_kin)) << std::endl;
-	
-	std::cout << std::endl;
-	for(unsigned int i = 0; i < test.N; i++){
-		std::cout << "Calculating force on particle: " << i << std::endl;
-		test.verlet_integrator.verlet_integration_velocity(test.bulk[i]);
-//		std::cout << "New velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
-		test.increase_kinetic_energy(test.atoms[i]);
-	}
-	calc_temperature(test.get_kinetic_energy(), test.N);
-	calc_pressure(test.verlet_integrator.get_p_int(), test.N, test.V);
-	cout << "T = " << T << endl << "P = " << P << endl;
+		std::cout << std::endl;
+		for(unsigned int i = 0; i < test.N; i++){
+			test.verlet_integrator.verlet_integration_velocity(test.bulk[i]);
+			test.increase_kinetic_energy(test.atoms[i]);
+		}
+		calc_temperature(test.get_kinetic_energy(), test.N);
+		calc_pressure(test.verlet_integrator.get_p_int(), test.N, test.V);
+		cout << "T = " << T << endl << "P = " << P << endl;
 
-	for(unsigned int i = 0; i < test.N; i++){
-		test.bulk[i].clear_verlet_list();
+		if(max_disp > 0.5*cutoff){
+			for(unsigned int i = 0; i < test.N; i++){
+				test.bulk[i].clear_verlet_list();
+				test.bulk[i].data->zero_displacement();
+			}
+			max_disp = 0;
+			test.update_verlet_lists();
+		}
+		data[0] = t*0.2;
+		data[1] = E_kin;
+		data[2] = test.verlet_integrator.e_pot;
+		data[3] = test.verlet_integrator.e_pot+E_kin;
+		data[4] = r_msd;
+		data[5] = T;
+		data[6] = P;
+		data[7] = test.debye_temp(r_msd, 50, 1);
+
+		writer.store_data(data);
+
 	}
 
-/*
-	world w(5, 5, 5, 1);
 	
-	std::cout << w.atoms[1].pos.x;
-	
-*/
 
 	world w(3, 3, 3, 1);
 	std::cout << w.N << std::endl;
@@ -113,19 +123,12 @@ int main()
 		std::cout << w.atoms[i].pos.x << "\t" << w.atoms[i].pos.y << "\t" << w.atoms[i].pos.z << "   (" << i+1 << ")" << std::endl;
 	}
 
-	float data[8];
-
-	data[0] = 8;
-	data[1] = max_disp;
-	data[2] = r_msd;
-	data[3] = E_kin;
-	data[4] = 4;
-	data[5] = 5;
-	data[6] = 6;
-	data[7] = 7;
 	
 
-	writer.store_data(data);
+	
+	
+
+
 	writer.store_data(data);
 
 	int temp;

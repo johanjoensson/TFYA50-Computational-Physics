@@ -4,7 +4,7 @@ outputter::outputter(char* filename)
 {
 	file.open(filename, std::ios::out|std::ios::trunc);
 
-	file << "Time" << "\t" << "Maximum displacement" << "\t" << "MSD" << "\t" << "Kinetic energy" << "\t" << "Data index 4" << "\t" << "Data index 5" << "\t" << "Data index 6"<< "\t" << "Data index 7"<< "\t" << std::endl;
+	file << "Time" << "\t" << "Kinetic Energy" << "\t" << "Potential Energy" << "\t" << "Total Energy" << "\t" << "MSD" << "\t" << "Temperature" << "\t" << "Internal Pressure"<< "\t" << "Debeye Temperature"<< "\t" << std::endl;
 
 }
 
