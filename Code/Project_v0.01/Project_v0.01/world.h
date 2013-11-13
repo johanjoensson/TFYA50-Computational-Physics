@@ -2,13 +2,21 @@
 #include "verlet_list.h"
 #include "velocity_verlet_integration.h"
 
-
-typedef enum {
+enum type_of_average
+{
 	KINETIC_ENERGY,
 	POTENTIAL_ENERGY,
 	TEMPERATURE,
 	MSD
-}type_of_average;
+};
+
+enum crystalStructure
+{
+	BCC,
+	FCC,
+	DIAMOND,
+	UNKNOWN,
+};
 
 class world{
 private:
@@ -18,7 +26,7 @@ private:
 public:
 	world();
 	world(unsigned int n);
-	world(unsigned int x, unsigned int y, unsigned int z, float a);
+	world(unsigned int x, unsigned int y, unsigned int z, float a, crystalStructure type);
 
 	void set_cutoff(float r);
 
@@ -58,5 +66,10 @@ public:
 *but that shoudn't be nessesary.
 */
 	float cohEnergy (int N, float totEnergy);
+
+
+	void bccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
+	void fccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
+	void diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 };
 

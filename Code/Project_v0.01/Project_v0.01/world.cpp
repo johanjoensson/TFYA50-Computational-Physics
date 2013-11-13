@@ -45,35 +45,30 @@ world::world(unsigned int n)
 	}
 }
 
-world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant
+
+/* 
+set positions for all atoms in structure
+x,y,z = a = lattice constant, type = type of crystal structure (BCC or FCC)
+*/
+world::world(unsigned int x, unsigned int y, unsigned int z, float a, enum crystalStructure type)	
 {
-//	if(struct==1){
-	N = x*y*z+(x-1)*(y-1)*(z-1); //Number of atoms in total in a bcc crystal based on a x*y*z cubic lattice;
-    x_tot = x*a;
-	y_tot = y*a;
-	z_tot = z*a;
-	V = x_tot*y_tot*z_tot;
+	switch (type)
+	{
+	case BCC:
+		world::bccSetup(x, y, z, a);
+		break;
 
-	atoms = new atom[N];
-	
-	/* Adding atoms in bcc-lattice */
-	int n = 0;	//atom count
-	for(int i = 0; i < x; i++){
-		for(int j = 0; j < y; j++){
-			for(int k = 0; k < z; k++){
+	case FCC:
+		fccSetup(x, y, z, a);
+		break;
 
-				float xpos = a*i;
-				float ypos = a*j;
-				float zpos = a*k;
-				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
-				n++;
-				
-				if(i<(x-1) && j<(y-1) && k<(z-1)){	//add body atom if inside bulk
-					atoms[n] = atom(vector_3d(xpos+0.5*a, ypos+0.5*a, zpos+0.5*a), vector_3d(0,0,0), vector_3d(0,0,0));
-					n++;
-				}
-			}
-		}
+	case DIAMOND:
+		diamondSetup(x, y, z, a);
+		break;
+
+	default:
+		std::cout << "Error: false crystal structure" << std::endl;
+		break;
 	}
 
 	/* Create the list of verlet lists */
@@ -124,53 +119,6 @@ float world::get_kinetic_energy_squared()
 	return E_kin_sqr;
 }
 
-void world::world_2(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant
-{
-	N = x*y*z+(x-1)*y*(z-1)+x*(y-1)*(z-1)+(x-1)*(y-1)*z; //number of atoms in a x*y*z fcc lattice structure
-
-	atoms = new atom[N];
-	
-	/* Adding atoms in fcc-lattice */
-	int n = 0;	//atom count
-	for(int i = 0; i < x; i++){
-		for(int j = 0; j < y; j++){
-			for(int k = 0; k < z; k++){
-
-				float xpos = a*i;
-				float ypos = a*j;
-				float zpos = a*k;
-				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
-				n++;
-
-				if(i<(x-1) && j<(y-1) && k<(z-1)){
-				atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
-				n++;
-				atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
-				n++;
-				atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
-				n++;
-				}
-
-				if(i==(x-1)){
-				atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
-				n++;
-				}
-
-				if(j==(y-1)){
-				atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
-				n++;
-				}
-
-				if(k==(z-1)){
-				atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
-				n++;
-				}
-				
-			}
-		}
-	}	
-}
-
 float world::msd(atom a, int N)
 {
 	vector_3d R = a.pos.diff(a.orig_pos, x_tot, y_tot, z_tot);
@@ -191,4 +139,134 @@ float world::cohEnergy (int N, float totEnergy)
 	return(cE);
 }
 
+void world::bccSetup(unsigned int x, unsigned int y, unsigned int z, float a)
+{
+	int n = 0;	//atom count
+	N = x*y*z+(x-1)*(y-1)*(z-1); //Number of atoms in total in a bcc crystal based on a x*y*z cubic lattice;
+	x_tot = x*a;
+	y_tot = y*a;
+	z_tot = z*a;
 
+	atoms = new atom[N];
+	
+	/* Adding atoms in bcc-lattice */
+	for(int i = 0; i < x; i++){
+		for(int j = 0; j < y; j++){
+			for(int k = 0; k < z; k++){
+				float xpos = a*i;
+				float ypos = a*j;
+				float zpos = a*k;
+				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
+				n++;
+			
+				if(i<(x-1) && j<(y-1) && k<(z-1)){	//add body atom if inside bulk
+					atoms[n] = atom(vector_3d(xpos+0.5*a, ypos+0.5*a, zpos+0.5*a), vector_3d(0,0,0), vector_3d(0,0,0));
+					n++;
+				}
+			}
+		}
+	}
+}
+
+void world::fccSetup(unsigned int x, unsigned int y, unsigned int z, float a)
+{
+	int n = 0;	//atom count
+	N = x*y*z+(x-1)*y*(z-1)+x*(y-1)*(z-1)+(x-1)*(y-1)*z; //number of atoms in a x*y*z fcc lattice structure
+	atoms = new atom[N];
+
+	/* Adding atoms in fcc-lattice */
+	for(int i = 0; i < x; i++){
+		for(int j = 0; j < y; j++){
+			for(int k = 0; k < z; k++){
+
+				float xpos = a*i;
+				float ypos = a*j;
+				float zpos = a*k;
+				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
+				n++;
+
+				if(i<(x-1) && j<(y-1) && k<(z-1)){
+					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+					n++;
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+					n++;
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+					n++;
+				}
+
+				if(i==(x-1) && j<(y-1) && k<(z-1)){
+					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+					n++;
+				}
+				if(i<(x-1) && j==(y-1) && k<(z-1)){
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+					n++;
+				}
+
+				if(i<(x-1) && j<(y-1) && k==(z-1)){
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+					n++;
+				}
+			
+			}
+		}
+	}	
+
+}
+
+
+
+void world::diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a)
+{
+	int n = 0;	//atom count
+	N = x*y*z+(x-1)*y*(z-1)+x*(y-1)*(z-1)+(x-1)*(y-1)*z+4*(x-1)*(y-1)*(z-1); //number of atoms in a x*y*z fcc lattice structure
+
+	atoms = new atom[N];
+	
+	/* Adding atoms in fcc-lattice */
+	for(int i = 0; i < x; i++){
+		for(int j = 0; j < y; j++){
+			for(int k = 0; k < z; k++){
+				float xpos = a*i;
+				float ypos = a*j;
+				float zpos = a*k;
+				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
+				n++;
+			
+				if(i<(x-1) && j<(y-1) && k<(z-1)){
+					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+					n++;
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+					n++;
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+					n++;
+					
+					/* Adding extra diamond structure atoms in fcc cells*/
+					atoms[n] = atom(vector_3d(xpos+a/4,ypos+a/4,zpos+a/4), vector_3d(), vector_3d());
+					n++;
+					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+a/4,zpos+a/4), vector_3d(), vector_3d());
+					n++;
+					atoms[n] = atom(vector_3d(xpos+a/4,ypos+3*a/4,zpos+3*a/4), vector_3d(), vector_3d());
+					n++;
+					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+3*a/4,zpos+3*a/4), vector_3d(), vector_3d());
+					n++;
+				}
+
+				if(i==(x-1) && j<(y-1) && k<(z-1)){
+					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+					n++;
+				}
+				if(i<(x-1) && j==(y-1) && k<(z-1)){
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+					n++;
+				}
+
+				if(i<(x-1) && j<(y-1) && k==(z-1)){
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+					n++;
+				}
+			
+			}
+		}
+	}
+}
