@@ -43,7 +43,7 @@ int main()
 		
 		//calculate the msd
 		//calling this function is not working at the moment
-		//r_msd = msd(test.atoms[i], i, test.N);
+		//r_msd += msd(test.atoms[i], test.N);
 		
 		//this below is working for the MSD
 		/*
