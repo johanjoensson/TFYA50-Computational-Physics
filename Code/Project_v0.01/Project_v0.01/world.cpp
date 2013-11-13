@@ -100,19 +100,28 @@ void world::update_verlet_lists()
 	}
 }
 
-void world::increase_kinetic_energy()
+void world::kinetic_energy()
 {
-	kinetic_energy = 0;
+	E_kin = 0;
+	E_kin_sqr = 0;
 }
 
-void world::increase_kinetic_energy(atom a)
+void world::kinetic_energy(atom a)
 {
-	kinetic_energy += a.mass*a.vel*a.vel;
+	float temp = a.mass*a.vel*a.vel;
+	E_kin += temp;
+	E_kin_sqr += temp*temp;
 }
+
 
 float world::get_kinetic_energy()
 {
-	return kinetic_energy;
+	return E_kin;
+}
+
+float world::get_kinetic_energy_squared()
+{
+	return E_kin_sqr;
 }
 
 void world::world_2(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant
