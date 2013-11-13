@@ -52,6 +52,9 @@ x,y,z = a = lattice constant, type = type of crystal structure (BCC or FCC)
 */
 world::world(unsigned int x, unsigned int y, unsigned int z, float a, enum crystalStructure type)	
 {
+
+	verlet_integrator = integrator();
+	verlet_integrator.set_cutoff(3*a);
 	switch (type)
 	{
 	case BCC:
@@ -77,6 +80,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, enum cryst
 	/* Link each cell in the array of verlet lists to the corresponding atom */
 	for(int i = 0; i < N; i++){
 		bulk[i].data = &atoms[i];
+		bulk[i].set_verlet_skin(5);
 	}
 }
 

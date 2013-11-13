@@ -4,7 +4,7 @@
 
 integrator::integrator()
 {
-	h = 0.2;
+	h = 0.0000002;
 	e_pot = 0;
 	//p_int = 0;
 }
@@ -25,7 +25,6 @@ void integrator::set_dimensions(float x, float y, float z)
 void integrator::verlet_integration_position(verlet_list particle)
 {
 	/* Update position of particle */
-	std::cout << "Updating position" << std::endl;
 	vector_3d move = particle.data->vel*h + 0.5*particle.data->acc*h*h;
 	particle.data->incr_displacement(move.abs());
 	particle.data->pos += move;
@@ -37,12 +36,12 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 	verlet_list *current = particle.next;
 	vector_3d tmp_force = vector_3d(0,0,0);
 
-	while(current != 0){
+	while(current != NULL){
 		vector_3d r = particle.data->pos.diff(current->data->pos, x_dim, y_dim, z_dim);
 		if(r*r < cutoff*cutoff){
 			/* Update velocity and acceleration of the particle */
-			std::cout << "Calculating force\t";
 			tmp_force = calculate_force(particle.data, current->data);
+//			std::cout << "Calculating force: " << tmp_force;
 			particle.data->incr_next_acc(tmp_force/particle.data->mass);
 			current->data->decr_next_acc(tmp_force/current->data->mass);
 		}
@@ -72,7 +71,6 @@ vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
 	e_pot += 4*rc3*rc3*(rc3*rc3-1) - ecut;
 	/* First part of internal pressure */
 	p_int += d*f;
-//	std::cout << "force: " << f << std::endl;
 	return f;
 }
 
@@ -85,5 +83,3 @@ void integrator::reset_p_int()
 {
 	p_int = 0;
 }
-
-

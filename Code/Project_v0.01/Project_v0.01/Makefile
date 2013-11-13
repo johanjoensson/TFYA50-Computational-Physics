@@ -10,6 +10,7 @@ OBJECTS = 	main.o\
 		verlet_list.o\
 		world.o\
 		velocity_verlet_integration.o\
+		output.o\
 
 all : $(EXE)
 
