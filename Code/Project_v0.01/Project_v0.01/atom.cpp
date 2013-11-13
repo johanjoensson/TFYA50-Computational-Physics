@@ -7,12 +7,14 @@ atom::atom()
 	acc = vector_3d(0,0,0);
 	mass = 1;
 	next_acc = vector_3d(0,0,0);
+	orig_pos = vector_3d(0,0,0);
 	displacement = 0;
 }
 
 atom::atom(vector_3d position, vector_3d velocity, vector_3d acceleration)
 {
 	pos = position;
+	orig_pos = position;
 	vel = velocity;
 	acc = acceleration;
 	next_acc = vector_3d(0,0,0);

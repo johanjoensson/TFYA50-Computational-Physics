@@ -17,7 +17,6 @@ world::world()
 	V = x_tot*y_tot*z_tot;
 }
 
-
 /* A simple and stupid constructor, takes the number of atoms to be created only */
 /* TODO: Add proper constructor that is actually useful */
 world::world(unsigned int n)
@@ -46,9 +45,8 @@ world::world(unsigned int n)
 	}
 }
 
-
 world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = lattice constant
-{	
+{
 //	if(struct==1){
 	N = x*y*z+(x-1)*(y-1)*(z-1); //Number of atoms in total in a bcc crystal based on a x*y*z cubic lattice;
     x_tot = x*a;
@@ -86,7 +84,6 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a)	//a = latt
 		bulk[i].data = &atoms[i];
 	}
 }
-
 
 void world::set_cutoff(float r)
 {
@@ -163,4 +160,26 @@ void world::world_2(unsigned int x, unsigned int y, unsigned int z, float a)	//a
 			}
 		}
 	}	
-	}
+}
+
+float world::msd(atom a, int N)
+{
+	vector_3d R = a.pos.diff(a.orig_pos, x_tot, y_tot, z_tot);
+	float r=(R*R)/N;
+	return(r);
+}
+
+float world::debye_temp(float msd, float T, float m)
+{
+	float k_b = .0000861734;
+	float theta_D = (3*T)/(m*k_b*msd);
+	return(theta_D);
+}
+
+float world::cohEnergy (int N, float totEnergy)
+{
+	float cE = totEnergy/N;
+	return(cE);
+}
+
+

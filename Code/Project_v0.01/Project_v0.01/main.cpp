@@ -47,16 +47,41 @@ int main()
 	float max_disp = 0;
 	test.verlet_integrator.reset_p_int();
 	test.increase_kinetic_energy();
+	float r_msd = 0;
+	float E_kin = 0;
 	for(unsigned int i = 0; i < test.N; i++){
 //		std::cout << "Old position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
-//		std::cout << "Old velocity of particle " << i << ": " << test.bulk[i].data->vel << std::endl;
+//		std::cout << "Old velocity of particle " <<i << ": " << test.bulk[i].data->vel << std::endl;
 		std::cout << "Updating position of particle " << i << " of " << test.N << " particles" << std::endl;
 		test.verlet_integrator.verlet_integration_position(test.bulk[i]);
+		
+		
+		//calculate the msd
+		r_msd += test.msd(test.atoms[i], test.N);
+		//calculate the kinetic energy
+		E_kin += (test.atoms[i].mass*test.atoms[i].vel*test.atoms[i].vel)/2;
+		
+		
+		//this below is working for the MSD
+		/*
+		*vector_3d r = test.atoms[i].pos.diff(test.atoms[i].orig_pos, x_tot, y_tot, z_tot);
+		*msd += (r*r)/test.N;
+		*/
+		//Print the MSD to track that it's working
+		std::cout << "------> MSD: " << r_msd << std::endl;
+ 
+		
 		if(test.bulk[i].data->get_displacement() > max_disp){
 			max_disp = test.bulk[i].data->get_displacement();
 		}
+
+		
 //		std::cout << "New position of particle " << i << ": " << test.bulk[i].data->pos << std::endl;
 	}
+	std::cout << "------> Debey Temp: " << test.debye_temp(r_msd, 50, 1) << std::endl;
+	std::cout << "------> Energy tot: " <<  test.verlet_integrator.e_pot+E_kin << std::endl;
+	std::cout << "------> CohEnergy: " <<  test.cohEnergy(test.N, (test.verlet_integrator.e_pot+E_kin)) << std::endl;
+	
 	std::cout << std::endl;
 	for(unsigned int i = 0; i < test.N; i++){
 		std::cout << "Calculating force on particle: " << i << std::endl;
@@ -84,7 +109,6 @@ int main()
 	for(int i=0; i<w.N; i++){
 		std::cout << w.atoms[i].pos.x << "\t" << w.atoms[i].pos.y << "\t" << w.atoms[i].pos.z << "   (" << i+1 << ")" << std::endl;
 	}
-
 	int temp;
 	std::cin >> temp;
 

@@ -2,6 +2,7 @@
 #include "verlet_list.h"
 #include "velocity_verlet_integration.h"
 
+
 typedef enum {
 	KINETIC_ENERGY,
 	POTENTIAL_ENERGY,
@@ -34,4 +35,26 @@ public:
 	float get_kinetic_energy();
 	void update_verlet_lists();
 	void world_2(unsigned int x, unsigned int y, unsigned int z, float a);
+	
+/*
+*a is the atom that is choosen
+*N is the number off atoms in the world
+*/
+	float msd(atom a, int N);
+	
+/*
+*The debye temprature is returned as in the design (theta_D)^2
+*msd is the mean square displacement, T is the temprature and 
+*m is the mass for one atom.
+*/
+	float debye_temp(float msd, float T, float m);
+
+/*
+*N is here the total number of atoms
+*totEnergy is the total energy (kinetic + potential)
+*In the original equation the energy of the fre atom is included
+*but that shoudn't be nessesary.
+*/
+	float cohEnergy (int N, float totEnergy);
 };
+
