@@ -42,7 +42,7 @@ public:
 *msd is the mean square displacement, T is the temprature and 
 *m is the mass for one atom.
 */
-	float world::debye_temp(float msd, float T, float m);
+	float debye_temp(float msd, float T, float m);
 
 /*
 *N is here the total number of atoms
