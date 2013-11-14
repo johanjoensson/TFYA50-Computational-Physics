@@ -2,22 +2,31 @@
 #include "verlet_list.h"
 #include "velocity_verlet_integration.h"
 
-
-typedef enum {
+enum type_of_average
+{
 	KINETIC_ENERGY,
 	POTENTIAL_ENERGY,
 	TEMPERATURE,
 	MSD
-}type_of_average;
+};
+
+enum crystalStructure
+{
+	BCC,
+	FCC,
+	DIAMOND,
+	UNKNOWN,
+};
 
 class world{
 private:
 	float cutoff;
-	float kinetic_energy;
+	float E_kin;
+	float E_kin_sqr;
 public:
 	world();
 	world(unsigned int n);
-	world(unsigned int x, unsigned int y, unsigned int z, float a);
+	world(unsigned int x, unsigned int y, unsigned int z, float a, crystalStructure type);
 
 	void set_cutoff(float r);
 
@@ -30,9 +39,10 @@ public:
 	float z_tot;
 	float V; //Volume
 
-	void increase_kinetic_energy(atom a);
-	void increase_kinetic_energy();
+	void kinetic_energy(atom a);
+	void kinetic_energy();
 	float get_kinetic_energy();
+	float get_kinetic_energy_squared();
 	void update_verlet_lists();
 	void world_2(unsigned int x, unsigned int y, unsigned int z, float a);
 	
@@ -56,5 +66,10 @@ public:
 *but that shoudn't be nessesary.
 */
 	float cohEnergy (int N, float totEnergy);
+
+
+	void bccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
+	void fccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
+	void diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 };
 
