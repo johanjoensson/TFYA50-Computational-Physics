@@ -3,6 +3,7 @@
 #include "verlet_list.h"
 #include "output.h"
 #include <iostream>
+#include "Graphical User Interface.h"
 //#include <cstdlib>
 //#include <pthread.h>
 
@@ -26,6 +27,9 @@ void calc_specific_heat(float E_kin, float E_kin_sqr, int N);
 
 int main()
 {
+
+	Project_v001::GraphicalUserInterface gui();
+
 	world test(5,5,2,0.1,BCC);
 	outputter writer("toto.txt", "titi.txt");
 
@@ -132,10 +136,13 @@ int main()
 
 	writer.store_data(data);
 */
+/*
+
 	int temp;
 	std::cin >> temp;
 
 	return 0;
+*/
 }
 
 void calc_temperature(float E_kin, int N) //Temperature
