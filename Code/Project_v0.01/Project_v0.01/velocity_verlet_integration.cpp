@@ -4,14 +4,20 @@
 
 integrator::integrator()
 {
-	h = 0.0000002;
+	h = 0;
 	e_pot = 0;
+	cutoff = 0;
 	//p_int = 0;
 }
 
 void integrator::set_cutoff(float r)
 {
 	cutoff = r;
+}
+
+void integrator::set_timestep(float d)
+{
+	h = d;
 }
 
 void integrator::set_dimensions(float x, float y, float z)
