@@ -33,16 +33,14 @@ int main()
 	y_tot = test.y_tot;
 	z_tot = test.z_tot;
 
+	verlet_list *current;
 	test.update_verlet_lists();
 
-
-	
 	float data[10];
 
 	float t_max = 20;
 	float timestep = 0.0000002;
-	float cutoff = 15;
-	test.set_cutoff(15);
+	float cutoff = 0.05;
 
 	float max_disp = 0;
 
