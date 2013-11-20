@@ -22,6 +22,8 @@ public:
 	float e_pot;
 
 	integrator();
+
+	void set_timestep(float d);
 	void set_cutoff(float r);
 	void set_dimensions(float x, float y, float z);
 

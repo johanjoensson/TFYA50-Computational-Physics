@@ -1,5 +1,4 @@
 #include "world.h"
-#include <iostream>
 
 #ifndef NULL
 #define NULL 0
@@ -15,12 +14,30 @@ world::world()
 	y_tot = 0;
 	z_tot = 0;
 	V = x_tot*y_tot*z_tot;
+//	writer = outputter("toto.txt", "titi.txt");
+}
+
+void world::init()
+{
+	cutoff = 0;
+	start_time = 0;
+	time_step = 0;
+	E_kin = 0;
+	E_kin_sqr = 0;
+	r_msd = 0;
+	T = 0;
+	P = 0;
+	C_v = 0;
+
+	visualise = false;
+
+	verlet_integrator = integrator();
 }
 
 /* A simple and stupid constructor, takes the number of atoms to be created only */
-/* TODO: Add proper constructor that is actually useful */
 world::world(unsigned int n)
 {
+	init();
 	cutoff = 100;
 	verlet_integrator = integrator();
 	verlet_integrator.set_cutoff(cutoff);
@@ -53,8 +70,10 @@ x,y,z = a = lattice constant, type = type of crystal structure (BCC or FCC)
 world::world(unsigned int x, unsigned int y, unsigned int z, float a, enum crystalStructure type)	
 {
 
-	verlet_integrator = integrator();
-	verlet_integrator.set_cutoff(3*a);
+	init();
+	x_tot = x*a;
+	y_tot = y*a;
+	z_tot = z*a;
 	switch (type)
 	{
 	case BCC:
@@ -82,11 +101,27 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, enum cryst
 		bulk[i].data = &atoms[i];
 		bulk[i].set_verlet_skin(5);
 	}
+	verlet_integrator.set_dimensions(x*a, y*a, z*a);
+}
+
+void world::set_timestep(float h)
+{
+	time_step = h;
+	verlet_integrator.set_timestep(h);
 }
 
 void world::set_cutoff(float r)
 {
 	cutoff = r;
+	verlet_integrator.set_cutoff(r);
+	for(int i = 0; i < this->N; i++){
+		this->bulk[i].set_verlet_skin(1.5*cutoff);
+	}
+}
+
+void world::toggle_visualisation()
+{
+	visualise = !visualise;
 }
 
 void world::update_verlet_lists()
@@ -132,8 +167,8 @@ float world::msd(atom a, int N)
 
 float world::debye_temp(float msd, float T, float m)
 {
-	float k_b = .0000861734;
-	float theta_D = (3*T)/(m*k_b*msd);
+//	float k_b = .0000861734;
+	float theta_D = (3*T)/(m*kB*msd);
 	return(theta_D);
 }
 
@@ -147,9 +182,6 @@ void world::bccSetup(unsigned int x, unsigned int y, unsigned int z, float a)
 {
 	int n = 0;	//atom count
 	N = x*y*z+(x-1)*(y-1)*(z-1); //Number of atoms in total in a bcc crystal based on a x*y*z cubic lattice;
-	x_tot = x*a;
-	y_tot = y*a;
-	z_tot = z*a;
 
 	atoms = new atom[N];
 	
@@ -275,6 +307,85 @@ void world::diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a
 	}
 }
 
+void world::calc_temperature(float E_kin, int N) //Temperature
+{
+	T = E_kin / (3.0*kB*N);
+}
+
+void world::calc_pressure(float p_sum, int N, float V) //internal pressure
+{
+	P = N*kB*T/V + p_sum;
+}
+
+void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N)
+{
+	C_v = 3*N*kB/(2-4*N*(E_kin_sqr - E_kin*E_kin)/(3*E_kin*E_kin));
+}
+
+void world::integrate(unsigned int t_end)
+{
+	float max_disp = 0;
+	float data[10];
+
+	this->update_verlet_lists();
+
+	/* Store the initial positions of all atoms */
+	for(unsigned int i = 0; i < this->N; i++){
+		writer.store_atom(*this->bulk[i].data);
+	}
+
+	for(unsigned int t = 0; t < t_end; t++){
+		this->verlet_integrator.reset_p_int();
+		this->kinetic_energy();
+		this->r_msd = 0;
+
+		/* First part of Verlet integration */
+		for(int i = 0; i < this->N; i++){
+			this->verlet_integrator.verlet_integration_position(this->bulk[i]);
+			this->r_msd += this->msd(this->atoms[i], this->N);
+
+			if(this->bulk[i].data->get_displacement() > max_disp){
+				max_disp = this->bulk[i].data->get_displacement();
+			}
+			if(visualise)
+			{
+				writer.store_atom(*this->bulk[i].data);
+			}
+		}
+		/* Second part of Verlet integration */
+		for(int i = 0; i < this->N; i++){
+			this->verlet_integrator.verlet_integration_velocity(this->bulk[i]);
+			this->kinetic_energy(this->atoms[i]);
+		}
+
+		calc_temperature(this->get_kinetic_energy(), this->N);
+		calc_pressure(this->verlet_integrator.get_p_int(), this->N, this->V);
+		calc_specific_heat(this->get_kinetic_energy(), this->get_kinetic_energy_squared(), this->N);
+
+		data[0] = t*time_step;
+		data[1] = this->get_kinetic_energy();
+		data[2] = this->verlet_integrator.e_pot;
+		data[3] = this->get_kinetic_energy() + this->verlet_integrator.e_pot;
+		data[4] = data[3]/this->N;
+		data[5] = r_msd;
+		data[6] = P;
+		data[7] = T;
+		data[8] = this->debye_temp(r_msd, 50, 1);
+		data[9] = this->cohEnergy(this->N, (this->verlet_integrator.e_pot+0.5*this->get_kinetic_energy()));
+
+		writer.store_data(data);
+		
+			
+		if(max_disp > 0.5*cutoff){
+			for(unsigned int i = 0; i < this->N; i++){
+				this->bulk[i].clear_verlet_list();
+			}
+			max_disp = 0;
+			this->update_verlet_lists();
+		}
+	}
+}
+
 float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix)
 {
 	float in_scaling = 1;
@@ -339,19 +450,26 @@ float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_pref
 			break;
 
 		default:
-			arg = 1337;
+			return arg;
 			break;
 	}
 
 	for(int i=0; i<2; i++)
 	{
-		char temp = 'F';
+		char temp_char = 'I';
+		float temp;
 		if(i==0)
 			char temp = in_prefix;
 		else
 			char temp = out_prefix;
-		switch (temp)
+		switch (temp_char)
 		{
+		case 'I': break;
+
+		case 'd': //Ångström
+			temp = 1e-10;
+			break;
+		
 			case 'Y': 
 				temp = 1e24;
 				break;
@@ -399,9 +517,6 @@ float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_pref
 				break;
 			case 'y': 
 				temp = 1e-24;
-				break;
-			case 'd': //Ångström
-				temp = 1e-10;
 				break;
 			default: break;
 		}
