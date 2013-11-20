@@ -15,12 +15,17 @@ void outputter::init_data_file()
 
 }
 
+outputter::outputter()
+{
+	file.open("toto.txt");
+	visualisation_file.open("titi.txt", std::ios::out|std::ios::trunc);
+	init_data_file();
+}
+
 outputter::outputter(char* filename)
 {
 	file.open(filename, std::ios::out|std::ios::trunc);
-
-	file << "Time" << "\t" << "Kinetic Energy" << "\t" << "Potential Energy" << "\t" << "Total Energy" << "\t" << "MSD" << "\t" << "Temperature" << "\t" << "Internal Pressure"<< "\t" << "Debeye Temperature"<< "\t" << std::endl;
-
+	init_data_file();
 }
 
 outputter::outputter(char* filename, char* vis_name)
@@ -32,6 +37,9 @@ outputter::outputter(char* filename, char* vis_name)
 
 void outputter::store_data(float data[10])
 {
+	if(!file.is_open()){
+		std::cout << "Vad i helvete!!!" << std::endl;
+	}
 	for(int	i = 0; i < 10; i++){
 		if(i == 0){
 			file << data[i];
@@ -40,10 +48,21 @@ void outputter::store_data(float data[10])
 		}
 	}
 	file << std::endl;
+	file.flush();
 	return;
 }
 
 void outputter::store_atom(atom a)
 {
-	visualisation_file << a.pos;	
+	if(a.pos != vector_3d(0,0,0)){
+		std::cout << "Hepp!";
+	}
+	visualisation_file << a.pos;
+	visualisation_file.flush();
+}
+
+void outputter::close_files()
+{
+	file.close();
+	visualisation_file.close();
 }

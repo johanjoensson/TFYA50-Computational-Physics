@@ -1,6 +1,10 @@
 #include "atom.h"
 #include "verlet_list.h"
 #include "velocity_verlet_integration.h"
+#include "output.h"
+
+/* ************ Natural Constants ************ */
+#define kB 8.6173324e-5 /* Boltzmann's Constant [eV/K] */
 
 enum type_of_average
 {
@@ -20,15 +24,30 @@ enum crystalStructure
 
 class world{
 private:
+	unsigned int start_time;
+	float time_step;
 	float cutoff;
 	float E_kin;
 	float E_kin_sqr;
+	float r_msd;
+	float T;
+	float P;
+	float C_v;
+
+	outputter writer;
+
+	void init();
+
+	void calc_temperature(float E_kin, int N);
+	void calc_pressure(float p_sum, int N, float V);
+	void calc_specific_heat(float E_kin, float E_kin_sqr, int N);
 public:
 	world();
 	world(unsigned int n);
 	world(unsigned int x, unsigned int y, unsigned int z, float a, crystalStructure type);
 
 	void set_cutoff(float r);
+	void set_timestep(float h);
 
 	integrator verlet_integrator;
 	unsigned int N;
@@ -71,5 +90,7 @@ public:
 	void bccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 	void fccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 	void diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a);
+
+	void integrate(unsigned int t_end);
 };
 
