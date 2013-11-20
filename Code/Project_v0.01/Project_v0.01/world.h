@@ -23,6 +23,7 @@ private:
 	float cutoff;
 	float E_kin;
 	float E_kin_sqr;
+	float SI_natural(float arg, char quantity, char in_prefix, char out_prefix);
 public:
 	world();
 	world(unsigned int n);

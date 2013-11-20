@@ -274,3 +274,143 @@ void world::diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a
 		}
 	}
 }
+
+float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix)
+{
+	float in_scaling = 1;
+	float out_scaling = 1;
+	
+	switch(quantity)
+	{
+		case 'E':
+			if(SI == 1)
+				arg /= 1.6021773e-19;
+			else
+				arg *= 1.6021773e-19;
+			break;
+
+		case 'l':
+			if(SI == 1)
+				arg /= 1.9732705e-7;
+			else
+				arg *= 1.9732705e-7;
+			break;
+
+		case 'v':
+			if(SI == 1)
+				arg /= 2.99792458e8;
+			else
+				arg *= 2.99792458e8;
+			break;
+
+		case 'a':
+			if(SI == 1)
+				arg /= 4.5546490065e23;
+			else
+				arg *= 4.5546490065e23;
+			break;
+
+		case 'm':
+			if(SI == 1)
+				arg /= 1.7826627e-36;
+			else
+				arg *= 1.7826627e-36;
+			break;
+
+		case 'F':
+			if(SI == 1)
+				arg /= 8.119403e-13;
+			else
+				arg *= 8.119403e-13;
+			break;
+
+		case 't':
+			if(SI == 1)
+				arg /= 6.5821220e-16;
+			else
+				arg *= 6.5821220e-16;
+			break;
+
+		case 'p':
+			if(SI == 1)
+				arg /= 5.3442883e-28;
+			else
+				arg *= 5.3442883e-28;
+			break;
+
+		default:
+			arg = 1337;
+			break;
+	}
+
+	for(int i=0; i<2; i++)
+	{
+		char temp = 'F';
+		if(i==0)
+			char temp = in_prefix;
+		else
+			char temp = out_prefix;
+		switch (temp)
+		{
+			case 'Y': 
+				temp = 1e24;
+				break;
+			case 'Z': 
+				temp = 1e21;
+				break;
+			case 'E': 
+				temp = 1e18;
+				break;
+			case 'P': 
+				temp = 1e15;
+				break;
+			case 'T': 
+				temp = 1e12;
+				break;
+			case 'G': 
+				temp = 1e9;
+				break;
+			case 'M': 
+				temp = 1e6;
+				break;
+			case 'k': 
+				temp = 1e3;
+				break;
+			case 'm': 
+				temp = 1e-3;
+				break;
+			case 'c': //Micro
+				temp = 1e-6;
+				break;
+			case 'n': 
+				temp = 1e-9;
+				break;
+			case 'p': 
+				temp = 1e-12;
+				break;
+			case 'f': 
+				temp = 1e-15;
+				break;
+			case 'a': 
+				temp = 1e-18;
+				break;
+			case 'z': 
+				temp = 1e-21;
+				break;
+			case 'y': 
+				temp = 1e-24;
+				break;
+			case 'd': //Ångström
+				temp = 1e-10;
+				break;
+			default: break;
+		}
+		if(i == 0)
+			in_scaling = temp;
+		else
+			out_scaling = temp;
+	}
+
+	arg *= in_scaling/out_scaling;
+	return arg;
+}
