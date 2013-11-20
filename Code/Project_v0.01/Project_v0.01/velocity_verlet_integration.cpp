@@ -47,7 +47,6 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 		if(r*r < cutoff*cutoff){
 			/* Update velocity and acceleration of the particle */
 			tmp_force = calculate_force(particle.data, current->data);
-//			std::cout << "Calculating force: " << tmp_force;
 			particle.data->incr_next_acc(tmp_force/particle.data->mass);
 			current->data->decr_next_acc(tmp_force/current->data->mass);
 		}
@@ -62,19 +61,20 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
 {
 	float ff=0;
+	float sigma = 0.0017;
 	vector_3d a = atom_a->pos;
 	vector_3d b = atom_b->pos;
 	vector_3d d = a.diff(b, x_dim, y_dim, z_dim);
 	float r = a.distance(b, x_dim, y_dim, z_dim);
-	float ri = 1/r;
+	float ri = sigma/r;
 	float ri2 = ri*ri;
 	float ri6 = ri2*ri2*ri2;
-	ff = 48*(ri*ri6*ri6-0,5*ri*ri6);
+	ff = 48*(ri*ri6*ri6-0.5*ri*ri6);
 	vector_3d f = d*ff*ri;
 	float ecut = 4*ri6*(ri6-1);
-	float rc3 = cutoff*cutoff*cutoff;
+	float ric3 = sigma*sigma*sigma/(cutoff*cutoff*cutoff);
 	/* accumulate the potential enegry */
-	e_pot += 4*rc3*rc3*(rc3*rc3-1) - ecut;
+	e_pot += -4*ric3*ric3*(ric3*ric3-1) + ecut;
 	/* First part of internal pressure */
 	p_int += d*f;
 	return f;

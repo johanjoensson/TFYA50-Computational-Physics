@@ -29,6 +29,8 @@ void world::init()
 	P = 0;
 	C_v = 0;
 
+	visualise = false;
+
 	verlet_integrator = integrator();
 }
 
@@ -115,6 +117,11 @@ void world::set_cutoff(float r)
 	for(int i = 0; i < this->N; i++){
 		this->bulk[i].set_verlet_skin(1.5*cutoff);
 	}
+}
+
+void world::toggle_visualisation()
+{
+	visualise = !visualise;
 }
 
 void world::update_verlet_lists()
@@ -319,6 +326,14 @@ void world::integrate(unsigned int t_end)
 {
 	float max_disp = 0;
 	float data[10];
+
+	this->update_verlet_lists();
+
+	/* Store the initial positions of all atoms */
+	for(unsigned int i = 0; i < this->N; i++){
+		writer.store_atom(*this->bulk[i].data);
+	}
+
 	for(unsigned int t = 0; t < t_end; t++){
 		this->verlet_integrator.reset_p_int();
 		this->kinetic_energy();
@@ -331,6 +346,10 @@ void world::integrate(unsigned int t_end)
 
 			if(this->bulk[i].data->get_displacement() > max_disp){
 				max_disp = this->bulk[i].data->get_displacement();
+			}
+			if(visualise)
+			{
+				writer.store_atom(*this->bulk[i].data);
 			}
 		}
 		/* Second part of Verlet integration */
@@ -355,9 +374,7 @@ void world::integrate(unsigned int t_end)
 		data[9] = this->cohEnergy(this->N, (this->verlet_integrator.e_pot+0.5*this->get_kinetic_energy()));
 
 		writer.store_data(data);
-		for(unsigned int i = 0; i < this->N; i++){
-			writer.store_atom(*this->bulk[i].data);
-		}
+		
 			
 		if(max_disp > 0.5*cutoff){
 			for(unsigned int i = 0; i < this->N; i++){

@@ -34,6 +34,9 @@ private:
 	float P;
 	float C_v;
 
+	bool visualise;
+
+
 	outputter writer;
 
 	void init();
@@ -48,6 +51,7 @@ public:
 
 	void set_cutoff(float r);
 	void set_timestep(float h);
+	void toggle_visualisation();
 
 	integrator verlet_integrator;
 	unsigned int N;

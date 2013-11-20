@@ -37,9 +37,6 @@ outputter::outputter(char* filename, char* vis_name)
 
 void outputter::store_data(float data[10])
 {
-	if(!file.is_open()){
-		std::cout << "Vad i helvete!!!" << std::endl;
-	}
 	for(int	i = 0; i < 10; i++){
 		if(i == 0){
 			file << data[i];
@@ -54,9 +51,6 @@ void outputter::store_data(float data[10])
 
 void outputter::store_atom(atom a)
 {
-	if(a.pos != vector_3d(0,0,0)){
-		std::cout << "Hepp!";
-	}
 	visualisation_file << a.pos;
 	visualisation_file.flush();
 }
