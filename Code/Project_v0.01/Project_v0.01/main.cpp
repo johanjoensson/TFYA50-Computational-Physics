@@ -47,15 +47,14 @@ int main()
 	y_tot = test.y_tot;
 	z_tot = test.z_tot;
 
+	verlet_list *current;
 	test.update_verlet_lists();
 
-
-	
 	float data[10];
 
 	float t_max = 2000;
 	float timestep = 0.0000002;
-	float cutoff = 15;
+	float cutoff = 0.05;
 
 	float max_disp = 0;
 	for(unsigned int t = 0; t < t_max; t++){
@@ -105,7 +104,7 @@ int main()
 			
 		if(max_disp > 0.5*cutoff){
 			for(unsigned int i = 0; i < test.N; i++){
-//				test.bulk[i].clear_verlet_list();
+				test.bulk[i].clear_verlet_list();
 			}
 			max_disp = 0;
 			test.update_verlet_lists();
