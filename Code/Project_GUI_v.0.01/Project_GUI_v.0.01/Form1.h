@@ -1,6 +1,17 @@
 #pragma once
 #include "world.h"
 
+struct Input_data{
+	int x;
+	int y;
+	int z;
+	float a;
+	float cut_off;
+	int t_start;
+	int t_end;
+	float t_step;
+} in_data_t;
+
 namespace Project_GUI_v001 {
 
 	using namespace System;
@@ -36,34 +47,42 @@ namespace Project_GUI_v001 {
 			}
 		}
 	private: System::Windows::Forms::TabControl^  tabControl1;
+	private: System::Windows::Forms::TabPage^  tabPageStructure;
 	protected: 
-	private: System::Windows::Forms::TabPage^  tabPage1;
+
 	private: System::Windows::Forms::Label^  label4;
 	private: System::Windows::Forms::RadioButton^  radioButton2;
 	private: System::Windows::Forms::RadioButton^  radioButton1;
-	private: System::Windows::Forms::TextBox^  textBox3;
+
 	private: System::Windows::Forms::Label^  label3;
-	private: System::Windows::Forms::TextBox^  textBox2;
+	private: System::Windows::Forms::TextBox^  textBoxCO;
+
 	private: System::Windows::Forms::Label^  label2;
-	private: System::Windows::Forms::TextBox^  textBox1;
+	private: System::Windows::Forms::TextBox^  textBoxLatConst;
+
 	private: System::Windows::Forms::Label^  label1;
-	private: System::Windows::Forms::TabPage^  tabPage2;
-	private: System::Windows::Forms::TextBox^  textBox10;
-	private: System::Windows::Forms::TextBox^  textBox7;
-	private: System::Windows::Forms::TextBox^  textBox8;
-	private: System::Windows::Forms::TextBox^  textBox9;
-	private: System::Windows::Forms::TextBox^  textBox4;
-	private: System::Windows::Forms::TextBox^  textBox5;
-	private: System::Windows::Forms::TextBox^  textBox6;
+	private: System::Windows::Forms::TabPage^  tabPageCalculation;
+	private: System::Windows::Forms::TextBox^  textBoxTStep;
+
+
+
+
+
+
+	private: System::Windows::Forms::TextBox^  textBoxTEnd;
+
+	private: System::Windows::Forms::TextBox^  textBoxTStart;
+
 	private: System::Windows::Forms::CheckBox^  checkBox2;
-	private: System::Windows::Forms::Label^  label12;
-	private: System::Windows::Forms::Label^  label11;
-	private: System::Windows::Forms::Label^  label9;
-	private: System::Windows::Forms::Label^  label10;
+
+
+
+
 	private: System::Windows::Forms::Label^  label5;
 	private: System::Windows::Forms::Label^  label6;
 	private: System::Windows::Forms::Label^  label7;
-	private: System::Windows::Forms::TabPage^  tabPage3;
+	private: System::Windows::Forms::TabPage^  tabPageResult;
+
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::RichTextBox^  richTextBox1;
 	private: System::Windows::Forms::TextBox^  textBox17;
@@ -80,6 +99,18 @@ namespace Project_GUI_v001 {
 	private: System::Windows::Forms::Label^  label16;
 	private: System::Windows::Forms::Label^  label17;
 	private: System::Windows::Forms::Label^  label8;
+	private: System::Windows::Forms::CheckBox^  checkBox1;
+	private: System::Windows::Forms::TextBox^  textBoxZdim;
+
+	private: System::Windows::Forms::TextBox^  textBoxYdim;
+
+	private: System::Windows::Forms::TextBox^  textBoxXdim;
+
+	private: System::Windows::Forms::Label^  label12;
+	private: System::Windows::Forms::Label^  label11;
+	private: System::Windows::Forms::Label^  label10;
+	private: System::Windows::Forms::RadioButton^  radioButton3;
+	private: System::Windows::Forms::Label^  label19;
 
 	private:
 		/// <summary>
@@ -95,33 +126,33 @@ namespace Project_GUI_v001 {
 		void InitializeComponent(void)
 		{
 			this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
-			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
+			this->tabPageStructure = (gcnew System::Windows::Forms::TabPage());
+			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
+			this->label19 = (gcnew System::Windows::Forms::Label());
+			this->textBoxZdim = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxYdim = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxXdim = (gcnew System::Windows::Forms::TextBox());
+			this->label12 = (gcnew System::Windows::Forms::Label());
+			this->label11 = (gcnew System::Windows::Forms::Label());
+			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxCO = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxLatConst = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
-			this->textBox10 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox7 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox8 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox9 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox6 = (gcnew System::Windows::Forms::TextBox());
+			this->tabPageCalculation = (gcnew System::Windows::Forms::TabPage());
+			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
+			this->textBoxTStep = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxTEnd = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxTStart = (gcnew System::Windows::Forms::TextBox());
 			this->checkBox2 = (gcnew System::Windows::Forms::CheckBox());
-			this->label12 = (gcnew System::Windows::Forms::Label());
-			this->label11 = (gcnew System::Windows::Forms::Label());
-			this->label9 = (gcnew System::Windows::Forms::Label());
-			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->label7 = (gcnew System::Windows::Forms::Label());
-			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
+			this->tabPageResult = (gcnew System::Windows::Forms::TabPage());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->textBox17 = (gcnew System::Windows::Forms::TextBox());
@@ -139,54 +170,135 @@ namespace Project_GUI_v001 {
 			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->tabControl1->SuspendLayout();
-			this->tabPage1->SuspendLayout();
-			this->tabPage2->SuspendLayout();
-			this->tabPage3->SuspendLayout();
+			this->tabPageStructure->SuspendLayout();
+			this->tabPageCalculation->SuspendLayout();
+			this->tabPageResult->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// tabControl1
 			// 
-			this->tabControl1->Controls->Add(this->tabPage1);
-			this->tabControl1->Controls->Add(this->tabPage2);
-			this->tabControl1->Controls->Add(this->tabPage3);
+			this->tabControl1->Controls->Add(this->tabPageStructure);
+			this->tabControl1->Controls->Add(this->tabPageCalculation);
+			this->tabControl1->Controls->Add(this->tabPageResult);
 			this->tabControl1->Location = System::Drawing::Point(12, 12);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
 			this->tabControl1->Size = System::Drawing::Size(636, 450);
 			this->tabControl1->TabIndex = 2;
 			// 
-			// tabPage1
+			// tabPageStructure
 			// 
-			this->tabPage1->Controls->Add(this->label4);
-			this->tabPage1->Controls->Add(this->radioButton2);
-			this->tabPage1->Controls->Add(this->radioButton1);
-			this->tabPage1->Controls->Add(this->textBox3);
-			this->tabPage1->Controls->Add(this->label3);
-			this->tabPage1->Controls->Add(this->textBox2);
-			this->tabPage1->Controls->Add(this->label2);
-			this->tabPage1->Controls->Add(this->textBox1);
-			this->tabPage1->Controls->Add(this->label1);
-			this->tabPage1->Location = System::Drawing::Point(4, 22);
-			this->tabPage1->Name = L"tabPage1";
-			this->tabPage1->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage1->Size = System::Drawing::Size(628, 424);
-			this->tabPage1->TabIndex = 0;
-			this->tabPage1->Text = L"Structure";
-			this->tabPage1->UseVisualStyleBackColor = true;
+			this->tabPageStructure->Controls->Add(this->radioButton3);
+			this->tabPageStructure->Controls->Add(this->label19);
+			this->tabPageStructure->Controls->Add(this->textBoxZdim);
+			this->tabPageStructure->Controls->Add(this->textBoxYdim);
+			this->tabPageStructure->Controls->Add(this->textBoxXdim);
+			this->tabPageStructure->Controls->Add(this->label12);
+			this->tabPageStructure->Controls->Add(this->label11);
+			this->tabPageStructure->Controls->Add(this->label10);
+			this->tabPageStructure->Controls->Add(this->label4);
+			this->tabPageStructure->Controls->Add(this->radioButton2);
+			this->tabPageStructure->Controls->Add(this->radioButton1);
+			this->tabPageStructure->Controls->Add(this->label3);
+			this->tabPageStructure->Controls->Add(this->textBoxCO);
+			this->tabPageStructure->Controls->Add(this->label2);
+			this->tabPageStructure->Controls->Add(this->textBoxLatConst);
+			this->tabPageStructure->Controls->Add(this->label1);
+			this->tabPageStructure->Location = System::Drawing::Point(4, 22);
+			this->tabPageStructure->Name = L"tabPageStructure";
+			this->tabPageStructure->Padding = System::Windows::Forms::Padding(3);
+			this->tabPageStructure->Size = System::Drawing::Size(628, 424);
+			this->tabPageStructure->TabIndex = 0;
+			this->tabPageStructure->Text = L"Structure";
+			this->tabPageStructure->UseVisualStyleBackColor = true;
+			// 
+			// radioButton3
+			// 
+			this->radioButton3->AutoSize = true;
+			this->radioButton3->Location = System::Drawing::Point(191, 262);
+			this->radioButton3->Name = L"radioButton3";
+			this->radioButton3->Size = System::Drawing::Size(67, 17);
+			this->radioButton3->TabIndex = 40;
+			this->radioButton3->TabStop = true;
+			this->radioButton3->Text = L"Diamond";
+			this->radioButton3->UseVisualStyleBackColor = true;
+			// 
+			// label19
+			// 
+			this->label19->AutoSize = true;
+			this->label19->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->label19->Location = System::Drawing::Point(13, 104);
+			this->label19->Name = L"label19";
+			this->label19->Size = System::Drawing::Size(71, 13);
+			this->label19->TabIndex = 39;
+			this->label19->Text = L"Dimensions";
+			// 
+			// textBoxZdim
+			// 
+			this->textBoxZdim->Location = System::Drawing::Point(150, 194);
+			this->textBoxZdim->Name = L"textBoxZdim";
+			this->textBoxZdim->Size = System::Drawing::Size(87, 20);
+			this->textBoxZdim->TabIndex = 38;
+			this->textBoxZdim->TextChanged += gcnew System::EventHandler(this, &Form1::textBox7_TextChanged);
+			// 
+			// textBoxYdim
+			// 
+			this->textBoxYdim->Location = System::Drawing::Point(150, 161);
+			this->textBoxYdim->Name = L"textBoxYdim";
+			this->textBoxYdim->Size = System::Drawing::Size(87, 20);
+			this->textBoxYdim->TabIndex = 37;
+			// 
+			// textBoxXdim
+			// 
+			this->textBoxXdim->Location = System::Drawing::Point(150, 128);
+			this->textBoxXdim->Name = L"textBoxXdim";
+			this->textBoxXdim->Size = System::Drawing::Size(87, 20);
+			this->textBoxXdim->TabIndex = 36;
+			// 
+			// label12
+			// 
+			this->label12->AutoSize = true;
+			this->label12->Location = System::Drawing::Point(7, 164);
+			this->label12->Name = L"label12";
+			this->label12->Size = System::Drawing::Size(129, 13);
+			this->label12->TabIndex = 35;
+			this->label12->Text = L"Nb. of atoms in y direction";
+			// 
+			// label11
+			// 
+			this->label11->AutoSize = true;
+			this->label11->Location = System::Drawing::Point(7, 197);
+			this->label11->Name = L"label11";
+			this->label11->Size = System::Drawing::Size(129, 13);
+			this->label11->TabIndex = 34;
+			this->label11->Text = L"Nb. of atoms in z direction";
+			// 
+			// label10
+			// 
+			this->label10->AutoSize = true;
+			this->label10->Location = System::Drawing::Point(7, 131);
+			this->label10->Name = L"label10";
+			this->label10->Size = System::Drawing::Size(129, 13);
+			this->label10->TabIndex = 33;
+			this->label10->Text = L"Nb. of atoms in x direction";
 			// 
 			// label4
 			// 
 			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(29, 211);
+			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->label4->Location = System::Drawing::Point(13, 232);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(84, 13);
+			this->label4->Size = System::Drawing::Size(101, 13);
 			this->label4->TabIndex = 20;
 			this->label4->Text = L"Crystal Structure";
+			this->label4->Click += gcnew System::EventHandler(this, &Form1::label4_Click);
 			// 
 			// radioButton2
 			// 
 			this->radioButton2->AutoSize = true;
-			this->radioButton2->Location = System::Drawing::Point(135, 241);
+			this->radioButton2->Location = System::Drawing::Point(100, 262);
 			this->radioButton2->Name = L"radioButton2";
 			this->radioButton2->Size = System::Drawing::Size(46, 17);
 			this->radioButton2->TabIndex = 19;
@@ -197,20 +309,13 @@ namespace Project_GUI_v001 {
 			// radioButton1
 			// 
 			this->radioButton1->AutoSize = true;
-			this->radioButton1->Location = System::Drawing::Point(32, 241);
+			this->radioButton1->Location = System::Drawing::Point(10, 262);
 			this->radioButton1->Name = L"radioButton1";
 			this->radioButton1->Size = System::Drawing::Size(45, 17);
 			this->radioButton1->TabIndex = 18;
 			this->radioButton1->TabStop = true;
 			this->radioButton1->Text = L"FCC";
 			this->radioButton1->UseVisualStyleBackColor = true;
-			// 
-			// textBox3
-			// 
-			this->textBox3->Location = System::Drawing::Point(105, 146);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(87, 20);
-			this->textBox3->TabIndex = 17;
 			// 
 			// label3
 			// 
@@ -221,164 +326,105 @@ namespace Project_GUI_v001 {
 			this->label3->TabIndex = 16;
 			this->label3->Click += gcnew System::EventHandler(this, &Form1::label3_Click);
 			// 
-			// textBox2
+			// textBoxCO
 			// 
-			this->textBox2->Location = System::Drawing::Point(105, 111);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(87, 20);
-			this->textBox2->TabIndex = 15;
+			this->textBoxCO->Location = System::Drawing::Point(150, 69);
+			this->textBoxCO->Name = L"textBoxCO";
+			this->textBoxCO->Size = System::Drawing::Size(87, 20);
+			this->textBoxCO->TabIndex = 15;
 			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(6, 115);
+			this->label2->Location = System::Drawing::Point(7, 72);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(80, 13);
 			this->label2->TabIndex = 14;
 			this->label2->Text = L"Cutoff Distance";
 			this->label2->Click += gcnew System::EventHandler(this, &Form1::label2_Click);
 			// 
-			// textBox1
+			// textBoxLatConst
 			// 
-			this->textBox1->Location = System::Drawing::Point(105, 79);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(87, 20);
-			this->textBox1->TabIndex = 13;
-			this->textBox1->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
+			this->textBoxLatConst->Location = System::Drawing::Point(150, 36);
+			this->textBoxLatConst->Name = L"textBoxLatConst";
+			this->textBoxLatConst->Size = System::Drawing::Size(87, 20);
+			this->textBoxLatConst->TabIndex = 13;
+			this->textBoxLatConst->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged);
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(6, 83);
+			this->label1->Location = System::Drawing::Point(7, 39);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(84, 13);
 			this->label1->TabIndex = 12;
 			this->label1->Text = L"Lattice Constant";
 			// 
-			// tabPage2
+			// tabPageCalculation
 			// 
-			this->tabPage2->Controls->Add(this->textBox10);
-			this->tabPage2->Controls->Add(this->textBox7);
-			this->tabPage2->Controls->Add(this->textBox8);
-			this->tabPage2->Controls->Add(this->textBox9);
-			this->tabPage2->Controls->Add(this->textBox4);
-			this->tabPage2->Controls->Add(this->textBox5);
-			this->tabPage2->Controls->Add(this->textBox6);
-			this->tabPage2->Controls->Add(this->checkBox2);
-			this->tabPage2->Controls->Add(this->label12);
-			this->tabPage2->Controls->Add(this->label11);
-			this->tabPage2->Controls->Add(this->label9);
-			this->tabPage2->Controls->Add(this->label10);
-			this->tabPage2->Controls->Add(this->label5);
-			this->tabPage2->Controls->Add(this->label6);
-			this->tabPage2->Controls->Add(this->label7);
-			this->tabPage2->Location = System::Drawing::Point(4, 22);
-			this->tabPage2->Name = L"tabPage2";
-			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage2->Size = System::Drawing::Size(628, 424);
-			this->tabPage2->TabIndex = 1;
-			this->tabPage2->Text = L"Calculations";
-			this->tabPage2->UseVisualStyleBackColor = true;
+			this->tabPageCalculation->Controls->Add(this->checkBox1);
+			this->tabPageCalculation->Controls->Add(this->textBoxTStep);
+			this->tabPageCalculation->Controls->Add(this->textBoxTEnd);
+			this->tabPageCalculation->Controls->Add(this->textBoxTStart);
+			this->tabPageCalculation->Controls->Add(this->checkBox2);
+			this->tabPageCalculation->Controls->Add(this->label5);
+			this->tabPageCalculation->Controls->Add(this->label6);
+			this->tabPageCalculation->Controls->Add(this->label7);
+			this->tabPageCalculation->Location = System::Drawing::Point(4, 22);
+			this->tabPageCalculation->Name = L"tabPageCalculation";
+			this->tabPageCalculation->Padding = System::Windows::Forms::Padding(3);
+			this->tabPageCalculation->Size = System::Drawing::Size(628, 424);
+			this->tabPageCalculation->TabIndex = 1;
+			this->tabPageCalculation->Text = L"Calculations";
+			this->tabPageCalculation->UseVisualStyleBackColor = true;
 			// 
-			// textBox10
+			// checkBox1
 			// 
-			this->textBox10->Location = System::Drawing::Point(102, 214);
-			this->textBox10->Name = L"textBox10";
-			this->textBox10->Size = System::Drawing::Size(87, 20);
-			this->textBox10->TabIndex = 33;
+			this->checkBox1->AutoSize = true;
+			this->checkBox1->Location = System::Drawing::Point(365, 79);
+			this->checkBox1->Name = L"checkBox1";
+			this->checkBox1->Size = System::Drawing::Size(121, 17);
+			this->checkBox1->TabIndex = 34;
+			this->checkBox1->Text = L"Include visualisation";
+			this->checkBox1->UseVisualStyleBackColor = true;
+			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &Form1::checkBox1_CheckedChanged);
 			// 
-			// textBox7
+			// textBoxTStep
 			// 
-			this->textBox7->Location = System::Drawing::Point(152, 177);
-			this->textBox7->Name = L"textBox7";
-			this->textBox7->Size = System::Drawing::Size(87, 20);
-			this->textBox7->TabIndex = 32;
+			this->textBoxTStep->Location = System::Drawing::Point(198, 80);
+			this->textBoxTStep->Name = L"textBoxTStep";
+			this->textBoxTStep->Size = System::Drawing::Size(87, 20);
+			this->textBoxTStep->TabIndex = 29;
 			// 
-			// textBox8
+			// textBoxTEnd
 			// 
-			this->textBox8->Location = System::Drawing::Point(152, 142);
-			this->textBox8->Name = L"textBox8";
-			this->textBox8->Size = System::Drawing::Size(87, 20);
-			this->textBox8->TabIndex = 31;
+			this->textBoxTEnd->Location = System::Drawing::Point(198, 43);
+			this->textBoxTEnd->Name = L"textBoxTEnd";
+			this->textBoxTEnd->Size = System::Drawing::Size(87, 20);
+			this->textBoxTEnd->TabIndex = 28;
 			// 
-			// textBox9
+			// textBoxTStart
 			// 
-			this->textBox9->Location = System::Drawing::Point(152, 110);
-			this->textBox9->Name = L"textBox9";
-			this->textBox9->Size = System::Drawing::Size(87, 20);
-			this->textBox9->TabIndex = 30;
-			// 
-			// textBox4
-			// 
-			this->textBox4->Location = System::Drawing::Point(114, 84);
-			this->textBox4->Name = L"textBox4";
-			this->textBox4->Size = System::Drawing::Size(87, 20);
-			this->textBox4->TabIndex = 29;
-			// 
-			// textBox5
-			// 
-			this->textBox5->Location = System::Drawing::Point(114, 50);
-			this->textBox5->Name = L"textBox5";
-			this->textBox5->Size = System::Drawing::Size(87, 20);
-			this->textBox5->TabIndex = 28;
-			// 
-			// textBox6
-			// 
-			this->textBox6->Location = System::Drawing::Point(114, 17);
-			this->textBox6->Name = L"textBox6";
-			this->textBox6->Size = System::Drawing::Size(87, 20);
-			this->textBox6->TabIndex = 27;
+			this->textBoxTStart->Location = System::Drawing::Point(198, 17);
+			this->textBoxTStart->Name = L"textBoxTStart";
+			this->textBoxTStart->Size = System::Drawing::Size(87, 20);
+			this->textBoxTStart->TabIndex = 27;
 			// 
 			// checkBox2
 			// 
 			this->checkBox2->AutoSize = true;
-			this->checkBox2->Location = System::Drawing::Point(284, 52);
+			this->checkBox2->Location = System::Drawing::Point(365, 16);
 			this->checkBox2->Name = L"checkBox2";
 			this->checkBox2->Size = System::Drawing::Size(79, 17);
 			this->checkBox2->TabIndex = 26;
 			this->checkBox2->Text = L"Thermostat";
 			this->checkBox2->UseVisualStyleBackColor = true;
-			// 
-			// label12
-			// 
-			this->label12->AutoSize = true;
-			this->label12->Location = System::Drawing::Point(3, 151);
-			this->label12->Name = L"label12";
-			this->label12->Size = System::Drawing::Size(129, 13);
-			this->label12->TabIndex = 24;
-			this->label12->Text = L"Nb. of atoms in y direction";
-			// 
-			// label11
-			// 
-			this->label11->AutoSize = true;
-			this->label11->Location = System::Drawing::Point(6, 181);
-			this->label11->Name = L"label11";
-			this->label11->Size = System::Drawing::Size(129, 13);
-			this->label11->TabIndex = 23;
-			this->label11->Text = L"Nb. of atoms in z direction";
-			// 
-			// label9
-			// 
-			this->label9->AutoSize = true;
-			this->label9->Location = System::Drawing::Point(6, 214);
-			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(78, 13);
-			this->label9->TabIndex = 21;
-			this->label9->Text = L"Cutoff distance";
-			// 
-			// label10
-			// 
-			this->label10->AutoSize = true;
-			this->label10->Location = System::Drawing::Point(6, 119);
-			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(129, 13);
-			this->label10->TabIndex = 20;
-			this->label10->Text = L"Nb. of atoms in x direction";
+			this->checkBox2->CheckedChanged += gcnew System::EventHandler(this, &Form1::checkBox2_CheckedChanged);
 			// 
 			// label5
 			// 
 			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(6, 87);
+			this->label5->Location = System::Drawing::Point(6, 83);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(71, 13);
 			this->label5->TabIndex = 19;
@@ -389,44 +435,44 @@ namespace Project_GUI_v001 {
 			this->label6->AutoSize = true;
 			this->label6->Location = System::Drawing::Point(6, 52);
 			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(41, 13);
+			this->label6->Size = System::Drawing::Size(99, 13);
 			this->label6->TabIndex = 18;
-			this->label6->Text = L"Epsilon";
+			this->label6->Text = L"Run for # timesteps";
 			// 
 			// label7
 			// 
 			this->label7->AutoSize = true;
 			this->label7->Location = System::Drawing::Point(6, 20);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(36, 13);
+			this->label7->Size = System::Drawing::Size(169, 13);
 			this->label7->TabIndex = 17;
-			this->label7->Text = L"Sigma";
+			this->label7->Text = L"Start calculations after # timesteps";
 			// 
-			// tabPage3
+			// tabPageResult
 			// 
-			this->tabPage3->Controls->Add(this->button1);
-			this->tabPage3->Controls->Add(this->richTextBox1);
-			this->tabPage3->Controls->Add(this->textBox17);
-			this->tabPage3->Controls->Add(this->textBox14);
-			this->tabPage3->Controls->Add(this->textBox15);
-			this->tabPage3->Controls->Add(this->textBox16);
-			this->tabPage3->Controls->Add(this->textBox11);
-			this->tabPage3->Controls->Add(this->textBox12);
-			this->tabPage3->Controls->Add(this->textBox13);
-			this->tabPage3->Controls->Add(this->label18);
-			this->tabPage3->Controls->Add(this->label13);
-			this->tabPage3->Controls->Add(this->label14);
-			this->tabPage3->Controls->Add(this->label15);
-			this->tabPage3->Controls->Add(this->label16);
-			this->tabPage3->Controls->Add(this->label17);
-			this->tabPage3->Controls->Add(this->label8);
-			this->tabPage3->Location = System::Drawing::Point(4, 22);
-			this->tabPage3->Name = L"tabPage3";
-			this->tabPage3->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage3->Size = System::Drawing::Size(628, 424);
-			this->tabPage3->TabIndex = 2;
-			this->tabPage3->Text = L"Results";
-			this->tabPage3->UseVisualStyleBackColor = true;
+			this->tabPageResult->Controls->Add(this->button1);
+			this->tabPageResult->Controls->Add(this->richTextBox1);
+			this->tabPageResult->Controls->Add(this->textBox17);
+			this->tabPageResult->Controls->Add(this->textBox14);
+			this->tabPageResult->Controls->Add(this->textBox15);
+			this->tabPageResult->Controls->Add(this->textBox16);
+			this->tabPageResult->Controls->Add(this->textBox11);
+			this->tabPageResult->Controls->Add(this->textBox12);
+			this->tabPageResult->Controls->Add(this->textBox13);
+			this->tabPageResult->Controls->Add(this->label18);
+			this->tabPageResult->Controls->Add(this->label13);
+			this->tabPageResult->Controls->Add(this->label14);
+			this->tabPageResult->Controls->Add(this->label15);
+			this->tabPageResult->Controls->Add(this->label16);
+			this->tabPageResult->Controls->Add(this->label17);
+			this->tabPageResult->Controls->Add(this->label8);
+			this->tabPageResult->Location = System::Drawing::Point(4, 22);
+			this->tabPageResult->Name = L"tabPageResult";
+			this->tabPageResult->Padding = System::Windows::Forms::Padding(3);
+			this->tabPageResult->Size = System::Drawing::Size(628, 424);
+			this->tabPageResult->TabIndex = 2;
+			this->tabPageResult->Text = L"Results";
+			this->tabPageResult->UseVisualStyleBackColor = true;
 			// 
 			// button1
 			// 
@@ -567,23 +613,36 @@ namespace Project_GUI_v001 {
 			this->Name = L"Form1";
 			this->Text = L"Form1";
 			this->tabControl1->ResumeLayout(false);
-			this->tabPage1->ResumeLayout(false);
-			this->tabPage1->PerformLayout();
-			this->tabPage2->ResumeLayout(false);
-			this->tabPage2->PerformLayout();
-			this->tabPage3->ResumeLayout(false);
-			this->tabPage3->PerformLayout();
+			this->tabPageStructure->ResumeLayout(false);
+			this->tabPageStructure->PerformLayout();
+			this->tabPageCalculation->ResumeLayout(false);
+			this->tabPageCalculation->PerformLayout();
+			this->tabPageResult->ResumeLayout(false);
+			this->tabPageResult->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
+
+private: Input_data Form1::get_data();
+private: System::Void get_dimensions(int &a, int &b, int &c);
+private: float get_lattice_constant();
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
+
 
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void label2_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void label3_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void textBox7_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void label4_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void checkBox2_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 }
