@@ -44,10 +44,12 @@ private:
 	void calc_temperature(float E_kin, int N);
 	void calc_pressure(float p_sum, int N, float V);
 	void calc_specific_heat(float E_kin, float E_kin_sqr, int N);
+
 public:
 	world();
 	world(unsigned int n);
 	world(unsigned int x, unsigned int y, unsigned int z, float a, crystalStructure type);
+	float SI_natural(float arg, char quantity, char in_prefix, char out_prefix);
 
 	void set_cutoff(float r);
 	void set_timestep(float h);

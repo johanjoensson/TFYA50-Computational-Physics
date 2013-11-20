@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>L:\TFYA50-Computational-Physics\Code\Project_v0.01\Project_v0.01;$(IncludePath)</IncludePath>
+    <IncludePath>L:\TFYA50\Code\Project_v0.01\Project_v0.01;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

@@ -3,7 +3,7 @@
 #include "verlet_list.h"
 #include "output.h"
 #include <iostream>
-#include "Graphical User Interface.h"
+
 //#include <cstdlib>
 //#include <pthread.h>
 
