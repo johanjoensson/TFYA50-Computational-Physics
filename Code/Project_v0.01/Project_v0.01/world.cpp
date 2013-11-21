@@ -1,8 +1,10 @@
 #include "world.h"
+#include <random>
 
 #ifndef NULL
 #define NULL 0
 #endif
+
 
 world::world()
 {
@@ -353,9 +355,27 @@ void world::integrate(unsigned int t_end)
 			}
 		}
 		/* Second part of Verlet integration */
+		float sum_vsquare = 0;
+		float sigma;
 		for(int i = 0; i < this->N; i++){
 			this->verlet_integrator.verlet_integration_velocity(this->bulk[i]);
 			this->kinetic_energy(this->atoms[i]);
+			sum_vsquare += this->atoms[i].vel*this->atoms[i].vel;
+		}
+
+		/* Andersen thermostat */
+		if(thermostat){
+			float temp_average = sum_vsquare / 3*N;
+			float sigma = sqrt(temp_average);
+			std::default_random_engine generator;
+			std::normal_distribution<float> gauss(temp_average,sigma);
+
+			for(int i = 0; i < this->N; i++){
+				float collisionTest = rand();
+				if(collisionTest  < collision_rate*time_step){
+					this->atoms[i].vel = vector_3d(gauss(generator),gauss(generator),gauss(generator));
+				}
+			}
 		}
 
 		calc_temperature(this->get_kinetic_energy(), this->N);
