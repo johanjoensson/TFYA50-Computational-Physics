@@ -11,13 +11,18 @@ struct Material{
 	float mass;
 	float sigma;
 	float epsilon;
-}Material_t;
+};
 
 class inputter{
 private:
 	std::ifstream file;
 
 public:
+	inputter(char* file_name);
+
+	unsigned int num_mat;
+
+	Material* get_material(char* text_file);
 	
 };
 

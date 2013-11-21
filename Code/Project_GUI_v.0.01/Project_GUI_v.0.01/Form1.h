@@ -1,5 +1,6 @@
 #pragma once
 #include "world.h"
+#include "input.h"
 
 struct Input_data{
 	int x;
@@ -27,9 +28,12 @@ namespace Project_GUI_v001 {
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
 	public:
+		Material* materials;
 		Form1(void)
 		{
 			InitializeComponent();
+			inputter input("materials.txt");
+			materials = input.get_material("materials.txt");
 			//
 			//TODO: Add the constructor code here
 			//
@@ -51,8 +55,10 @@ namespace Project_GUI_v001 {
 	protected: 
 
 	private: System::Windows::Forms::Label^  label4;
-	private: System::Windows::Forms::RadioButton^  radioButton2;
-	private: System::Windows::Forms::RadioButton^  radioButton1;
+	private: System::Windows::Forms::RadioButton^  radioButtonBCC;
+
+	private: System::Windows::Forms::RadioButton^  radioButtonFCC;
+
 
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::TextBox^  textBoxCO;
@@ -84,22 +90,32 @@ namespace Project_GUI_v001 {
 	private: System::Windows::Forms::TabPage^  tabPageResult;
 
 	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::RichTextBox^  richTextBox1;
-	private: System::Windows::Forms::TextBox^  textBox17;
-	private: System::Windows::Forms::TextBox^  textBox14;
-	private: System::Windows::Forms::TextBox^  textBox15;
-	private: System::Windows::Forms::TextBox^  textBox16;
-	private: System::Windows::Forms::TextBox^  textBox11;
-	private: System::Windows::Forms::TextBox^  textBox12;
-	private: System::Windows::Forms::TextBox^  textBox13;
-	private: System::Windows::Forms::Label^  label18;
+	private: System::Windows::Forms::RichTextBox^  richTextBoxResults;
+	private: System::Windows::Forms::TextBox^  textBoxDebTemp;
+
+
+	private: System::Windows::Forms::TextBox^  textBoxTemp;
+
+	private: System::Windows::Forms::TextBox^  textBoxMSD;
+
+	private: System::Windows::Forms::TextBox^  textBoxECoh;
+
+	private: System::Windows::Forms::TextBox^  textBoxETot;
+
+	private: System::Windows::Forms::TextBox^  textBoxEPot;
+
+	private: System::Windows::Forms::TextBox^  textBoxEKin;
+	private: System::Windows::Forms::Label^  labelDebTemp;
+
+
 	private: System::Windows::Forms::Label^  label13;
 	private: System::Windows::Forms::Label^  label14;
 	private: System::Windows::Forms::Label^  label15;
 	private: System::Windows::Forms::Label^  label16;
 	private: System::Windows::Forms::Label^  label17;
 	private: System::Windows::Forms::Label^  label8;
-	private: System::Windows::Forms::CheckBox^  checkBox1;
+	private: System::Windows::Forms::CheckBox^  checkBoxVisualise;
+
 	private: System::Windows::Forms::TextBox^  textBoxZdim;
 
 	private: System::Windows::Forms::TextBox^  textBoxYdim;
@@ -109,8 +125,28 @@ namespace Project_GUI_v001 {
 	private: System::Windows::Forms::Label^  label12;
 	private: System::Windows::Forms::Label^  label11;
 	private: System::Windows::Forms::Label^  label10;
-	private: System::Windows::Forms::RadioButton^  radioButton3;
+	private: System::Windows::Forms::RadioButton^  radioButtonDiamond;
+
 	private: System::Windows::Forms::Label^  label19;
+	private: System::Windows::Forms::TabPage^  tabPage1;
+	private: System::Windows::Forms::ListBox^  listBoxMaterial;
+	private: System::Windows::Forms::TextBox^  textBoxEpsilon;
+
+
+	private: System::Windows::Forms::Label^  labelEpsilon;
+
+	private: System::Windows::Forms::TextBox^  textBoxSigma;
+
+	private: System::Windows::Forms::Label^  labelSigma;
+
+	private: System::Windows::Forms::TextBox^  textBoxCollisionRate;
+
+	private: System::Windows::Forms::Label^  labelCollisionRate;
+private: System::Windows::Forms::TextBox^  textBoxHeatCap;
+
+private: System::Windows::Forms::Label^  labelHeatCap;
+
+
 
 	private:
 		/// <summary>
@@ -126,8 +162,14 @@ namespace Project_GUI_v001 {
 		void InitializeComponent(void)
 		{
 			this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
+			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
+			this->listBoxMaterial = (gcnew System::Windows::Forms::ListBox());
 			this->tabPageStructure = (gcnew System::Windows::Forms::TabPage());
-			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
+			this->textBoxEpsilon = (gcnew System::Windows::Forms::TextBox());
+			this->labelEpsilon = (gcnew System::Windows::Forms::Label());
+			this->textBoxSigma = (gcnew System::Windows::Forms::TextBox());
+			this->labelSigma = (gcnew System::Windows::Forms::Label());
+			this->radioButtonDiamond = (gcnew System::Windows::Forms::RadioButton());
 			this->label19 = (gcnew System::Windows::Forms::Label());
 			this->textBoxZdim = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxYdim = (gcnew System::Windows::Forms::TextBox());
@@ -136,15 +178,17 @@ namespace Project_GUI_v001 {
 			this->label11 = (gcnew System::Windows::Forms::Label());
 			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
-			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButtonBCC = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButtonFCC = (gcnew System::Windows::Forms::RadioButton());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->textBoxCO = (gcnew System::Windows::Forms::TextBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->textBoxLatConst = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->tabPageCalculation = (gcnew System::Windows::Forms::TabPage());
-			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
+			this->textBoxCollisionRate = (gcnew System::Windows::Forms::TextBox());
+			this->labelCollisionRate = (gcnew System::Windows::Forms::Label());
+			this->checkBoxVisualise = (gcnew System::Windows::Forms::CheckBox());
 			this->textBoxTStep = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxTEnd = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxTStart = (gcnew System::Windows::Forms::TextBox());
@@ -154,22 +198,25 @@ namespace Project_GUI_v001 {
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->tabPageResult = (gcnew System::Windows::Forms::TabPage());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
-			this->textBox17 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox14 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox15 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox16 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox11 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox12 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox13 = (gcnew System::Windows::Forms::TextBox());
-			this->label18 = (gcnew System::Windows::Forms::Label());
+			this->richTextBoxResults = (gcnew System::Windows::Forms::RichTextBox());
+			this->textBoxDebTemp = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxTemp = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxMSD = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxECoh = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxETot = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxEPot = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxEKin = (gcnew System::Windows::Forms::TextBox());
+			this->labelDebTemp = (gcnew System::Windows::Forms::Label());
 			this->label13 = (gcnew System::Windows::Forms::Label());
 			this->label14 = (gcnew System::Windows::Forms::Label());
 			this->label15 = (gcnew System::Windows::Forms::Label());
 			this->label16 = (gcnew System::Windows::Forms::Label());
 			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->textBoxHeatCap = (gcnew System::Windows::Forms::TextBox());
+			this->labelHeatCap = (gcnew System::Windows::Forms::Label());
 			this->tabControl1->SuspendLayout();
+			this->tabPage1->SuspendLayout();
 			this->tabPageStructure->SuspendLayout();
 			this->tabPageCalculation->SuspendLayout();
 			this->tabPageResult->SuspendLayout();
@@ -177,6 +224,7 @@ namespace Project_GUI_v001 {
 			// 
 			// tabControl1
 			// 
+			this->tabControl1->Controls->Add(this->tabPage1);
 			this->tabControl1->Controls->Add(this->tabPageStructure);
 			this->tabControl1->Controls->Add(this->tabPageCalculation);
 			this->tabControl1->Controls->Add(this->tabPageResult);
@@ -186,9 +234,34 @@ namespace Project_GUI_v001 {
 			this->tabControl1->Size = System::Drawing::Size(636, 450);
 			this->tabControl1->TabIndex = 2;
 			// 
+			// tabPage1
+			// 
+			this->tabPage1->Controls->Add(this->listBoxMaterial);
+			this->tabPage1->Location = System::Drawing::Point(4, 22);
+			this->tabPage1->Name = L"tabPage1";
+			this->tabPage1->Padding = System::Windows::Forms::Padding(3);
+			this->tabPage1->Size = System::Drawing::Size(628, 424);
+			this->tabPage1->TabIndex = 3;
+			this->tabPage1->Text = L"Material";
+			this->tabPage1->UseVisualStyleBackColor = true;
+			// 
+			// listBoxMaterial
+			// 
+			this->listBoxMaterial->FormattingEnabled = true;
+			this->listBoxMaterial->Items->AddRange(gcnew cli::array< System::Object^  >(4) {L"Argon", L"Nickel", L"Silver", L"Rhodium"});
+			this->listBoxMaterial->Location = System::Drawing::Point(0, 8);
+			this->listBoxMaterial->Name = L"listBoxMaterial";
+			this->listBoxMaterial->Size = System::Drawing::Size(628, 407);
+			this->listBoxMaterial->TabIndex = 1;
+			this->listBoxMaterial->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::listBox1_SelectedIndexChanged);
+			// 
 			// tabPageStructure
 			// 
-			this->tabPageStructure->Controls->Add(this->radioButton3);
+			this->tabPageStructure->Controls->Add(this->textBoxEpsilon);
+			this->tabPageStructure->Controls->Add(this->labelEpsilon);
+			this->tabPageStructure->Controls->Add(this->textBoxSigma);
+			this->tabPageStructure->Controls->Add(this->labelSigma);
+			this->tabPageStructure->Controls->Add(this->radioButtonDiamond);
 			this->tabPageStructure->Controls->Add(this->label19);
 			this->tabPageStructure->Controls->Add(this->textBoxZdim);
 			this->tabPageStructure->Controls->Add(this->textBoxYdim);
@@ -197,8 +270,8 @@ namespace Project_GUI_v001 {
 			this->tabPageStructure->Controls->Add(this->label11);
 			this->tabPageStructure->Controls->Add(this->label10);
 			this->tabPageStructure->Controls->Add(this->label4);
-			this->tabPageStructure->Controls->Add(this->radioButton2);
-			this->tabPageStructure->Controls->Add(this->radioButton1);
+			this->tabPageStructure->Controls->Add(this->radioButtonBCC);
+			this->tabPageStructure->Controls->Add(this->radioButtonFCC);
 			this->tabPageStructure->Controls->Add(this->label3);
 			this->tabPageStructure->Controls->Add(this->textBoxCO);
 			this->tabPageStructure->Controls->Add(this->label2);
@@ -212,23 +285,57 @@ namespace Project_GUI_v001 {
 			this->tabPageStructure->Text = L"Structure";
 			this->tabPageStructure->UseVisualStyleBackColor = true;
 			// 
-			// radioButton3
+			// textBoxEpsilon
 			// 
-			this->radioButton3->AutoSize = true;
-			this->radioButton3->Location = System::Drawing::Point(191, 262);
-			this->radioButton3->Name = L"radioButton3";
-			this->radioButton3->Size = System::Drawing::Size(67, 17);
-			this->radioButton3->TabIndex = 40;
-			this->radioButton3->TabStop = true;
-			this->radioButton3->Text = L"Diamond";
-			this->radioButton3->UseVisualStyleBackColor = true;
+			this->textBoxEpsilon->Location = System::Drawing::Point(150, 120);
+			this->textBoxEpsilon->Name = L"textBoxEpsilon";
+			this->textBoxEpsilon->Size = System::Drawing::Size(87, 20);
+			this->textBoxEpsilon->TabIndex = 44;
+			this->textBoxEpsilon->TextChanged += gcnew System::EventHandler(this, &Form1::textBox2_TextChanged);
+			// 
+			// labelEpsilon
+			// 
+			this->labelEpsilon->AutoSize = true;
+			this->labelEpsilon->Location = System::Drawing::Point(7, 124);
+			this->labelEpsilon->Name = L"labelEpsilon";
+			this->labelEpsilon->Size = System::Drawing::Size(41, 13);
+			this->labelEpsilon->TabIndex = 43;
+			this->labelEpsilon->Text = L"Epsilon";
+			this->labelEpsilon->Click += gcnew System::EventHandler(this, &Form1::label20_Click);
+			// 
+			// textBoxSigma
+			// 
+			this->textBoxSigma->Location = System::Drawing::Point(150, 92);
+			this->textBoxSigma->Name = L"textBoxSigma";
+			this->textBoxSigma->Size = System::Drawing::Size(87, 20);
+			this->textBoxSigma->TabIndex = 42;
+			// 
+			// labelSigma
+			// 
+			this->labelSigma->AutoSize = true;
+			this->labelSigma->Location = System::Drawing::Point(7, 98);
+			this->labelSigma->Name = L"labelSigma";
+			this->labelSigma->Size = System::Drawing::Size(36, 13);
+			this->labelSigma->TabIndex = 41;
+			this->labelSigma->Text = L"Sigma";
+			// 
+			// radioButtonDiamond
+			// 
+			this->radioButtonDiamond->AutoSize = true;
+			this->radioButtonDiamond->Location = System::Drawing::Point(191, 331);
+			this->radioButtonDiamond->Name = L"radioButtonDiamond";
+			this->radioButtonDiamond->Size = System::Drawing::Size(67, 17);
+			this->radioButtonDiamond->TabIndex = 40;
+			this->radioButtonDiamond->TabStop = true;
+			this->radioButtonDiamond->Text = L"Diamond";
+			this->radioButtonDiamond->UseVisualStyleBackColor = true;
 			// 
 			// label19
 			// 
 			this->label19->AutoSize = true;
 			this->label19->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->label19->Location = System::Drawing::Point(13, 104);
+			this->label19->Location = System::Drawing::Point(13, 173);
 			this->label19->Name = L"label19";
 			this->label19->Size = System::Drawing::Size(71, 13);
 			this->label19->TabIndex = 39;
@@ -236,7 +343,7 @@ namespace Project_GUI_v001 {
 			// 
 			// textBoxZdim
 			// 
-			this->textBoxZdim->Location = System::Drawing::Point(150, 194);
+			this->textBoxZdim->Location = System::Drawing::Point(150, 263);
 			this->textBoxZdim->Name = L"textBoxZdim";
 			this->textBoxZdim->Size = System::Drawing::Size(87, 20);
 			this->textBoxZdim->TabIndex = 38;
@@ -244,14 +351,14 @@ namespace Project_GUI_v001 {
 			// 
 			// textBoxYdim
 			// 
-			this->textBoxYdim->Location = System::Drawing::Point(150, 161);
+			this->textBoxYdim->Location = System::Drawing::Point(150, 230);
 			this->textBoxYdim->Name = L"textBoxYdim";
 			this->textBoxYdim->Size = System::Drawing::Size(87, 20);
 			this->textBoxYdim->TabIndex = 37;
 			// 
 			// textBoxXdim
 			// 
-			this->textBoxXdim->Location = System::Drawing::Point(150, 128);
+			this->textBoxXdim->Location = System::Drawing::Point(150, 197);
 			this->textBoxXdim->Name = L"textBoxXdim";
 			this->textBoxXdim->Size = System::Drawing::Size(87, 20);
 			this->textBoxXdim->TabIndex = 36;
@@ -259,7 +366,7 @@ namespace Project_GUI_v001 {
 			// label12
 			// 
 			this->label12->AutoSize = true;
-			this->label12->Location = System::Drawing::Point(7, 164);
+			this->label12->Location = System::Drawing::Point(7, 233);
 			this->label12->Name = L"label12";
 			this->label12->Size = System::Drawing::Size(129, 13);
 			this->label12->TabIndex = 35;
@@ -268,7 +375,7 @@ namespace Project_GUI_v001 {
 			// label11
 			// 
 			this->label11->AutoSize = true;
-			this->label11->Location = System::Drawing::Point(7, 197);
+			this->label11->Location = System::Drawing::Point(7, 266);
 			this->label11->Name = L"label11";
 			this->label11->Size = System::Drawing::Size(129, 13);
 			this->label11->TabIndex = 34;
@@ -277,7 +384,7 @@ namespace Project_GUI_v001 {
 			// label10
 			// 
 			this->label10->AutoSize = true;
-			this->label10->Location = System::Drawing::Point(7, 131);
+			this->label10->Location = System::Drawing::Point(7, 200);
 			this->label10->Name = L"label10";
 			this->label10->Size = System::Drawing::Size(129, 13);
 			this->label10->TabIndex = 33;
@@ -288,39 +395,39 @@ namespace Project_GUI_v001 {
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->label4->Location = System::Drawing::Point(13, 232);
+			this->label4->Location = System::Drawing::Point(13, 301);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(101, 13);
 			this->label4->TabIndex = 20;
 			this->label4->Text = L"Crystal Structure";
 			this->label4->Click += gcnew System::EventHandler(this, &Form1::label4_Click);
 			// 
-			// radioButton2
+			// radioButtonBCC
 			// 
-			this->radioButton2->AutoSize = true;
-			this->radioButton2->Location = System::Drawing::Point(100, 262);
-			this->radioButton2->Name = L"radioButton2";
-			this->radioButton2->Size = System::Drawing::Size(46, 17);
-			this->radioButton2->TabIndex = 19;
-			this->radioButton2->TabStop = true;
-			this->radioButton2->Text = L"BCC";
-			this->radioButton2->UseVisualStyleBackColor = true;
+			this->radioButtonBCC->AutoSize = true;
+			this->radioButtonBCC->Location = System::Drawing::Point(100, 331);
+			this->radioButtonBCC->Name = L"radioButtonBCC";
+			this->radioButtonBCC->Size = System::Drawing::Size(46, 17);
+			this->radioButtonBCC->TabIndex = 19;
+			this->radioButtonBCC->TabStop = true;
+			this->radioButtonBCC->Text = L"BCC";
+			this->radioButtonBCC->UseVisualStyleBackColor = true;
 			// 
-			// radioButton1
+			// radioButtonFCC
 			// 
-			this->radioButton1->AutoSize = true;
-			this->radioButton1->Location = System::Drawing::Point(10, 262);
-			this->radioButton1->Name = L"radioButton1";
-			this->radioButton1->Size = System::Drawing::Size(45, 17);
-			this->radioButton1->TabIndex = 18;
-			this->radioButton1->TabStop = true;
-			this->radioButton1->Text = L"FCC";
-			this->radioButton1->UseVisualStyleBackColor = true;
+			this->radioButtonFCC->AutoSize = true;
+			this->radioButtonFCC->Location = System::Drawing::Point(10, 331);
+			this->radioButtonFCC->Name = L"radioButtonFCC";
+			this->radioButtonFCC->Size = System::Drawing::Size(45, 17);
+			this->radioButtonFCC->TabIndex = 18;
+			this->radioButtonFCC->TabStop = true;
+			this->radioButtonFCC->Text = L"FCC";
+			this->radioButtonFCC->UseVisualStyleBackColor = true;
 			// 
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(6, 150);
+			this->label3->Location = System::Drawing::Point(6, 219);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(0, 13);
 			this->label3->TabIndex = 16;
@@ -328,7 +435,7 @@ namespace Project_GUI_v001 {
 			// 
 			// textBoxCO
 			// 
-			this->textBoxCO->Location = System::Drawing::Point(150, 69);
+			this->textBoxCO->Location = System::Drawing::Point(150, 64);
 			this->textBoxCO->Name = L"textBoxCO";
 			this->textBoxCO->Size = System::Drawing::Size(87, 20);
 			this->textBoxCO->TabIndex = 15;
@@ -336,7 +443,7 @@ namespace Project_GUI_v001 {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(7, 72);
+			this->label2->Location = System::Drawing::Point(7, 69);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(80, 13);
 			this->label2->TabIndex = 14;
@@ -354,7 +461,7 @@ namespace Project_GUI_v001 {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(7, 39);
+			this->label1->Location = System::Drawing::Point(7, 40);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(84, 13);
 			this->label1->TabIndex = 12;
@@ -362,7 +469,9 @@ namespace Project_GUI_v001 {
 			// 
 			// tabPageCalculation
 			// 
-			this->tabPageCalculation->Controls->Add(this->checkBox1);
+			this->tabPageCalculation->Controls->Add(this->textBoxCollisionRate);
+			this->tabPageCalculation->Controls->Add(this->labelCollisionRate);
+			this->tabPageCalculation->Controls->Add(this->checkBoxVisualise);
 			this->tabPageCalculation->Controls->Add(this->textBoxTStep);
 			this->tabPageCalculation->Controls->Add(this->textBoxTEnd);
 			this->tabPageCalculation->Controls->Add(this->textBoxTStart);
@@ -378,16 +487,34 @@ namespace Project_GUI_v001 {
 			this->tabPageCalculation->Text = L"Calculations";
 			this->tabPageCalculation->UseVisualStyleBackColor = true;
 			// 
-			// checkBox1
+			// textBoxCollisionRate
 			// 
-			this->checkBox1->AutoSize = true;
-			this->checkBox1->Location = System::Drawing::Point(365, 79);
-			this->checkBox1->Name = L"checkBox1";
-			this->checkBox1->Size = System::Drawing::Size(121, 17);
-			this->checkBox1->TabIndex = 34;
-			this->checkBox1->Text = L"Include visualisation";
-			this->checkBox1->UseVisualStyleBackColor = true;
-			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &Form1::checkBox1_CheckedChanged);
+			this->textBoxCollisionRate->Location = System::Drawing::Point(448, 40);
+			this->textBoxCollisionRate->Name = L"textBoxCollisionRate";
+			this->textBoxCollisionRate->Size = System::Drawing::Size(87, 20);
+			this->textBoxCollisionRate->TabIndex = 36;
+			this->textBoxCollisionRate->Visible = false;
+			// 
+			// labelCollisionRate
+			// 
+			this->labelCollisionRate->AutoSize = true;
+			this->labelCollisionRate->Location = System::Drawing::Point(362, 43);
+			this->labelCollisionRate->Name = L"labelCollisionRate";
+			this->labelCollisionRate->Size = System::Drawing::Size(66, 13);
+			this->labelCollisionRate->TabIndex = 35;
+			this->labelCollisionRate->Text = L"Collision rate";
+			this->labelCollisionRate->Visible = false;
+			// 
+			// checkBoxVisualise
+			// 
+			this->checkBoxVisualise->AutoSize = true;
+			this->checkBoxVisualise->Location = System::Drawing::Point(9, 123);
+			this->checkBoxVisualise->Name = L"checkBoxVisualise";
+			this->checkBoxVisualise->Size = System::Drawing::Size(121, 17);
+			this->checkBoxVisualise->TabIndex = 34;
+			this->checkBoxVisualise->Text = L"Include visualisation";
+			this->checkBoxVisualise->UseVisualStyleBackColor = true;
+			this->checkBoxVisualise->CheckedChanged += gcnew System::EventHandler(this, &Form1::checkBox1_CheckedChanged);
 			// 
 			// textBoxTStep
 			// 
@@ -450,16 +577,18 @@ namespace Project_GUI_v001 {
 			// 
 			// tabPageResult
 			// 
+			this->tabPageResult->Controls->Add(this->textBoxHeatCap);
+			this->tabPageResult->Controls->Add(this->labelHeatCap);
 			this->tabPageResult->Controls->Add(this->button1);
-			this->tabPageResult->Controls->Add(this->richTextBox1);
-			this->tabPageResult->Controls->Add(this->textBox17);
-			this->tabPageResult->Controls->Add(this->textBox14);
-			this->tabPageResult->Controls->Add(this->textBox15);
-			this->tabPageResult->Controls->Add(this->textBox16);
-			this->tabPageResult->Controls->Add(this->textBox11);
-			this->tabPageResult->Controls->Add(this->textBox12);
-			this->tabPageResult->Controls->Add(this->textBox13);
-			this->tabPageResult->Controls->Add(this->label18);
+			this->tabPageResult->Controls->Add(this->richTextBoxResults);
+			this->tabPageResult->Controls->Add(this->textBoxDebTemp);
+			this->tabPageResult->Controls->Add(this->textBoxTemp);
+			this->tabPageResult->Controls->Add(this->textBoxMSD);
+			this->tabPageResult->Controls->Add(this->textBoxECoh);
+			this->tabPageResult->Controls->Add(this->textBoxETot);
+			this->tabPageResult->Controls->Add(this->textBoxEPot);
+			this->tabPageResult->Controls->Add(this->textBoxEKin);
+			this->tabPageResult->Controls->Add(this->labelDebTemp);
 			this->tabPageResult->Controls->Add(this->label13);
 			this->tabPageResult->Controls->Add(this->label14);
 			this->tabPageResult->Controls->Add(this->label15);
@@ -484,71 +613,78 @@ namespace Project_GUI_v001 {
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
-			// richTextBox1
+			// richTextBoxResults
 			// 
-			this->richTextBox1->Location = System::Drawing::Point(256, 3);
-			this->richTextBox1->Name = L"richTextBox1";
-			this->richTextBox1->Size = System::Drawing::Size(254, 344);
-			this->richTextBox1->TabIndex = 38;
-			this->richTextBox1->Text = L"";
+			this->richTextBoxResults->Location = System::Drawing::Point(256, 3);
+			this->richTextBoxResults->Name = L"richTextBoxResults";
+			this->richTextBoxResults->Size = System::Drawing::Size(254, 344);
+			this->richTextBoxResults->TabIndex = 38;
+			this->richTextBoxResults->Text = L"";
 			// 
-			// textBox17
+			// textBoxDebTemp
 			// 
-			this->textBox17->Location = System::Drawing::Point(145, 211);
-			this->textBox17->Name = L"textBox17";
-			this->textBox17->Size = System::Drawing::Size(87, 20);
-			this->textBox17->TabIndex = 37;
+			this->textBoxDebTemp->Location = System::Drawing::Point(145, 211);
+			this->textBoxDebTemp->Name = L"textBoxDebTemp";
+			this->textBoxDebTemp->ReadOnly = true;
+			this->textBoxDebTemp->Size = System::Drawing::Size(87, 20);
+			this->textBoxDebTemp->TabIndex = 37;
 			// 
-			// textBox14
+			// textBoxTemp
 			// 
-			this->textBox14->Location = System::Drawing::Point(145, 174);
-			this->textBox14->Name = L"textBox14";
-			this->textBox14->Size = System::Drawing::Size(87, 20);
-			this->textBox14->TabIndex = 36;
+			this->textBoxTemp->Location = System::Drawing::Point(145, 174);
+			this->textBoxTemp->Name = L"textBoxTemp";
+			this->textBoxTemp->ReadOnly = true;
+			this->textBoxTemp->Size = System::Drawing::Size(87, 20);
+			this->textBoxTemp->TabIndex = 36;
 			// 
-			// textBox15
+			// textBoxMSD
 			// 
-			this->textBox15->Location = System::Drawing::Point(145, 141);
-			this->textBox15->Name = L"textBox15";
-			this->textBox15->Size = System::Drawing::Size(87, 20);
-			this->textBox15->TabIndex = 35;
+			this->textBoxMSD->Location = System::Drawing::Point(145, 141);
+			this->textBoxMSD->Name = L"textBoxMSD";
+			this->textBoxMSD->ReadOnly = true;
+			this->textBoxMSD->Size = System::Drawing::Size(87, 20);
+			this->textBoxMSD->TabIndex = 35;
 			// 
-			// textBox16
+			// textBoxECoh
 			// 
-			this->textBox16->Location = System::Drawing::Point(145, 112);
-			this->textBox16->Name = L"textBox16";
-			this->textBox16->Size = System::Drawing::Size(87, 20);
-			this->textBox16->TabIndex = 34;
+			this->textBoxECoh->Location = System::Drawing::Point(145, 112);
+			this->textBoxECoh->Name = L"textBoxECoh";
+			this->textBoxECoh->ReadOnly = true;
+			this->textBoxECoh->Size = System::Drawing::Size(87, 20);
+			this->textBoxECoh->TabIndex = 34;
 			// 
-			// textBox11
+			// textBoxETot
 			// 
-			this->textBox11->Location = System::Drawing::Point(145, 83);
-			this->textBox11->Name = L"textBox11";
-			this->textBox11->Size = System::Drawing::Size(87, 20);
-			this->textBox11->TabIndex = 33;
+			this->textBoxETot->Location = System::Drawing::Point(145, 83);
+			this->textBoxETot->Name = L"textBoxETot";
+			this->textBoxETot->ReadOnly = true;
+			this->textBoxETot->Size = System::Drawing::Size(87, 20);
+			this->textBoxETot->TabIndex = 33;
 			// 
-			// textBox12
+			// textBoxEPot
 			// 
-			this->textBox12->Location = System::Drawing::Point(145, 48);
-			this->textBox12->Name = L"textBox12";
-			this->textBox12->Size = System::Drawing::Size(87, 20);
-			this->textBox12->TabIndex = 32;
+			this->textBoxEPot->Location = System::Drawing::Point(145, 48);
+			this->textBoxEPot->Name = L"textBoxEPot";
+			this->textBoxEPot->ReadOnly = true;
+			this->textBoxEPot->Size = System::Drawing::Size(87, 20);
+			this->textBoxEPot->TabIndex = 32;
 			// 
-			// textBox13
+			// textBoxEKin
 			// 
-			this->textBox13->Location = System::Drawing::Point(145, 16);
-			this->textBox13->Name = L"textBox13";
-			this->textBox13->Size = System::Drawing::Size(87, 20);
-			this->textBox13->TabIndex = 31;
+			this->textBoxEKin->Location = System::Drawing::Point(145, 16);
+			this->textBoxEKin->Name = L"textBoxEKin";
+			this->textBoxEKin->ReadOnly = true;
+			this->textBoxEKin->Size = System::Drawing::Size(87, 20);
+			this->textBoxEKin->TabIndex = 31;
 			// 
-			// label18
+			// labelDebTemp
 			// 
-			this->label18->AutoSize = true;
-			this->label18->Location = System::Drawing::Point(17, 211);
-			this->label18->Name = L"label18";
-			this->label18->Size = System::Drawing::Size(67, 13);
-			this->label18->TabIndex = 30;
-			this->label18->Text = L"Temperature";
+			this->labelDebTemp->AutoSize = true;
+			this->labelDebTemp->Location = System::Drawing::Point(17, 211);
+			this->labelDebTemp->Name = L"labelDebTemp";
+			this->labelDebTemp->Size = System::Drawing::Size(97, 13);
+			this->labelDebTemp->TabIndex = 30;
+			this->labelDebTemp->Text = L"Debye temperature";
 			// 
 			// label13
 			// 
@@ -604,6 +740,23 @@ namespace Project_GUI_v001 {
 			this->label8->TabIndex = 18;
 			this->label8->Text = L"Temperature";
 			// 
+			// textBoxHeatCap
+			// 
+			this->textBoxHeatCap->Location = System::Drawing::Point(143, 241);
+			this->textBoxHeatCap->Name = L"textBoxHeatCap";
+			this->textBoxHeatCap->ReadOnly = true;
+			this->textBoxHeatCap->Size = System::Drawing::Size(87, 20);
+			this->textBoxHeatCap->TabIndex = 41;
+			// 
+			// labelHeatCap
+			// 
+			this->labelHeatCap->AutoSize = true;
+			this->labelHeatCap->Location = System::Drawing::Point(15, 241);
+			this->labelHeatCap->Name = L"labelHeatCap";
+			this->labelHeatCap->Size = System::Drawing::Size(73, 13);
+			this->labelHeatCap->TabIndex = 40;
+			this->labelHeatCap->Text = L"Heat capacity";
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -611,8 +764,10 @@ namespace Project_GUI_v001 {
 			this->ClientSize = System::Drawing::Size(651, 462);
 			this->Controls->Add(this->tabControl1);
 			this->Name = L"Form1";
-			this->Text = L"Form1";
+			this->Text = L"TFYA50";
+			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->tabControl1->ResumeLayout(false);
+			this->tabPage1->ResumeLayout(false);
 			this->tabPageStructure->ResumeLayout(false);
 			this->tabPageStructure->PerformLayout();
 			this->tabPageCalculation->ResumeLayout(false);
@@ -623,6 +778,9 @@ namespace Project_GUI_v001 {
 
 		}
 #pragma endregion
+
+
+private: 
 
 private: Input_data Form1::get_data();
 private: System::Void get_dimensions(int &a, int &b, int &c);
@@ -642,7 +800,14 @@ private: System::Void textBox7_TextChanged(System::Object^  sender, System::Even
 		 }
 private: System::Void label4_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
-private: System::Void checkBox2_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void checkBox2_CheckedChanged(System::Object^  sender, System::EventArgs^  e);
+private: System::Void label20_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void textBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 }

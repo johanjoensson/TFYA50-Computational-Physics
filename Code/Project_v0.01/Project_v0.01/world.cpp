@@ -1,8 +1,10 @@
 #include "world.h"
+#include <random>
 
 #ifndef NULL
 #define NULL 0
 #endif
+
 
 world::world()
 {
@@ -67,7 +69,7 @@ world::world(unsigned int n)
 set positions for all atoms in structure
 x,y,z = a = lattice constant, type = type of crystal structure (BCC or FCC)
 */
-world::world(unsigned int x, unsigned int y, unsigned int z, float a, enum crystalStructure type)	
+world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, enum crystalStructure type)	
 {
 
 	init();
@@ -96,10 +98,25 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, enum cryst
 	/* Create the list of verlet lists */
 	bulk = new verlet_list[N];
 
-	/* Link each cell in the array of verlet lists to the corresponding atom */
+	/* Link each cell in the array of verlet lists to the corresponding atom 
+	 * Set the mass of each atom, calculate the velocity of the centre of mass and
+	 * the sum of the squares of all the velocities */
+	vector_3d sum_vel = vector_3d(0,0,0);
+	float sum_vel2 = 0;
 	for(int i = 0; i < N; i++){
+		atoms[i].mass = mass;
+		sum_vel += atoms[i].vel;
+		sum_vel2 += atoms[i].vel*atoms[i].vel;
+
 		bulk[i].data = &atoms[i];
-		bulk[i].set_verlet_skin(5);
+	}
+	
+	/* Scale the centre of mass velocity */
+	sum_vel /= N;
+	sum_vel2 /= N;
+	float scale_factor = sqrt(3*kB*temp/sum_vel2);
+	for(unsigned int i = 0; i < N; i++){
+		atoms[i].vel = (atoms[i].vel - sum_vel)*scale_factor;
 	}
 	verlet_integrator.set_dimensions(x*a, y*a, z*a);
 }
@@ -192,11 +209,13 @@ void world::bccSetup(unsigned int x, unsigned int y, unsigned int z, float a)
 				float xpos = a*i;
 				float ypos = a*j;
 				float zpos = a*k;
-				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
+//				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
+				atoms[n] = atom(vector_3d(xpos, ypos, zpos));
 				n++;
 			
 				if(i<(x-1) && j<(y-1) && k<(z-1)){	//add body atom if inside bulk
-					atoms[n] = atom(vector_3d(xpos+0.5*a, ypos+0.5*a, zpos+0.5*a), vector_3d(0,0,0), vector_3d(0,0,0));
+//					atoms[n] = atom(vector_3d(xpos+0.5*a, ypos+0.5*a, zpos+0.5*a), vector_3d(0,0,0), vector_3d(0,0,0));
+					atoms[n] = atom(vector_3d(xpos+0.5*a, ypos+0.5*a, zpos+0.5*a));
 					n++;
 				}
 			}
@@ -218,29 +237,36 @@ void world::fccSetup(unsigned int x, unsigned int y, unsigned int z, float a)
 				float xpos = a*i;
 				float ypos = a*j;
 				float zpos = a*k;
-				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
+//				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
+				atoms[n] = atom(vector_3d(xpos, ypos, zpos));
 				n++;
 
 				if(i<(x-1) && j<(y-1) && k<(z-1)){
-					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2));
 					n++;
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2));
 					n++;
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos));
 					n++;
 				}
 
 				if(i==(x-1) && j<(y-1) && k<(z-1)){
-					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2));
 					n++;
 				}
 				if(i<(x-1) && j==(y-1) && k<(z-1)){
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2));
 					n++;
 				}
 
 				if(i<(x-1) && j<(y-1) && k==(z-1)){
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos));
 					n++;
 				}
 			
@@ -266,39 +292,50 @@ void world::diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a
 				float xpos = a*i;
 				float ypos = a*j;
 				float zpos = a*k;
-				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
+//				atoms[n] = atom(vector_3d(xpos, ypos, zpos), vector_3d(), vector_3d());
+				atoms[n] = atom(vector_3d(xpos, ypos, zpos));
 				n++;
 			
 				if(i<(x-1) && j<(y-1) && k<(z-1)){
-					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2));
 					n++;
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2));
 					n++;
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos));
 					n++;
 					
 					/* Adding extra diamond structure atoms in fcc cells*/
-					atoms[n] = atom(vector_3d(xpos+a/4,ypos+a/4,zpos+a/4), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/4,ypos+a/4,zpos+a/4), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/4,ypos+a/4,zpos+a/4));
 					n++;
-					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+a/4,zpos+a/4), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+a/4,zpos+a/4), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+a/4,zpos+a/4));
 					n++;
-					atoms[n] = atom(vector_3d(xpos+a/4,ypos+3*a/4,zpos+3*a/4), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/4,ypos+3*a/4,zpos+3*a/4), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/4,ypos+3*a/4,zpos+3*a/4));
 					n++;
-					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+3*a/4,zpos+3*a/4), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+3*a/4,zpos+3*a/4), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+3*a/4,zpos+3*a/4));
 					n++;
 				}
 
 				if(i==(x-1) && j<(y-1) && k<(z-1)){
-					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2));
 					n++;
 				}
 				if(i<(x-1) && j==(y-1) && k<(z-1)){
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2));
 					n++;
 				}
 
 				if(i<(x-1) && j<(y-1) && k==(z-1)){
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+//					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
+					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos));
 					n++;
 				}
 			
@@ -353,9 +390,27 @@ void world::integrate(unsigned int t_end)
 			}
 		}
 		/* Second part of Verlet integration */
+		float sum_vsquare = 0;
+		float sigma;
 		for(int i = 0; i < this->N; i++){
 			this->verlet_integrator.verlet_integration_velocity(this->bulk[i]);
 			this->kinetic_energy(this->atoms[i]);
+			sum_vsquare += this->atoms[i].vel*this->atoms[i].vel;
+		}
+
+		/* Andersen thermostat */
+		if(thermostat){
+			float temp_average = sum_vsquare / 3*N;
+			float sigma = sqrt(temp_average);
+			std::default_random_engine generator;
+			std::normal_distribution<float> gauss(temp_average,sigma);
+
+			for(int i = 0; i < this->N; i++){
+				float collisionTest = rand();
+				if(collisionTest  < collision_rate*time_step){
+					this->atoms[i].vel = vector_3d(gauss(generator),gauss(generator),gauss(generator));
+				}
+			}
 		}
 
 		calc_temperature(this->get_kinetic_energy(), this->N);

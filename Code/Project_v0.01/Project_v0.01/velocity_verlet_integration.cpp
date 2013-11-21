@@ -55,7 +55,6 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 	
 	particle.data->vel += 0.5*(particle.data->acc + particle.data->get_next_acc())*h;
 	particle.data->update_acceleration();
-
 }
 
 vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
@@ -66,13 +65,13 @@ vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
 	vector_3d b = atom_b->pos;
 	vector_3d d = a.diff(b, x_dim, y_dim, z_dim);
 	float r = a.distance(b, x_dim, y_dim, z_dim);
-	float ri = sigma/r;
+	float ri = 1/r;
 	float ri2 = ri*ri;
 	float ri6 = ri2*ri2*ri2;
 	ff = 48*(ri*ri6*ri6-0.5*ri*ri6);
 	vector_3d f = d*ff*ri;
 	float ecut = 4*ri6*(ri6-1);
-	float ric3 = sigma*sigma*sigma/(cutoff*cutoff*cutoff);
+	float ric3 = 1/(cutoff*cutoff*cutoff);
 	/* accumulate the potential enegry */
 	e_pot += -4*ric3*ric3*(ric3*ric3-1) + ecut;
 	/* First part of internal pressure */

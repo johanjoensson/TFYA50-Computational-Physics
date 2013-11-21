@@ -2,6 +2,7 @@
 
 #include "Form1.h"
 #include "output.h"
+#include "input.h"
 #include <msclr\marshal.h>
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
@@ -17,7 +18,14 @@ int main(array<System::String ^> ^args)
 
 	// Create the main window and run it
 	Application::Run(gcnew Form1());
+
 	return 0;
+}
+
+System::Void Form1::checkBox2_CheckedChanged(System::Object^  sender, System::EventArgs^  e)
+{
+	this->labelCollisionRate->Visible = !this->labelCollisionRate->Visible;
+	this->textBoxCollisionRate->Visible = !this->textBoxCollisionRate->Visible;
 }
 
 System::Void Form1::get_dimensions(int &a, int &b, int &c)
@@ -136,17 +144,16 @@ Input_data Form1::get_data()
 	return res;
 }
 
+
+
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
+	float mass = 37199230118;
+	float temperature = 40;
 	Input_data d = get_data();
-	world w(d.x,d.y,d.z,d.a,FCC);
+	world w(d.x,d.y,d.z,d.a, mass, temperature,FCC);
 	w.set_timestep(d.t_step);
 	w.integrate(d.t_end);
-/*	
-	std::ostringstream ss;
-	ss << co;
-	std::string s(ss.str());
-	this->tabPage1->Text = context->marshal_as<System::String^>(s);
-*/
+
 	MessageBox::Show("Simulation complete!");
 }
