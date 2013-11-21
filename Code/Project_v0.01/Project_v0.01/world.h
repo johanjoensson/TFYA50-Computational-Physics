@@ -33,8 +33,10 @@ private:
 	float T;
 	float P;
 	float C_v;
+	float collision_rate;
 
 	bool visualise;
+	bool thermostat;
 
 
 	outputter writer;
