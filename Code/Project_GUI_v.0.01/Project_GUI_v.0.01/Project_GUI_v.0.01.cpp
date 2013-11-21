@@ -19,8 +19,6 @@ int main(array<System::String ^> ^args)
 	// Create the main window and run it
 	Application::Run(gcnew Form1());
 
-	inputter input("toto.txt");
-	input.get_data();
 	return 0;
 }
 

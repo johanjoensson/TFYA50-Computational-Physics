@@ -20,7 +20,9 @@ private:
 public:
 	inputter(char* file_name);
 
-	void get_data();
+	unsigned int num_mat;
+
+	Material* get_material(char* text_file);
 	
 };
 

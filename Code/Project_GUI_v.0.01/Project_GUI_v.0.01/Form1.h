@@ -1,5 +1,6 @@
 #pragma once
 #include "world.h"
+#include "input.h"
 
 struct Input_data{
 	int x;
@@ -27,9 +28,12 @@ namespace Project_GUI_v001 {
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
 	public:
+		Material* materials;
 		Form1(void)
 		{
 			InitializeComponent();
+			inputter input("materials.txt");
+			materials = input.get_material("materials.txt");
 			//
 			//TODO: Add the constructor code here
 			//
@@ -774,6 +778,9 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 
 		}
 #pragma endregion
+
+
+private: 
 
 private: Input_data Form1::get_data();
 private: System::Void get_dimensions(int &a, int &b, int &c);
