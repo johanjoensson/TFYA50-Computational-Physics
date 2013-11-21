@@ -1,4 +1,5 @@
 #include "atom.h"
+#include <ctime>
 
 atom::atom()
 {
@@ -8,6 +9,18 @@ atom::atom()
 	mass = 37199230118;
 	next_acc = vector_3d(0,0,0);
 	orig_pos = vector_3d(0,0,0);
+	displacement = 0;
+}
+
+atom::atom(vector_3d position)
+{
+	srand((unsigned)std::time( 0 ));
+	pos = position;
+	orig_pos = position;
+	vel = vector_3d(( (rand() % 3) - 1)/2.0,( (rand() % 3) - 1)/2.0,( (rand() % 3) - 1)/2.0);
+	acc = vector_3d(0,0,0);
+	next_acc = vector_3d(0,0,0);
+//	mass = mass;
 	displacement = 0;
 }
 
