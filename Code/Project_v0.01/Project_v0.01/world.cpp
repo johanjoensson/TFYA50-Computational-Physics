@@ -141,6 +141,15 @@ void world::toggle_visualisation()
 	visualise = !visualise;
 }
 
+void world::set_thermostat(bool val)
+{
+	thermostat = val;
+}
+
+void world::set_collision_rate(float f){
+	collision_rate = f;
+}
+
 void world::update_verlet_lists()
 {
 	for(int i = 0; i < this->N; i++){

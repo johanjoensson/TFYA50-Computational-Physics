@@ -7,10 +7,12 @@ struct Input_data{
 	int y;
 	int z;
 	float a;
+	float temp;
 	float cut_off;
 	int t_start;
 	int t_end;
 	float t_step;
+	crystalStructure cStruct;
 } in_data_t;
 
 namespace Project_GUI_v001 {
@@ -78,8 +80,9 @@ namespace Project_GUI_v001 {
 	private: System::Windows::Forms::TextBox^  textBoxTEnd;
 
 	private: System::Windows::Forms::TextBox^  textBoxTStart;
+	private: System::Windows::Forms::CheckBox^  checkBoxTermo;
 
-	private: System::Windows::Forms::CheckBox^  checkBox2;
+
 
 
 
@@ -92,9 +95,10 @@ namespace Project_GUI_v001 {
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::RichTextBox^  richTextBoxResults;
 	private: System::Windows::Forms::TextBox^  textBoxDebTemp;
+	private: System::Windows::Forms::TextBox^  textBoxResTemp;
 
 
-	private: System::Windows::Forms::TextBox^  textBoxTemp;
+
 
 	private: System::Windows::Forms::TextBox^  textBoxMSD;
 
@@ -145,6 +149,9 @@ namespace Project_GUI_v001 {
 private: System::Windows::Forms::TextBox^  textBoxHeatCap;
 
 private: System::Windows::Forms::Label^  labelHeatCap;
+private: System::Windows::Forms::TextBox^  textBoxTemp;
+
+private: System::Windows::Forms::Label^  label9;
 
 
 
@@ -186,21 +193,25 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			this->textBoxLatConst = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->tabPageCalculation = (gcnew System::Windows::Forms::TabPage());
+			this->textBoxTemp = (gcnew System::Windows::Forms::TextBox());
+			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->textBoxCollisionRate = (gcnew System::Windows::Forms::TextBox());
 			this->labelCollisionRate = (gcnew System::Windows::Forms::Label());
 			this->checkBoxVisualise = (gcnew System::Windows::Forms::CheckBox());
 			this->textBoxTStep = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxTEnd = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxTStart = (gcnew System::Windows::Forms::TextBox());
-			this->checkBox2 = (gcnew System::Windows::Forms::CheckBox());
+			this->checkBoxTermo = (gcnew System::Windows::Forms::CheckBox());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->tabPageResult = (gcnew System::Windows::Forms::TabPage());
+			this->textBoxHeatCap = (gcnew System::Windows::Forms::TextBox());
+			this->labelHeatCap = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->richTextBoxResults = (gcnew System::Windows::Forms::RichTextBox());
 			this->textBoxDebTemp = (gcnew System::Windows::Forms::TextBox());
-			this->textBoxTemp = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxResTemp = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxMSD = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxECoh = (gcnew System::Windows::Forms::TextBox());
 			this->textBoxETot = (gcnew System::Windows::Forms::TextBox());
@@ -213,8 +224,6 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			this->label16 = (gcnew System::Windows::Forms::Label());
 			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
-			this->textBoxHeatCap = (gcnew System::Windows::Forms::TextBox());
-			this->labelHeatCap = (gcnew System::Windows::Forms::Label());
 			this->tabControl1->SuspendLayout();
 			this->tabPage1->SuspendLayout();
 			this->tabPageStructure->SuspendLayout();
@@ -469,13 +478,15 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			// 
 			// tabPageCalculation
 			// 
+			this->tabPageCalculation->Controls->Add(this->textBoxTemp);
+			this->tabPageCalculation->Controls->Add(this->label9);
 			this->tabPageCalculation->Controls->Add(this->textBoxCollisionRate);
 			this->tabPageCalculation->Controls->Add(this->labelCollisionRate);
 			this->tabPageCalculation->Controls->Add(this->checkBoxVisualise);
 			this->tabPageCalculation->Controls->Add(this->textBoxTStep);
 			this->tabPageCalculation->Controls->Add(this->textBoxTEnd);
 			this->tabPageCalculation->Controls->Add(this->textBoxTStart);
-			this->tabPageCalculation->Controls->Add(this->checkBox2);
+			this->tabPageCalculation->Controls->Add(this->checkBoxTermo);
 			this->tabPageCalculation->Controls->Add(this->label5);
 			this->tabPageCalculation->Controls->Add(this->label6);
 			this->tabPageCalculation->Controls->Add(this->label7);
@@ -486,6 +497,24 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			this->tabPageCalculation->TabIndex = 1;
 			this->tabPageCalculation->Text = L"Calculations";
 			this->tabPageCalculation->UseVisualStyleBackColor = true;
+			// 
+			// textBoxTemp
+			// 
+			this->textBoxTemp->Location = System::Drawing::Point(448, 80);
+			this->textBoxTemp->Name = L"textBoxTemp";
+			this->textBoxTemp->Size = System::Drawing::Size(87, 20);
+			this->textBoxTemp->TabIndex = 38;
+			this->textBoxTemp->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged_1);
+			// 
+			// label9
+			// 
+			this->label9->AutoSize = true;
+			this->label9->Location = System::Drawing::Point(362, 83);
+			this->label9->Name = L"label9";
+			this->label9->Size = System::Drawing::Size(67, 13);
+			this->label9->TabIndex = 37;
+			this->label9->Text = L"Temperature";
+			this->label9->Click += gcnew System::EventHandler(this, &Form1::label9_Click);
 			// 
 			// textBoxCollisionRate
 			// 
@@ -518,14 +547,14 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			// 
 			// textBoxTStep
 			// 
-			this->textBoxTStep->Location = System::Drawing::Point(198, 80);
+			this->textBoxTStep->Location = System::Drawing::Point(198, 79);
 			this->textBoxTStep->Name = L"textBoxTStep";
 			this->textBoxTStep->Size = System::Drawing::Size(87, 20);
 			this->textBoxTStep->TabIndex = 29;
 			// 
 			// textBoxTEnd
 			// 
-			this->textBoxTEnd->Location = System::Drawing::Point(198, 43);
+			this->textBoxTEnd->Location = System::Drawing::Point(198, 48);
 			this->textBoxTEnd->Name = L"textBoxTEnd";
 			this->textBoxTEnd->Size = System::Drawing::Size(87, 20);
 			this->textBoxTEnd->TabIndex = 28;
@@ -537,16 +566,16 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			this->textBoxTStart->Size = System::Drawing::Size(87, 20);
 			this->textBoxTStart->TabIndex = 27;
 			// 
-			// checkBox2
+			// checkBoxTermo
 			// 
-			this->checkBox2->AutoSize = true;
-			this->checkBox2->Location = System::Drawing::Point(365, 16);
-			this->checkBox2->Name = L"checkBox2";
-			this->checkBox2->Size = System::Drawing::Size(79, 17);
-			this->checkBox2->TabIndex = 26;
-			this->checkBox2->Text = L"Thermostat";
-			this->checkBox2->UseVisualStyleBackColor = true;
-			this->checkBox2->CheckedChanged += gcnew System::EventHandler(this, &Form1::checkBox2_CheckedChanged);
+			this->checkBoxTermo->AutoSize = true;
+			this->checkBoxTermo->Location = System::Drawing::Point(365, 16);
+			this->checkBoxTermo->Name = L"checkBoxTermo";
+			this->checkBoxTermo->Size = System::Drawing::Size(79, 17);
+			this->checkBoxTermo->TabIndex = 26;
+			this->checkBoxTermo->Text = L"Thermostat";
+			this->checkBoxTermo->UseVisualStyleBackColor = true;
+			this->checkBoxTermo->CheckedChanged += gcnew System::EventHandler(this, &Form1::checkBox2_CheckedChanged);
 			// 
 			// label5
 			// 
@@ -582,7 +611,7 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			this->tabPageResult->Controls->Add(this->button1);
 			this->tabPageResult->Controls->Add(this->richTextBoxResults);
 			this->tabPageResult->Controls->Add(this->textBoxDebTemp);
-			this->tabPageResult->Controls->Add(this->textBoxTemp);
+			this->tabPageResult->Controls->Add(this->textBoxResTemp);
 			this->tabPageResult->Controls->Add(this->textBoxMSD);
 			this->tabPageResult->Controls->Add(this->textBoxECoh);
 			this->tabPageResult->Controls->Add(this->textBoxETot);
@@ -602,6 +631,23 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			this->tabPageResult->TabIndex = 2;
 			this->tabPageResult->Text = L"Results";
 			this->tabPageResult->UseVisualStyleBackColor = true;
+			// 
+			// textBoxHeatCap
+			// 
+			this->textBoxHeatCap->Location = System::Drawing::Point(143, 241);
+			this->textBoxHeatCap->Name = L"textBoxHeatCap";
+			this->textBoxHeatCap->ReadOnly = true;
+			this->textBoxHeatCap->Size = System::Drawing::Size(87, 20);
+			this->textBoxHeatCap->TabIndex = 41;
+			// 
+			// labelHeatCap
+			// 
+			this->labelHeatCap->AutoSize = true;
+			this->labelHeatCap->Location = System::Drawing::Point(15, 241);
+			this->labelHeatCap->Name = L"labelHeatCap";
+			this->labelHeatCap->Size = System::Drawing::Size(73, 13);
+			this->labelHeatCap->TabIndex = 40;
+			this->labelHeatCap->Text = L"Heat capacity";
 			// 
 			// button1
 			// 
@@ -629,13 +675,13 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			this->textBoxDebTemp->Size = System::Drawing::Size(87, 20);
 			this->textBoxDebTemp->TabIndex = 37;
 			// 
-			// textBoxTemp
+			// textBoxResTemp
 			// 
-			this->textBoxTemp->Location = System::Drawing::Point(145, 174);
-			this->textBoxTemp->Name = L"textBoxTemp";
-			this->textBoxTemp->ReadOnly = true;
-			this->textBoxTemp->Size = System::Drawing::Size(87, 20);
-			this->textBoxTemp->TabIndex = 36;
+			this->textBoxResTemp->Location = System::Drawing::Point(145, 174);
+			this->textBoxResTemp->Name = L"textBoxResTemp";
+			this->textBoxResTemp->ReadOnly = true;
+			this->textBoxResTemp->Size = System::Drawing::Size(87, 20);
+			this->textBoxResTemp->TabIndex = 36;
 			// 
 			// textBoxMSD
 			// 
@@ -740,23 +786,6 @@ private: System::Windows::Forms::Label^  labelHeatCap;
 			this->label8->TabIndex = 18;
 			this->label8->Text = L"Temperature";
 			// 
-			// textBoxHeatCap
-			// 
-			this->textBoxHeatCap->Location = System::Drawing::Point(143, 241);
-			this->textBoxHeatCap->Name = L"textBoxHeatCap";
-			this->textBoxHeatCap->ReadOnly = true;
-			this->textBoxHeatCap->Size = System::Drawing::Size(87, 20);
-			this->textBoxHeatCap->TabIndex = 41;
-			// 
-			// labelHeatCap
-			// 
-			this->labelHeatCap->AutoSize = true;
-			this->labelHeatCap->Location = System::Drawing::Point(15, 241);
-			this->labelHeatCap->Name = L"labelHeatCap";
-			this->labelHeatCap->Size = System::Drawing::Size(73, 13);
-			this->labelHeatCap->TabIndex = 40;
-			this->labelHeatCap->Text = L"Heat capacity";
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -786,6 +815,7 @@ private: Input_data Form1::get_data();
 private: System::Void get_dimensions(int &a, int &b, int &c);
 private: float get_lattice_constant();
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
+private: float get_collision_rate();
 
 
 private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -808,6 +838,10 @@ private: System::Void textBox2_TextChanged(System::Object^  sender, System::Even
 private: System::Void listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void textBox1_TextChanged_1(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void label9_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 }

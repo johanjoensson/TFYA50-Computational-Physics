@@ -140,10 +140,30 @@ Input_data Form1::get_data()
 		MessageBox::Show("Time step size not set\n20 assumed");
 		res.t_end = 20;
 	}
-
+	if(this->textBoxTemp->Text != ""){
+		str = context->marshal_as<const char*>(this->textBoxTemp->Text);
+		res.temp = atoi(str);
+		delete str;
+	}else{
+		MessageBox::Show("Temperature not set\n20K assumed");
+		res.temp = 20;
+	}
 	return res;
 }
 
+float Form1::get_collision_rate()
+{
+	float res;
+	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+	const char* str;
+
+	str = context->marshal_as<const char*>(this->textBoxCollisionRate->Text);
+	res = atoi(str);
+	delete str;
+
+	delete context;
+	return res;
+}
 
 
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
@@ -151,8 +171,13 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 	float mass = 37199230118;
 	float temperature = 40;
 	Input_data d = get_data();
-	world w(d.x,d.y,d.z,d.a, mass, temperature,FCC);
+	d.cStruct = FCC;
+	world w(d.x,d.y,d.z,d.a, mass, d.temp,d.cStruct);
 	w.set_timestep(d.t_step);
+	if(this->checkBoxTermo->Checked){
+		w.set_thermostat(true);
+		w.set_collision_rate(this->get_collision_rate());
+	}
 	w.integrate(d.t_end);
 
 	MessageBox::Show("Simulation complete!");

@@ -56,6 +56,8 @@ public:
 	void set_cutoff(float r);
 	void set_timestep(float h);
 	void toggle_visualisation();
+	void set_collision_rate(float f);
+	void set_thermostat(bool val);
 
 	integrator verlet_integrator;
 	unsigned int N;
