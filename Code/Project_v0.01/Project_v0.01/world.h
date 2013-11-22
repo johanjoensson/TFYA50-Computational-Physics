@@ -59,6 +59,9 @@ public:
 	void set_collision_rate(float f);
 	void set_thermostat(bool val);
 
+	void set_sigma(float sigma);
+	void set_epsilon(float epsilon);
+
 	integrator verlet_integrator;
 	unsigned int N;
 	atom *atoms;

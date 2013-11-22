@@ -150,6 +150,15 @@ void world::set_collision_rate(float f){
 	collision_rate = f;
 }
 
+void world::set_sigma(float sigma)
+{
+	this->verlet_integrator.set_sigma6(sigma);
+}
+void world::set_epsilon(float epsilon)
+{
+	this->verlet_integrator.set_epsilon(epsilon);
+}
+
 void world::update_verlet_lists()
 {
 	for(int i = 0; i < this->N; i++){
