@@ -9,6 +9,18 @@
 
 using namespace Project_GUI_v001;
 
+System::Void Form1::set_materials(unsigned int l)
+{
+
+	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+
+	this->listBoxMaterial->BeginUpdate();
+	for(int i = 0; i < l; i++ ){
+		this->listBoxMaterial->Items->Add(context->marshal_as<System::String^>(materials[i].name));
+	}
+	this->listBoxMaterial->EndUpdate();
+}
+
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
@@ -26,6 +38,12 @@ System::Void Form1::checkBox2_CheckedChanged(System::Object^  sender, System::Ev
 {
 	this->labelCollisionRate->Visible = !this->labelCollisionRate->Visible;
 	this->textBoxCollisionRate->Visible = !this->textBoxCollisionRate->Visible;
+}
+
+System::Void Form1::listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e)
+{
+	Material mat = selected_material();
+	set_defaults(mat);
 }
 
 System::Void Form1::get_dimensions(int &a, int &b, int &c)
@@ -99,7 +117,7 @@ Input_data Form1::get_data()
 
 	if(this->textBoxLatConst->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxLatConst->Text);
-		res.a = atoi(str);
+		res.a = atof(str);
 		delete str;
 	}else{
 		MessageBox::Show("Lattice constant not set\n0 assumed");
@@ -108,11 +126,29 @@ Input_data Form1::get_data()
 
 	if(this->textBoxCO->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxCO->Text);
-		res.cut_off = atoi(str);
+		res.cut_off = atof(str);
 		delete str;
 	}else{
 		MessageBox::Show("Cut off distance not set\n0 assumed");
 		res.cut_off = 0;
+	}
+
+	if(this->textBoxEpsilon->Text != ""){
+		str = context->marshal_as<const char*>(this->textBoxEpsilon->Text);
+		res.epsilon = atof(str);
+		delete str;
+	}else{
+		MessageBox::Show("Epsilon not set\n0 assumed");
+		res.epsilon = 0;
+	}
+
+	if(this->textBoxSigma->Text != ""){
+		str = context->marshal_as<const char*>(this->textBoxSigma->Text);
+		res.sigma = atof(str);
+		delete str;
+	}else{
+		MessageBox::Show("Sigma not set\n0 assumed");
+		res.sigma = 0;
 	}
 
 	if(this->textBoxTStart->Text != ""){
@@ -134,7 +170,7 @@ Input_data Form1::get_data()
 
 	if(this->textBoxTStep->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxTStep->Text);
-		res.t_step = atoi(str);
+		res.t_step = atof(str);
 		delete str;
 	}else{
 		MessageBox::Show("Time step size not set\n20 assumed");
@@ -142,7 +178,7 @@ Input_data Form1::get_data()
 	}
 	if(this->textBoxTemp->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxTemp->Text);
-		res.temp = atoi(str);
+		res.temp = atof(str);
 		delete str;
 	}else{
 		MessageBox::Show("Temperature not set\n20K assumed");
@@ -153,31 +189,72 @@ Input_data Form1::get_data()
 
 float Form1::get_collision_rate()
 {
-	float res;
+	float res ;
 	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
 	const char* str;
 
 	str = context->marshal_as<const char*>(this->textBoxCollisionRate->Text);
-	res = atoi(str);
+	
+	res = atof(str);
+	if(res > 1.0 || res < 0.0){
+		res = 0.20;
+		MessageBox::Show("Collision rate not between 0 and 1\n0.20 assumed");
+	}
 	delete str;
 
-	delete context;
 	return res;
 }
 
+Material Form1::selected_material()
+{
+	return materials[this->listBoxMaterial->SelectedIndex];
+}
+
+System::Void Form1::set_defaults(Material m)
+{
+	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+
+	std::ostringstream ss;
+
+	ss << m.a;
+	this->textBoxLatConst->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << 2.5*m.a;
+	this->textBoxCO->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << m.sigma;
+	this->textBoxSigma->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << m.epsilon;
+	this->textBoxEpsilon->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+}
 
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
-	float mass = 37199230118;
-	float temperature = 40;
+	Material mat = selected_material();
+//	set_defaults(mat);
+
 	Input_data d = get_data();
 	d.cStruct = FCC;
-	world w(d.x,d.y,d.z,d.a, mass, d.temp,d.cStruct);
+	world w(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct);
+	w.set_sigma(mat.sigma);
+	w.set_epsilon(mat.epsilon);
 	w.set_timestep(d.t_step);
+	w.set_cutoff(d.cut_off);
+
 	if(this->checkBoxTermo->Checked){
 		w.set_thermostat(true);
 		w.set_collision_rate(this->get_collision_rate());
 	}
+
 	w.integrate(d.t_end);
 
 	MessageBox::Show("Simulation complete!");

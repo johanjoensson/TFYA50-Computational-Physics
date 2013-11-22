@@ -26,6 +26,8 @@ public:
 
 	void set_timestep(float d);
 	void set_cutoff(float r);
+	void set_sigma6(float sigma);
+	void set_epsilon(float epsilon);
 	void set_dimensions(float x, float y, float z);
 
 	void verlet_integration_position(verlet_list particle);

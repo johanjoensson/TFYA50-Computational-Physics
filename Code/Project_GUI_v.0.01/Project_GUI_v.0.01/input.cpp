@@ -17,15 +17,30 @@ void extract_mat_param(Material &mat, std::string data, unsigned int j)
 		mat.mass = atof(data.c_str());
 		break;
 	case 2:
-		mat.sigma = atof(data.c_str());
+		mat.a = atof(data.c_str());
 		break;
 	case 3:
 		mat.epsilon = atof(data.c_str());
+		break;
+	case 4:
+		mat.sigma = atof(data.c_str());
 		break;
 	default:
 		break;
 	}
 }
+/*
+int inputter::num_materials()
+{
+	unsigned int l = 0;
+	while(!file.eof()){
+		getline(file, str);
+		l++;
+	}
+
+	return l-1;
+}
+*/
 
 Material* inputter::get_material(char* text_file)
 {
@@ -40,11 +55,12 @@ Material* inputter::get_material(char* text_file)
 		l++;
 	}
 
-	num_mat = l;
+	num_mat = l - 1;
 	output << "Number of lines" << l << std::endl;
 	file.clear();
 	file.seekg(0, file.beg);
 	Material* res = new Material[l];
+	std::getline(file,str);
 
 	unsigned int i = 0;
 	unsigned int j = 0;
@@ -60,7 +76,11 @@ Material* inputter::get_material(char* text_file)
 
 			i++;
 		}
+		token = str;
+		extract_mat_param(res[j], token, i);
+		output << token << " " ;
 		output << std::endl;
+
 		j++;
 	}
 	return res;

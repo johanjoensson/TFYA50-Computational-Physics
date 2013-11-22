@@ -4,7 +4,7 @@
 #include "output.h"
 
 /* ************ Natural Constants ************ */
-#define kB 1.0 /*Boltzmann's Constant in units of kB*/ //kB 8.6173324e-5 /* Boltzmann's Constant [eV/K] */
+#define kB 8.6173324e-5 /*Boltzmann's Constant in units of kB*/ //kB 8.6173324e-5 /* Boltzmann's Constant [eV/K] */
 
 enum type_of_average
 {

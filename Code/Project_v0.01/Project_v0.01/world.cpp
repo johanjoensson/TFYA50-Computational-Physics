@@ -1,6 +1,9 @@
 #include "world.h"
 #include <random>
 
+#include <sstream>
+
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -76,6 +79,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	x_tot = x*a;
 	y_tot = y*a;
 	z_tot = z*a;
+	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
 	switch (type)
 	{
 	case BCC:

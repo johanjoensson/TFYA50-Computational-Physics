@@ -9,6 +9,7 @@
 struct Material{
 	std::string name;
 	float mass;
+	float a;
 	float sigma;
 	float epsilon;
 };

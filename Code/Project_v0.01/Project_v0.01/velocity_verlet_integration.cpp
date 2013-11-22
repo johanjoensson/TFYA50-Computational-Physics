@@ -1,6 +1,6 @@
 #include "velocity_verlet_integration.h"
 
-#include <iostream>
+#include <iostream>	
 
 integrator::integrator()
 {
@@ -27,6 +27,16 @@ void integrator::set_dimensions(float x, float y, float z)
 	z_dim = z;
 }
 
+void integrator::set_sigma6(float sigma)
+{
+	float sigma3 = sigma*sigma*sigma;
+	sig6 = sigma3*sigma3;
+}
+void integrator::set_epsilon(float epsilon)
+{
+	epsi = epsilon;
+}
+
 /* Step 1 of the two step Velocity verlet algorithm. Updates only the position */
 void integrator::verlet_integration_position(verlet_list particle)
 {
@@ -42,7 +52,9 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 	verlet_list *current = particle.next;
 	vector_3d tmp_force = vector_3d(0,0,0);
 
+	
 	while(current != NULL){
+		
 		vector_3d r = particle.data->pos.diff(current->data->pos, x_dim, y_dim, z_dim);
 		if(r*r < cutoff*cutoff){
 			/* Update velocity and acceleration of the particle */
@@ -76,6 +88,7 @@ vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
 	e_pot += -4*ric3*ric3*epsi*sig6*(sig6*ric3*ric3-1) + ecut;
 	/* First part of internal pressure */
 	p_int += d*f;
+
 	return f;
 }
 

@@ -7,6 +7,8 @@ struct Input_data{
 	int y;
 	int z;
 	float a;
+	float epsilon;
+	float sigma;
 	float temp;
 	float cut_off;
 	int t_start;
@@ -31,11 +33,13 @@ namespace Project_GUI_v001 {
 	{
 	public:
 		Material* materials;
+
 		Form1(void)
 		{
 			InitializeComponent();
 			inputter input("materials.txt");
 			materials = input.get_material("materials.txt");
+			set_materials(input.num_mat);
 			//
 			//TODO: Add the constructor code here
 			//
@@ -257,7 +261,6 @@ private: System::Windows::Forms::Label^  label9;
 			// listBoxMaterial
 			// 
 			this->listBoxMaterial->FormattingEnabled = true;
-			this->listBoxMaterial->Items->AddRange(gcnew cli::array< System::Object^  >(4) {L"Argon", L"Nickel", L"Silver", L"Rhodium"});
 			this->listBoxMaterial->Location = System::Drawing::Point(0, 8);
 			this->listBoxMaterial->Name = L"listBoxMaterial";
 			this->listBoxMaterial->Size = System::Drawing::Size(628, 407);
@@ -835,14 +838,17 @@ private: System::Void label20_Click(System::Object^  sender, System::EventArgs^ 
 		 }
 private: System::Void textBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
-private: System::Void listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
-		 }
+private: System::Void listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e);
+
 private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void textBox1_TextChanged_1(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void label9_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
+private: System::Void set_materials(unsigned int l);
+private: Material selected_material();
+private: System::Void set_defaults(Material m);
 };
 }
 
