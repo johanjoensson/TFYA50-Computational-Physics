@@ -34,6 +34,7 @@ private:
 	float P;
 	float C_v;
 	float collision_rate;
+	float T_start;
 
 	bool visualise;
 	bool thermostat;
