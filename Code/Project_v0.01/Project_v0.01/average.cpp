@@ -17,9 +17,9 @@ float* averageValue(int startTime, int endTime){
 			input.getline(line, 256);
 			i++;
 		}
-		for(i<=endTime;i++){
+		for(int j = i; j<=endTime;j++){
 			input.getline(line, 256);
-			line >> tmp_E_kin >> tmp_E_pot >> tmp_E_tot >> tmp_E_coh >> tmp_int_p >> tmp_temp >> tmp_deb >> tmp_Spec_heat;
+//			line >> tmp_E_kin >> tmp_E_pot >> tmp_E_tot >> tmp_E_coh >> tmp_int_p >> tmp_temp >> tmp_deb >> tmp_Spec_heat;
 			E_kin += tmp_E_kin;
 			E_pot += tmp_E_pot;
 			E_tot += tmp_E_tot;
