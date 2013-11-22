@@ -124,6 +124,9 @@ public:
 	vector_3d diff(vector_3d atom2_pos, float x_tot, float y_tot, float
 	z_tot);
 
+	vector_3d reposi(vector_3d atom2_pos, float x_tot, float y_tot, float
+	z_tot);
+
 };
 
 /******************************************************************************

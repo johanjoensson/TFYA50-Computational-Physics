@@ -168,6 +168,31 @@ vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z
 	return dist;
 }
 
+vector_3d vector_3d::reposi(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot)
+{
+	if(atom2_pos.x < 0){
+		atom2_pos.x += x_tot;
+	}
+	if(atom2_pos.x > x_tot){
+		atom2_pos.x -= x_tot;
+	}
+	if(atom2_pos.y < 0){
+		atom2_pos.y += y_tot;
+	}
+	if(atom2_pos.y > y_tot){
+		atom2_pos.y -= y_tot;
+	}	
+	if(atom2_pos.z < 0){
+		atom2_pos.z += z_tot;
+	}
+	if(atom2_pos.z > z_tot){
+		atom2_pos.z -= z_tot;
+	}
+	return atom2_pos;
+}
+
+
+
 /*
 int main()
 {
