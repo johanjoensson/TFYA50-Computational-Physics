@@ -10,8 +10,9 @@ class integrator
 private:
 	float h;
 	float cutoff;
+	float sig6;
+	float epsi;
 	vector_3d calculate_force(atom *atom_a, atom *atom_b);
-	vector_3d calculate_force(atom *atom_a, atom *atom_b, float cutoff);
 	float x_dim;
 	float y_dim;
 	float z_dim;

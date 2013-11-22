@@ -23,6 +23,7 @@ float* averageValue(int startTime, int endTime){
 			input.getline(line, 256);
 			i++;
 		}
+		
 		for(int k=i;k<=endTime;k++){
 			
 			input.getline(line, 256);

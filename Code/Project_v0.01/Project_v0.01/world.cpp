@@ -476,11 +476,11 @@ float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_pref
 				arg *= 4.5546490065e23;
 			break;
 
-		case 'm':
+		case 'm': //This unit is not SI, conversion is between u and eV!
 			if(SI == 1)
-				arg /= 1.7826627e-36;
+				arg *= 931494061;
 			else
-				arg *= 1.7826627e-36;
+				arg /= 931494061;
 			break;
 
 		case 'F':
@@ -502,6 +502,13 @@ float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_pref
 				arg /= 5.3442883e-28;
 			else
 				arg *= 5.3442883e-28;
+			break;
+
+		case 'T':
+			if(SI == 1)
+				arg /= 11604.5629;
+			else
+				arg *= 11604.5629;
 			break;
 
 		default:
