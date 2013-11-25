@@ -19,9 +19,8 @@ private:
 
 
 	float p_int;
-public:
 	float e_pot;
-
+public:
 	integrator();
 
 	void set_timestep(float d);
@@ -34,6 +33,9 @@ public:
 	void verlet_integration_velocity(verlet_list particle);
 	float get_p_int();
 	void reset_p_int();
+
+	float get_epot();
+	void reset_epot();
 };
 
 #endif /* VELOCITY_VERLET_INTEGRATION_H */

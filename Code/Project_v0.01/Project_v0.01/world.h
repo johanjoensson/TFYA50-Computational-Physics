@@ -49,6 +49,7 @@ private:
 	void calc_specific_heat(float E_kin, float E_kin_sqr, int N);
 
 public:
+	~world();
 	world();
 	world(unsigned int n);
 	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type);
@@ -59,6 +60,7 @@ public:
 	void toggle_visualisation();
 	void set_collision_rate(float f);
 	void set_thermostat(bool val);
+	void set_visualisation(bool val);
 
 	void set_sigma(float sigma);
 	void set_epsilon(float epsilon);

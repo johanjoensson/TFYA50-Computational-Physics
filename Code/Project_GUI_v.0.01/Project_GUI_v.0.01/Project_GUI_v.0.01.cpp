@@ -248,6 +248,9 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 		w.set_thermostat(true);
 		w.set_collision_rate(this->get_collision_rate());
 	}
+	if(this->checkBoxVisualise->Checked){
+		w.set_visualisation(true);
+	}
 
 	w.integrate(d.t_end);
 

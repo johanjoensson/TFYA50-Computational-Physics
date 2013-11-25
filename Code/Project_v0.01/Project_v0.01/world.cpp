@@ -9,6 +9,12 @@
 #endif
 
 
+world::~world()
+{
+	delete[] bulk;
+	delete[] atoms;
+}
+
 world::world()
 {
 	cutoff = 0;
@@ -46,7 +52,7 @@ world::world(unsigned int n)
 	cutoff = 100;
 	verlet_integrator = integrator();
 	verlet_integrator.set_cutoff(cutoff);
-//	std::cout << "Set number of atoms to: " << n << std::endl;
+
 	N = n;
 	x_tot = 1;
 	y_tot = 1;
@@ -70,7 +76,7 @@ world::world(unsigned int n)
 
 /* 
 set positions for all atoms in structure
-x,y,z = a = lattice constant, type = type of crystal structure (BCC or FCC)
+x,y,z = a = lattice constant, type = type of crystal structure (BCC or FCC or Diamond)
 */
 world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, enum crystalStructure type)	
 {
@@ -145,6 +151,11 @@ void world::set_cutoff(float r)
 void world::toggle_visualisation()
 {
 	visualise = !visualise;
+}
+
+void world::set_visualisation(bool val)
+{
+	visualise = val;
 }
 
 void world::set_thermostat(bool val)
@@ -402,6 +413,7 @@ void world::integrate(unsigned int t_end)
 
 	for(unsigned int t = 0; t < t_end; t++){
 		this->verlet_integrator.reset_p_int();
+		this->verlet_integrator.reset_epot();
 		this->kinetic_energy();
 		this->r_msd = 0;
 
@@ -446,14 +458,14 @@ void world::integrate(unsigned int t_end)
 
 		data[0] = t*time_step;
 		data[1] = this->get_kinetic_energy();
-		data[2] = this->verlet_integrator.e_pot;
-		data[3] = this->get_kinetic_energy() + this->verlet_integrator.e_pot;
+		data[2] = this->verlet_integrator.get_epot();
+		data[3] = this->get_kinetic_energy() + this->verlet_integrator.get_epot();
 		data[4] = data[3]/this->N;
 		data[5] = r_msd;
 		data[6] = P;
 		data[7] = T;
-		data[8] = this->debye_temp(r_msd, 50, 1);
-		data[9] = this->cohEnergy(this->N, (this->verlet_integrator.e_pot+0.5*this->get_kinetic_energy()));
+		data[8] = this->debye_temp(r_msd, T, atoms[0].mass);
+		data[9] = this->cohEnergy(this->N, (this->verlet_integrator.get_epot()+0.5*this->get_kinetic_energy()));
 
 		writer.store_data(data);
 		

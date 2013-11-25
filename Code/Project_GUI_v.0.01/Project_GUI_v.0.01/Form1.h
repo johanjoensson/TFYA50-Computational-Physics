@@ -55,6 +55,7 @@ namespace Project_GUI_v001 {
 			{
 				delete components;
 			}
+			delete[] materials;
 		}
 	private: System::Windows::Forms::TabControl^  tabControl1;
 	private: System::Windows::Forms::TabPage^  tabPageStructure;

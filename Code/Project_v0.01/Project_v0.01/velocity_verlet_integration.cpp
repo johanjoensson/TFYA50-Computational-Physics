@@ -37,6 +37,15 @@ void integrator::set_epsilon(float epsilon)
 	epsi = epsilon;
 }
 
+float integrator::get_epot()
+{
+	return e_pot;
+}
+void integrator::reset_epot()
+{
+	e_pot = 0;
+}
+
 /* Step 1 of the two step Velocity verlet algorithm. Updates only the position */
 void integrator::verlet_integration_position(verlet_list particle)
 {
