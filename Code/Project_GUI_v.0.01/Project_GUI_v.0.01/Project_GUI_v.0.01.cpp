@@ -232,6 +232,16 @@ crystalStructure Form1::get_structure()
 	return res;
 }
 
+System::Void initial_information(world w, Material mat, Input_data d)
+{
+	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+	std::ostringstream ss;
+
+	/* Material data */
+	ss << "Chosen material: " << mat.name << "Mass of each atom" << mat.mass;
+	std::string s(ss.str());
+}
+
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
 	Material mat = selected_material();
