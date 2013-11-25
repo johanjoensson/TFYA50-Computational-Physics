@@ -14,10 +14,10 @@ atom::atom()
 
 atom::atom(vector_3d position)
 {
-	srand((unsigned)std::time( 0 ));
+	srand(std::time( 0 ));
 	pos = position;
 	orig_pos = position;
-	vel = vector_3d(( (rand() % 3) - 1)/2.0,( (rand() % 3) - 1)/2.0,( (rand() % 3) - 1)/2.0);
+	vel = vector_3d( 0.5 - static_cast<float> (rand())/static_cast<float>(RAND_MAX),0.5 - static_cast<float> (rand())/static_cast<float>(RAND_MAX),0.5 - static_cast<float> (rand())/static_cast<float>(RAND_MAX));
 	acc = vector_3d(0,0,0);
 	next_acc = vector_3d(0,0,0);
 //	mass = mass;

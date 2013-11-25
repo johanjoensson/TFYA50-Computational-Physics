@@ -4,12 +4,16 @@
 #include <string>
 
 float* averageValue(int startTime, int endTime){
-	char line[256];
+	std::string line;
+	std::ifstream input("toto.txt");
+	std::string token;
+
+	
 	float average[10];
 	float tmp_avg[10];
 	int dt = endTime-startTime;
+
 	
-	std::ifstream input("toto.txt");
 	input.seekg(0, input.beg);	
 	
 	float E_kin,E_pot,E_tot,E_coh,MSD,int_p,temp,deb,Spec_heat,diff_const;
@@ -20,18 +24,18 @@ float* averageValue(int startTime, int endTime){
 	if (input.is_open()){
 		int i = 0;
 		while(startTime<i){
-			input.getline(line, 256);
+			std::getline(input, line);
 			i++;
 		}
 		
 		for(int k=i;k<=endTime;k++){
 			
-			input.getline(line, 256);
+			std::getline(input, line);
 			std::string delim = "\t";
 			size_t pos = 0;
 			unsigned int j = 0;
 			
-			while((pos = input.find(delim)) != std::string::npos){
+			while((pos = line.find(delim)) != std::string::npos){
 				token = line.substr(0, pos);
 				line.erase(0, pos + delim.length());
 				tmp_avg[j] = atof(token.c_str());

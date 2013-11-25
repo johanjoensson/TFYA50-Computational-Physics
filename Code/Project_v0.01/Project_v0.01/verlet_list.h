@@ -6,6 +6,7 @@
 class verlet_list{
 private:
 	float verlet_skin;
+	float x_dim, y_dim, z_dim;
 public:
 	/* Empty constructor initialises everythin to NULL ( = 0) */
 	verlet_list();
@@ -27,5 +28,7 @@ public:
 	void clear_verlet_list();
 
 	void set_verlet_skin(float r);
+
+	void set_dimensions(float x, float y, float z);
 };
 #endif /* VERLET_LIST_H */

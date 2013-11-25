@@ -4,7 +4,7 @@
 #include "output.h"
 
 /* ************ Natural Constants ************ */
-#define kB 1.0 /*Boltzmann's Constant in units of kB*/ //kB 8.6173324e-5 /* Boltzmann's Constant [eV/K] */
+#define kB 8.6173324e-5 /*Boltzmann's Constant in units of kB*/ //kB 8.6173324e-5 /* Boltzmann's Constant [eV/K] */
 
 enum type_of_average
 {
@@ -34,6 +34,7 @@ private:
 	float P;
 	float C_v;
 	float collision_rate;
+	float T_start;
 
 	bool visualise;
 	bool thermostat;
@@ -56,6 +57,11 @@ public:
 	void set_cutoff(float r);
 	void set_timestep(float h);
 	void toggle_visualisation();
+	void set_collision_rate(float f);
+	void set_thermostat(bool val);
+
+	void set_sigma(float sigma);
+	void set_epsilon(float epsilon);
 
 	integrator verlet_integrator;
 	unsigned int N;

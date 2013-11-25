@@ -2,6 +2,7 @@
 #include "world.h"
 #include "verlet_list.h"
 #include "output.h"
+#include "average.h"
 #include <iostream>
 
 //#include <cstdlib>
@@ -55,12 +56,14 @@ int main()
 
 	writer.store_data(data);
 */
-
+	float* average = averageValue(0,20);
+	std::cout << average << std::endl;
 
 	int temp;
 	std::cin >> temp;
 
 	return 0;
+
 
 }
 

@@ -1,6 +1,9 @@
 #include "world.h"
 #include <random>
 
+#include <sstream>
+
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -76,6 +79,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	x_tot = x*a;
 	y_tot = y*a;
 	z_tot = z*a;
+	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
 	switch (type)
 	{
 	case BCC:
@@ -114,6 +118,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	/* Scale the centre of mass velocity */
 	sum_vel /= N;
 	sum_vel2 /= N;
+	T_start = temp;
 	float scale_factor = sqrt(3*kB*temp/sum_vel2);
 	for(unsigned int i = 0; i < N; i++){
 		atoms[i].vel = (atoms[i].vel - sum_vel)*scale_factor;
@@ -139,6 +144,24 @@ void world::set_cutoff(float r)
 void world::toggle_visualisation()
 {
 	visualise = !visualise;
+}
+
+void world::set_thermostat(bool val)
+{
+	thermostat = val;
+}
+
+void world::set_collision_rate(float f){
+	collision_rate = f;
+}
+
+void world::set_sigma(float sigma)
+{
+	this->verlet_integrator.set_sigma6(sigma);
+}
+void world::set_epsilon(float epsilon)
+{
+	this->verlet_integrator.set_epsilon(epsilon);
 }
 
 void world::update_verlet_lists()
@@ -395,15 +418,13 @@ void world::integrate(unsigned int t_end)
 		for(int i = 0; i < this->N; i++){
 			this->verlet_integrator.verlet_integration_velocity(this->bulk[i]);
 			this->kinetic_energy(this->atoms[i]);
-			sum_vsquare += this->atoms[i].vel*this->atoms[i].vel;
 		}
 
 		/* Andersen thermostat */
 		if(thermostat){
-			float temp_average = sum_vsquare / 3*N;
-			float sigma = sqrt(temp_average);
+			float sigma = sqrt(T_start);
 			std::default_random_engine generator;
-			std::normal_distribution<float> gauss(temp_average,sigma);
+			std::normal_distribution<float> gauss(T_start,sigma);
 
 			for(int i = 0; i < this->N; i++){
 				float collisionTest = rand();
