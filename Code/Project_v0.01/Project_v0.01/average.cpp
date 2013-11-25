@@ -6,7 +6,7 @@
 float* averageValue(int startTime, int endTime){
 	char line[256];
 	float average[10];
-	float tmp_avg[9];
+	float tmp_avg[10];
 	int dt = endTime-startTime;
 	
 	std::ifstream input("toto.txt");
@@ -38,15 +38,15 @@ float* averageValue(int startTime, int endTime){
 				j++;
 			}
 			
-			E_kin += tmp_avg[0];
-			E_pot += tmp_avg[1];
-			E_tot += tmp_avg[2];
-			E_coh += tmp_avg[3];
-			MSD += tmp_avg[4];
-			int_p += tmp_avg[5];
-			temp += tmp_avg[6];
-			deb += tmp_avg[7];
-			Spec_heat += tmp_avg[8];
+			E_kin += tmp_avg[1];
+			E_pot += tmp_avg[2];
+			E_tot += tmp_avg[3];
+			E_coh += tmp_avg[4];
+			MSD += tmp_avg[5];
+			int_p += tmp_avg[6];
+			temp += tmp_avg[7];
+			deb += tmp_avg[8];
+			Spec_heat += tmp_avg[9];
 		}
 	}
 	
@@ -59,7 +59,7 @@ float* averageValue(int startTime, int endTime){
 	average[6] = temp/dt;
 	average[7] = deb/dt;
 	average[8] = Spec_heat/dt;
-	average[9] = MSD/(3*dt);
+	average[9] = MSD/(3*dt); //diffusan konstant
 	
 	
 	return average;
