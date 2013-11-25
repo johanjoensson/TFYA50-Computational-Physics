@@ -79,6 +79,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	x_tot = x*a;
 	y_tot = y*a;
 	z_tot = z*a;
+	V = x_tot*y_tot*z_tot;
 	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
 	switch (type)
 	{
@@ -374,7 +375,7 @@ void world::calc_temperature(float E_kin, int N) //Temperature
 
 void world::calc_pressure(float p_sum, int N, float V) //internal pressure
 {
-	P = N*kB*T/V + p_sum;
+	P = N*kB*T/V + 1/(6*V)* p_sum;
 }
 
 void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N)
