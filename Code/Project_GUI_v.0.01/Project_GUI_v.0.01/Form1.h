@@ -341,6 +341,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->radioButtonDiamond->TabStop = true;
 			this->radioButtonDiamond->Text = L"Diamond";
 			this->radioButtonDiamond->UseVisualStyleBackColor = true;
+			this->radioButtonDiamond->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButtonDiamond_CheckedChanged);
 			// 
 			// label19
 			// 
@@ -424,6 +425,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->radioButtonBCC->TabStop = true;
 			this->radioButtonBCC->Text = L"BCC";
 			this->radioButtonBCC->UseVisualStyleBackColor = true;
+			this->radioButtonBCC->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButtonBCC_CheckedChanged);
 			// 
 			// radioButtonFCC
 			// 
@@ -435,6 +437,7 @@ private: System::Windows::Forms::Label^  label9;
 			this->radioButtonFCC->TabStop = true;
 			this->radioButtonFCC->Text = L"FCC";
 			this->radioButtonFCC->UseVisualStyleBackColor = true;
+			this->radioButtonFCC->CheckedChanged += gcnew System::EventHandler(this, &Form1::radioButtonFCC_CheckedChanged);
 			// 
 			// label3
 			// 
@@ -815,7 +818,6 @@ private: System::Windows::Forms::Label^  label9;
 private: 
 
 private: Input_data Form1::get_data();
-private: System::Void get_dimensions(int &a, int &b, int &c);
 private: float get_lattice_constant();
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e);
 private: float get_collision_rate();
@@ -849,6 +851,25 @@ private: System::Void label9_Click(System::Object^  sender, System::EventArgs^  
 private: System::Void set_materials(unsigned int l);
 private: Material selected_material();
 private: System::Void set_defaults(Material m);
+private: crystalStructure get_structure();
+private: System::Void radioButtonFCC_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if(this->radioButtonFCC->Checked){
+				 this->radioButtonBCC->Checked = false;
+				 this->radioButtonDiamond->Checked = false;
+			 }
+		 }
+private: System::Void radioButtonBCC_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if(this->radioButtonBCC->Checked){
+				 this->radioButtonFCC->Checked = false;
+				 this->radioButtonDiamond->Checked = false;
+			 }
+		 }
+private: System::Void radioButtonDiamond_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+			 if(this->radioButtonDiamond->Checked){
+				 this->radioButtonBCC->Checked = false;
+				 this->radioButtonFCC->Checked = false;
+			 }
+		 }
 };
 }
 

@@ -46,28 +46,6 @@ System::Void Form1::listBox1_SelectedIndexChanged(System::Object^  sender, Syste
 	set_defaults(mat);
 }
 
-System::Void Form1::get_dimensions(int &a, int &b, int &c)
-{
-	if(this->textBoxXdim->Text != ""){
-		a = int::Parse(this->textBoxXdim->Text);
-	}else{
-		a = 0;
-		MessageBox::Show("x-dimension not set!\n0 assumed");
-	}
-	if(this->textBoxXdim->Text != ""){
-		b = int::Parse(this->textBoxYdim->Text);
-	}else{
-		b = 0;
-		MessageBox::Show("y-dimension not set!\n0 assumed");
-	}
-	if(this->textBoxZdim->Text != ""){
-		c = int::Parse(this->textBoxZdim->Text);
-	}else{
-		c = 0;
-		MessageBox::Show("z-dimension not set!\n0 assumed");
-	}
-}
-
 float Form1::get_lattice_constant()
 {
 	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
@@ -80,6 +58,7 @@ float Form1::get_lattice_constant()
 		MessageBox::Show("Lattice constant not set!\n0 assumed");
 	}
 
+	delete str;
 	return lc;
 }
 
@@ -237,13 +216,28 @@ System::Void Form1::set_defaults(Material m)
 	ss.str("");
 }
 
+crystalStructure Form1::get_structure()
+{
+	crystalStructure res;
+	if(this->radioButtonFCC->Checked){
+		res = FCC;
+	}else if(this->radioButtonBCC->Checked){
+		res = BCC;
+	}else if(this->radioButtonDiamond->Checked){
+		res = DIAMOND;
+	}else{
+		MessageBox::Show("No crystal structure set!\nFCC assumed");
+		res = FCC;
+	}
+	return res;
+}
+
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
 	Material mat = selected_material();
-//	set_defaults(mat);
 
 	Input_data d = get_data();
-	d.cStruct = FCC;
+	d.cStruct = get_structure();
 	world w(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct);
 	w.set_sigma(mat.sigma);
 	w.set_epsilon(mat.epsilon);
