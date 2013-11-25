@@ -28,7 +28,7 @@ void calc_specific_heat(float E_kin, float E_kin_sqr, int N);
 
 int main()
 {
-	world test(3,3,3,0.1, 37199230118 ,20,BCC);
+/*	world test(3,3,3,0.1, 37199230118 ,20,BCC);
 
 	x_tot = test.x_tot;
 	y_tot = test.y_tot;
@@ -46,18 +46,19 @@ int main()
 	float max_disp = 0;
 
 	test.integrate(t_max);
+*/
+	world w(2, 2, 2, 1, 1, 1, FCC);
+	std::cout << w.N << std::endl;
 
-//	world w(2, 2, 2, 1, BCC);
-//	std::cout << w.N << std::endl;
-/*
 	for(int i=0; i<(w.N); i++){
 		std::cout << w.atoms[i].pos.x << "\t" << w.atoms[i].pos.y << "\t" << w.atoms[i].pos.z << "   (" << i+1 << ")" << std::endl;
 	}
 
-	writer.store_data(data);
-*/
-	float* average = averageValue(0,20);
+//	writer.store_data(data);
+
+/*	float* average = averageValue(0,20);
 	std::cout << average << std::endl;
+	*/
 
 	int temp;
 	std::cin >> temp;
