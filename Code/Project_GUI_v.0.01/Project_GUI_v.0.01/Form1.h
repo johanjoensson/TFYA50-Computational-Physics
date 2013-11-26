@@ -40,6 +40,7 @@ namespace Project_GUI_v001 {
 			inputter input("materials.txt");
 			materials = input.get_material("materials.txt");
 			set_materials(input.num_mat);
+			input.close_file();
 			//
 			//TODO: Add the constructor code here
 			//

@@ -416,6 +416,7 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 
 	w.integrate(d.t_end);
 
+	w.unset_world();
 	set_end_of_simulation(d);
 
 	MessageBox::Show("Simulation complete!");

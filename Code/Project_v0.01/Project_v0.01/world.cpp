@@ -11,6 +11,14 @@
 
 world::~world()
 {
+	writer.close_files();
+	delete[] bulk;
+	delete[] atoms;
+}
+
+void world::unset_world()
+{
+	writer.close_files();
 	delete[] bulk;
 	delete[] atoms;
 }
