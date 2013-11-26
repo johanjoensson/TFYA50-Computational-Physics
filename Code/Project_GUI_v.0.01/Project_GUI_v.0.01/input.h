@@ -19,7 +19,9 @@ private:
 	std::ifstream file;
 
 public:
+	~inputter();
 	inputter(char* file_name);
+	void close_file();
 
 	unsigned int num_mat;
 

@@ -1,7 +1,5 @@
 #include "world.h"
 
-#include "Form1.h"
-
 #include <random>
 
 #include <sstream>

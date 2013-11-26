@@ -2,6 +2,15 @@
 
 #include <string>
 
+inputter::~inputter()
+{
+	file.close();
+}
+
+void inputter::close_file()
+{
+	file.close();
+}
 inputter::inputter(char* file_name)
 {
 	file.open(file_name, std::ios::in);
