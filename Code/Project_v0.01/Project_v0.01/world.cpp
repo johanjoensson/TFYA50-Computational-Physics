@@ -1,4 +1,7 @@
 #include "world.h"
+
+#include "Form1.h"
+
 #include <random>
 
 #include <sstream>
@@ -384,6 +387,12 @@ void world::integrate(unsigned int t_end)
 		writer.store_atom(*this->bulk[i].data);
 	}
 
+	float collisionTest = 0;
+	float sigma = sqrt(T_start);
+	std::default_random_engine generator;
+	std::normal_distribution<float> gauss(T_start,sigma);
+	float collision_val = collision_rate*time_step*1e-15;
+
 	for(unsigned int t = 0; t < t_end; t++){
 		this->verlet_integrator.reset_p_int();
 		this->verlet_integrator.reset_epot();
@@ -404,22 +413,17 @@ void world::integrate(unsigned int t_end)
 			}
 		}
 		/* Second part of Verlet integration */
-		float sum_vsquare = 0;
-		float sigma;
 		for(int i = 0; i < this->N; i++){
 			this->verlet_integrator.verlet_integration_velocity(this->bulk[i]);
 			this->kinetic_energy(this->atoms[i]);
 		}
 
 		/* Andersen thermostat */
+		
 		if(thermostat){
-			float sigma = sqrt(T_start);
-			std::default_random_engine generator;
-			std::normal_distribution<float> gauss(T_start,sigma);
-
 			for(int i = 0; i < this->N; i++){
-				float collisionTest = rand();
-				if(collisionTest  < collision_rate*time_step*10e-015){
+				collisionTest = rand();
+				if(collisionTest  < collision_val){
 					this->atoms[i].vel = vector_3d(gauss(generator),gauss(generator),gauss(generator));
 				}
 			}
