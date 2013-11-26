@@ -428,7 +428,7 @@ void world::integrate(unsigned int t_end)
 		
 		if(thermostat){
 			for(int i = 0; i < this->N; i++){
-				collisionTest = rand();
+				collisionTest = ((float)rand())/RAND_MAX;
 				if(collisionTest  < collision_val){
 					this->atoms[i].vel = vector_3d(gauss(generator),gauss(generator),gauss(generator));
 				}

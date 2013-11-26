@@ -23,6 +23,8 @@ public:
 	inputter(char* file_name);
 	void close_file();
 
+	void close_file();
+
 	unsigned int num_mat;
 
 	Material* get_material(char* text_file);
