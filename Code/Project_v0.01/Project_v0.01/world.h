@@ -55,6 +55,7 @@ public:
 	world();
 	world(unsigned int n);
 	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type);
+	void unset_world();
 	float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix);
 
 	void set_cutoff(float r);

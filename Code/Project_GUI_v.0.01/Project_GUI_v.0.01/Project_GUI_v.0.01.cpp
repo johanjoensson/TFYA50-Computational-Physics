@@ -427,6 +427,8 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 	set_information(mat, d, w.N);
 	clock_t time = clock();
 	w.integrate(d.t_end);
+
+	w.unset_world();
 	time = clock() - time;
 	set_end_of_simulation(d, time);
 

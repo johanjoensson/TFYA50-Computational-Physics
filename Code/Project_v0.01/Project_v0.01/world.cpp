@@ -12,6 +12,14 @@
 
 world::~world()
 {
+	writer.close_files();
+	delete[] bulk;
+	delete[] atoms;
+}
+
+void world::unset_world()
+{
+	writer.close_files();
 	delete[] bulk;
 	delete[] atoms;
 }
@@ -225,6 +233,10 @@ float world::debye_temp(float msd, float T, float m)
 	return(theta_D);
 }
 
+/* 
+cohEnergy is not used at the moment it is 
+calculated in the process when data is saved in data[]
+*/
 float world::cohEnergy (int N, float totEnergy)
 {
 	float cE = totEnergy/N;
@@ -427,16 +439,16 @@ void world::integrate(unsigned int t_end)
 		calc_pressure(this->verlet_integrator.get_p_int(), this->N, this->V);
 		calc_specific_heat(this->get_kinetic_energy(), this->get_kinetic_energy_squared(), this->N);
 
-		data[0] = t*time_step;
-		data[1] = this->get_kinetic_energy();
-		data[2] = this->verlet_integrator.get_epot();
-		data[3] = this->get_kinetic_energy() + this->verlet_integrator.get_epot();
-		data[4] = data[3]/this->N;
-		data[5] = r_msd;
-		data[6] = P;
-		data[7] = T;
-		data[8] = this->debye_temp(r_msd, T, atoms[0].mass);
-		data[9] = this->cohEnergy(this->N, (this->verlet_integrator.get_epot()+0.5*this->get_kinetic_energy()));
+		data[0] = t*time_step; // Elapsed time
+		data[1] = this->get_kinetic_energy(); //Kinetic energy
+		data[2] = this->verlet_integrator.get_epot(); //Potential energy
+		data[3] = this->get_kinetic_energy() + this->verlet_integrator.get_epot(); // Total energy
+		data[4] = data[3]/this->N; // Cohesive energy
+		data[5] = r_msd; // MSD
+		data[6] = P; // Presure
+		data[7] = T; // Temperature
+		data[8] = this->debye_temp(r_msd, T, atoms[0].mass); // Debye temperature
+		data[9] = this->C_v;//specific heat
 
 		writer.store_data(data);
 		
