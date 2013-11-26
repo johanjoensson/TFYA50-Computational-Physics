@@ -63,7 +63,7 @@ float* averageValue(int startTime, int endTime){
 	average[6] = temp/dt;
 	average[7] = deb/dt;
 	average[8] = Spec_heat/dt;
-	average[9] = MSD/(3*dt); //diffusan konstant
+	average[9] = MSD/(3*dt); //diffusion konstant
 	
 	
 	return average;

@@ -3,9 +3,12 @@
 #include "Form1.h"
 #include "output.h"
 #include "input.h"
+#include "average.h"
 #include <msclr\marshal.h>
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
+#include <Windows.h>
+#include <crtdbg.h>
 
 using namespace Project_GUI_v001;
 
@@ -24,6 +27,7 @@ System::Void Form1::set_materials(unsigned int l)
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
+	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
 	// Enabling Windows XP visual effects before any controls are created
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
@@ -232,14 +236,160 @@ crystalStructure Form1::get_structure()
 	return res;
 }
 
-System::Void initial_information(world w, Material mat, Input_data d)
+System::Void Form1::set_information(Material m, Input_data d, int N)
 {
 	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
 	std::ostringstream ss;
 
-	/* Material data */
-	ss << "Chosen material: " << mat.name << "Mass of each atom" << mat.mass;
-	std::string s(ss.str());
+	ss << "Material : " << m.name << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss << "Mass of each atom : " << m.mass << "u" << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss << "Number of atoms in bulk : " << N << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss << "Unit cells in - x: " << d.x << ", y: " << d.y << ", z: " << d.z << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss << "Lattice constant : " << d.a << "Å" << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss << "Sigma : " << d.sigma << "Å, epsilon : " << d.epsilon << "eV, cutoff distance: " << d.cut_off << "Å" << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss << "Crystal structure :" ;
+	switch(d.cStruct){
+	case FCC:
+		ss << " FCC";
+		break;
+	case BCC:
+		ss << " BCC";
+		break;
+	case DIAMOND:
+		ss << " Diamond";
+		break;
+	}
+	ss << std::endl;
+
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+	
+	ss << "Starting simulation at : " << d.temp << "K" << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss << "Running for " << d.t_end << " timesteps," << " with a timestep of " << d.t_step << "fs" << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss << "Calculations of average properties will begin after " << d.t_start << " timesteps" << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss << std::endl << "------------------------------------------------------------------------------------------------------------------------";
+	ss << std::endl;
+
+	ss << "\tStarting simulation! Live Long and prosper!" << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	this->richTextBoxResults->Refresh();
+
+}
+
+float* get_averages(int t_start, int t_end)
+{
+	float *data;
+
+	data = averageValue(t_start, t_end);
+
+	return data;
+}
+
+
+
+System::Void Form1::set_end_of_simulation(Input_data d)
+{
+	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+	std::ostringstream ss;
+
+	ss <<std::endl << "\tPeace and long life!" << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	float *res = get_averages(d.t_start, d.t_end);
+
+	ss << res[0];
+	this->textBoxEKin->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << res[1];
+	this->textBoxEPot->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+	
+	ss << res[2];
+	this->textBoxETot->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << res[3];
+	this->textBoxECoh->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << res[4];
+	this->textBoxMSD->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << res[5];
+	this->textBoxIntP->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << res[6];
+	this->textBoxResTemp->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << res[7];
+	this->textBoxDebTemp->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << res[8];
+	this->textBoxSpecHeat->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	ss << res[9];
+	this->textBoxDiffCo->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+
+	this->richTextBoxResults->Refresh();
 }
 
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
@@ -262,7 +412,11 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 		w.set_visualisation(true);
 	}
 
+	set_information(mat, d, w.N);
+
 	w.integrate(d.t_end);
+
+	set_end_of_simulation(d);
 
 	MessageBox::Show("Simulation complete!");
 }

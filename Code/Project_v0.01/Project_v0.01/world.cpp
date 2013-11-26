@@ -41,6 +41,7 @@ void world::init()
 	C_v = 0;
 
 	visualise = false;
+	thermostat = false;
 
 	verlet_integrator = integrator();
 }
