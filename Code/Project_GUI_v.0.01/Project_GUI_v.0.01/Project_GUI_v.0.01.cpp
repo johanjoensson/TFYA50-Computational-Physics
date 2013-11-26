@@ -10,6 +10,7 @@
 #include <Windows.h>
 #include <crtdbg.h>
 
+
 using namespace Project_GUI_v001;
 
 System::Void Form1::set_materials(unsigned int l)
@@ -327,12 +328,23 @@ float* get_averages(int t_start, int t_end)
 
 
 
-System::Void Form1::set_end_of_simulation(Input_data d)
+System::Void Form1::set_end_of_simulation(Input_data d, clock_t time)
 {
 	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
 	std::ostringstream ss;
 
 	ss <<std::endl << "\tPeace and long life!" << std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	float total_time = ((float)time)/CLOCKS_PER_SEC;
+	ss <<std::endl << "The simulation took " << total_time << " seconds" <<  std::endl;
+	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+	ss.clear();
+	ss.str("");
+
+	ss <<"Which means " << (float) total_time/d.t_end << " seconds per time step" <<  std::endl;
 	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
 	ss.clear();
 	ss.str("");
@@ -413,10 +425,10 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 	}
 
 	set_information(mat, d, w.N);
-
+	clock_t time = clock();
 	w.integrate(d.t_end);
-
-	set_end_of_simulation(d);
+	time = clock() - time;
+	set_end_of_simulation(d, time);
 
 	MessageBox::Show("Simulation complete!");
 }

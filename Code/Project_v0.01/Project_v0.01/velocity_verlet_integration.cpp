@@ -52,7 +52,7 @@ void integrator::verlet_integration_position(verlet_list particle)
 	/* Update position of particle */
 	vector_3d move = particle.data->vel*h + 0.5*particle.data->acc*h*h;
 	particle.data->incr_displacement(move.abs());
-	particle.data->pos += move;
+	particle.data->pos = particle.data->pos.reposi(particle.data->pos + move, x_dim, y_dim, z_dim);
 }
 
 /* The second part of the Velocity verlet algorithm, updates velocity */
