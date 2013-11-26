@@ -220,8 +220,7 @@ float world::msd(atom a, int N)
 
 float world::debye_temp(float msd, float T, float m)
 {
-//	float k_b = .0000861734;
-	float theta_D = (3*T)/(m*kB*msd);
+	float theta_D = (3*hBar*T)/(m*kB*msd);
 	return(theta_D);
 }
 
