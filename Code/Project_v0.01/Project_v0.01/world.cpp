@@ -416,7 +416,7 @@ void world::integrate(unsigned int t_end)
 
 			for(int i = 0; i < this->N; i++){
 				float collisionTest = rand();
-				if(collisionTest  < collision_rate*time_step){
+				if(collisionTest  < collision_rate*time_step*10e-015){
 					this->atoms[i].vel = vector_3d(gauss(generator),gauss(generator),gauss(generator));
 				}
 			}
