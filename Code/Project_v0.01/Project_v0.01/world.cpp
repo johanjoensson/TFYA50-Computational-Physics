@@ -1,4 +1,7 @@
 #include "world.h"
+
+#include "Form1.h"
+
 #include <random>
 
 #include <sstream>
@@ -228,11 +231,14 @@ float world::msd(atom a, int N)
 
 float world::debye_temp(float msd, float T, float m)
 {
-//	float k_b = .0000861734;
-	float theta_D = (3*T)/(m*kB*msd);
+	float theta_D = (3*hBar*T)/(m*kB*msd);
 	return(theta_D);
 }
 
+/* 
+cohEnergy is not used at the moment it is 
+calculated in the process when data is saved in data[]
+*/
 float world::cohEnergy (int N, float totEnergy)
 {
 	float cE = totEnergy/N;
@@ -389,6 +395,12 @@ void world::integrate(unsigned int t_end)
 		writer.store_atom(*this->bulk[i].data);
 	}
 
+	float collisionTest = 0;
+	float sigma = sqrt(T_start);
+	std::default_random_engine generator;
+	std::normal_distribution<float> gauss(T_start,sigma);
+	float collision_val = collision_rate*time_step*1e-15;
+
 	for(unsigned int t = 0; t < t_end; t++){
 		this->verlet_integrator.reset_p_int();
 		this->verlet_integrator.reset_epot();
@@ -409,22 +421,17 @@ void world::integrate(unsigned int t_end)
 			}
 		}
 		/* Second part of Verlet integration */
-		float sum_vsquare = 0;
-		float sigma;
 		for(int i = 0; i < this->N; i++){
 			this->verlet_integrator.verlet_integration_velocity(this->bulk[i]);
 			this->kinetic_energy(this->atoms[i]);
 		}
 
 		/* Andersen thermostat */
+		
 		if(thermostat){
-			float sigma = sqrt(T_start);
-			std::default_random_engine generator;
-			std::normal_distribution<float> gauss(T_start,sigma);
-
 			for(int i = 0; i < this->N; i++){
-				float collisionTest = rand();
-				if(collisionTest  < collision_rate*time_step){
+				collisionTest = rand();
+				if(collisionTest  < collision_val){
 					this->atoms[i].vel = vector_3d(gauss(generator),gauss(generator),gauss(generator));
 				}
 			}
@@ -434,16 +441,16 @@ void world::integrate(unsigned int t_end)
 		calc_pressure(this->verlet_integrator.get_p_int(), this->N, this->V);
 		calc_specific_heat(this->get_kinetic_energy(), this->get_kinetic_energy_squared(), this->N);
 
-		data[0] = t*time_step;
-		data[1] = this->get_kinetic_energy();
-		data[2] = this->verlet_integrator.get_epot();
-		data[3] = this->get_kinetic_energy() + this->verlet_integrator.get_epot();
-		data[4] = data[3]/this->N;
-		data[5] = r_msd;
-		data[6] = P;
-		data[7] = T;
-		data[8] = this->debye_temp(r_msd, T, atoms[0].mass);
-		data[9] = this->cohEnergy(this->N, (this->verlet_integrator.get_epot()+0.5*this->get_kinetic_energy()));
+		data[0] = t*time_step; // Elapsed time
+		data[1] = this->get_kinetic_energy(); //Kinetic energy
+		data[2] = this->verlet_integrator.get_epot(); //Potential energy
+		data[3] = this->get_kinetic_energy() + this->verlet_integrator.get_epot(); // Total energy
+		data[4] = data[3]/this->N; // Cohesive energy
+		data[5] = r_msd; // MSD
+		data[6] = P; // Presure
+		data[7] = T; // Temperature
+		data[8] = this->debye_temp(r_msd, T, atoms[0].mass); // Debye temperature
+		data[9] = this->C_v;//specific heat
 
 		writer.store_data(data);
 		

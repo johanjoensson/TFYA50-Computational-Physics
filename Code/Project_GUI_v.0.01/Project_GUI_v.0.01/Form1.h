@@ -1,4 +1,6 @@
 #pragma once
+#include <time.h>
+
 #include "world.h"
 #include "input.h"
 
@@ -1100,7 +1102,7 @@ private: Material selected_material();
 private: System::Void set_defaults(Material m);
 private: crystalStructure get_structure();
 private: System::Void set_information(Material m, Input_data d, int N);
-private: System::Void Form1::set_end_of_simulation(Input_data d);
+private: System::Void set_end_of_simulation(Input_data d, clock_t time);
 
 private: System::Void radioButtonFCC_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(this->radioButtonFCC->Checked){
