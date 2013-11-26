@@ -315,8 +315,7 @@ void world::fccSetup(unsigned int x, unsigned int y, unsigned int z, float a)
 void world::diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a)
 {
 	int n = 0;	//atom count
-//	N = x*y*z+(x-1)*y*(z-1)+x*(y-1)*(z-1)+(x-1)*(y-1)*z+4*(x-1)*(y-1)*(z-1); //number of atoms in a x*y*z fcc lattice structure
-	N = x*y*z*4+2;
+	N = x*y*z*8;
 
 	atoms = new atom[N];
 	
@@ -324,61 +323,31 @@ void world::diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a
 	for(int i = 0; i < x; i++){
 		for(int j = 0; j < y; j++){
 			for(int k = 0; k < z; k++){
+
 				float xpos = a*i;
 				float ypos = a*j;
 				float zpos = a*k;
+
+				/*one corner atom for each cell*/
 				atoms[n] = atom(vector_3d(xpos, ypos, zpos));
 				n++;
+				/*three face atoms for each cell */
 				atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2));
 				n++;
 				atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2));
 				n++;
 				atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos));
 				n++;
-			
-	/*			if(i<(x-1) && j<(y-1) && k<(z-1)){
-//					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2));
-					n++;
-//					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2));
-					n++;
-//					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos));
-					n++;
 					
-					/* Adding extra diamond structure atoms in fcc cells*/ /*
-//					atoms[n] = atom(vector_3d(xpos+a/4,ypos+a/4,zpos+a/4), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos+a/4,ypos+a/4,zpos+a/4));
-					n++;
-//					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+a/4,zpos+a/4), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+a/4,zpos+a/4));
-					n++;
-//					atoms[n] = atom(vector_3d(xpos+a/4,ypos+3*a/4,zpos+3*a/4), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos+a/4,ypos+3*a/4,zpos+3*a/4));
-					n++;
-//					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+3*a/4,zpos+3*a/4), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+3*a/4,zpos+3*a/4));
-					n++;
-				}
-
-				if(i==(x-1) && j<(y-1) && k<(z-1)){
-//					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos,ypos+a/2,zpos+a/2));
-					n++;
-				}
-				if(i<(x-1) && j==(y-1) && k<(z-1)){
-//					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos,zpos+a/2));
-					n++;
-				}
-
-				if(i<(x-1) && j<(y-1) && k==(z-1)){
-//					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos), vector_3d(), vector_3d());
-					atoms[n] = atom(vector_3d(xpos+a/2,ypos+a/2,zpos));
-					n++;
-				}*/
-			
+				/* Adding four extra diamond structure atoms in each fcc cell*/ 
+				atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+3*a/4,zpos+3*a/4));
+				n++;
+				atoms[n] = atom(vector_3d(xpos+3*a/4,ypos+a/4,zpos+a/4));
+				n++;
+				atoms[n] = atom(vector_3d(xpos+a/4,ypos+3*a/4,zpos+a/4));
+				n++;
+				atoms[n] = atom(vector_3d(xpos+a/4,ypos+a/4,zpos+3*a/4));
+				n++;
 			}
 		}
 	}

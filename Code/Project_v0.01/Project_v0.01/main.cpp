@@ -47,7 +47,7 @@ int main()
 
 	test.integrate(t_max);
 */
-	world w(2, 2, 2, 1, 1, 1, FCC);
+	world w(1, 1, 1, 4, 1, 1, DIAMOND);
 	std::cout << w.N << std::endl;
 
 	for(int i=0; i<(w.N); i++){
