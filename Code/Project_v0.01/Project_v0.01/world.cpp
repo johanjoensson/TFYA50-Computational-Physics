@@ -198,7 +198,8 @@ void world::kinetic_energy(atom a) /* Kinetic energy calculated in [eV] */
 {
 	float temp = SI_natural(a.vel*a.vel, 'v', 1, 'I', 'd'); /* Convert [Å/fs] to [1/c] */
 	temp = SI_natural(temp, 'v', 1, 'I', 'I');
-	temp = 0.5*a.mass*temp*temp;
+	float mass = SI_natural(a.mass, 'm', 1, 'I', 'I');
+	temp = 0.5*mass*temp;
 	E_kin += temp;
 	E_kin_sqr += temp*temp;
 }
@@ -463,7 +464,7 @@ void world::integrate(unsigned int t_end)
 	}
 }
 
-float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix)
+float world::SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix)
 {
 	float in_scaling = 1;
 	float out_scaling = 1;
@@ -534,18 +535,17 @@ float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_pref
 			break;
 
 		default:
-			return arg;
 			break;
 	}
 
 	for(int i=0; i<2; i++)
 	{
-		char temp_char = 'I';
-		float temp;
+		char temp_char;
+		float temp = 1;
 		if(i==0)
-			char temp = in_prefix;
+			char temp_char = in_prefix;
 		else
-			char temp = out_prefix;
+			char temp_char = out_prefix;
 		switch (temp_char)
 		{
 		case 'I': break;
