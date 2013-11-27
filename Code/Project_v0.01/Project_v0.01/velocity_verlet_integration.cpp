@@ -67,6 +67,7 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 	
 	while(current != NULL){
 		
+		/* Calculate the vector between 2 atoms, with PBC */
 		vector_3d r = particle.data->pos.diff(current->data->pos, x_dim, y_dim, z_dim);
 		if(r*r < cutoff*cutoff){
 			/* Update velocity and acceleration of the particle */

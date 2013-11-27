@@ -122,6 +122,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 		sum_vel2 += atoms[i].vel*atoms[i].vel;
 
 		bulk[i].data = &atoms[i];
+		bulk[i].set_dimensions(x_tot, y_tot, z_tot);
 	}
 	
 	/* Scale the centre of mass velocity */
@@ -131,7 +132,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	for(unsigned int i = 0; i < N; i++){
 		atoms[i].vel = (atoms[i].vel)*scale_factor;
 	}
-	verlet_integrator.set_dimensions(x*a, y*a, z*a);
+	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
 }
 
 void world::set_timestep(float h)
