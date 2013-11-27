@@ -543,9 +543,9 @@ float world::SI_natural(float arg, char quantity, int SI, char in_prefix, char o
 		char temp_char;
 		float temp = 1;
 		if(i==0)
-			char temp_char = in_prefix;
+			temp_char = in_prefix;
 		else
-			char temp_char = out_prefix;
+			temp_char = out_prefix;
 		switch (temp_char)
 		{
 		case 'I': break;
