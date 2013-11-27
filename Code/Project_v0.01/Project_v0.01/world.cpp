@@ -125,12 +125,12 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	}
 	
 	/* Scale the centre of mass velocity */
-	sum_vel /= N;
-	sum_vel2 *= mass;
+//	sum_vel /= N;
+	/* Scale kinetic energy */
 	T_start = temp;
-	float scale_factor = sqrt(3*kB*temp/sum_vel2);
+	float scale_factor = sqrt(3*kB*N*temp/(mass*sum_vel2));
 	for(unsigned int i = 0; i < N; i++){
-		atoms[i].vel = (atoms[i].vel - sum_vel)*scale_factor;
+		atoms[i].vel = (atoms[i].vel)*scale_factor;
 	}
 	verlet_integrator.set_dimensions(x*a, y*a, z*a);
 }
