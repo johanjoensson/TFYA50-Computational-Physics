@@ -52,7 +52,10 @@ float* averageValue(int startTime, int endTime){
 			deb += tmp_avg[8];
 			Spec_heat += tmp_avg[9];
 		}
+		input.close();
 	}
+
+	
 	
 	average[0] = E_kin/dt;
 	average[1] = E_pot/dt;

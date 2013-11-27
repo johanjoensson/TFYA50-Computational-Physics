@@ -19,7 +19,7 @@ System::Void Form1::set_materials(unsigned int l)
 	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
 
 	this->listBoxMaterial->BeginUpdate();
-	for(int i = 0; i < l; i++ ){
+	for(unsigned int i = 0; i < l; i++ ){
 		this->listBoxMaterial->Items->Add(context->marshal_as<System::String^>(materials[i].name));
 	}
 	this->listBoxMaterial->EndUpdate();
@@ -63,7 +63,7 @@ float Form1::get_lattice_constant()
 		MessageBox::Show("Lattice constant not set!\n0 assumed");
 	}
 
-	delete str;
+//	delete str;
 	return lc;
 }
 
@@ -76,7 +76,7 @@ Input_data Form1::get_data()
 	if(this->textBoxXdim->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxXdim->Text);
 		res.x = atoi(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("x-dimensions not set\n0 assumed");
 		res.x = 0;
@@ -84,7 +84,7 @@ Input_data Form1::get_data()
 	if(this->textBoxYdim->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxYdim->Text);
 		res.y = atoi(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("y-dimensions not set\n0 assumed");
 		res.y = 0;
@@ -93,7 +93,7 @@ Input_data Form1::get_data()
 	if(this->textBoxZdim->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxZdim->Text);
 		res.z = atoi(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("z-dimensions not set\n0 assumed");
 		res.z = 0;
@@ -102,7 +102,7 @@ Input_data Form1::get_data()
 	if(this->textBoxLatConst->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxLatConst->Text);
 		res.a = atof(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("Lattice constant not set\n0 assumed");
 		res.a = 0;
@@ -111,7 +111,7 @@ Input_data Form1::get_data()
 	if(this->textBoxCO->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxCO->Text);
 		res.cut_off = atof(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("Cut off distance not set\n0 assumed");
 		res.cut_off = 0;
@@ -120,7 +120,7 @@ Input_data Form1::get_data()
 	if(this->textBoxEpsilon->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxEpsilon->Text);
 		res.epsilon = atof(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("Epsilon not set\n0 assumed");
 		res.epsilon = 0;
@@ -129,7 +129,7 @@ Input_data Form1::get_data()
 	if(this->textBoxSigma->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxSigma->Text);
 		res.sigma = atof(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("Sigma not set\n0 assumed");
 		res.sigma = 0;
@@ -138,7 +138,7 @@ Input_data Form1::get_data()
 	if(this->textBoxTStart->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxTStart->Text);
 		res.t_start = atoi(str);
-		delete str;
+//		delete str;
 	}else{
 		res.t_start = 0;
 	}
@@ -146,7 +146,7 @@ Input_data Form1::get_data()
 	if(this->textBoxTEnd->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxTEnd->Text);
 		res.t_end = atoi(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("Number of time steps not set\n2000 assumed");
 		res.t_end = 2000;
@@ -155,7 +155,7 @@ Input_data Form1::get_data()
 	if(this->textBoxTStep->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxTStep->Text);
 		res.t_step = atof(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("Time step size not set\n20 assumed");
 		res.t_end = 20;
@@ -163,7 +163,7 @@ Input_data Form1::get_data()
 	if(this->textBoxTemp->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxTemp->Text);
 		res.temp = atof(str);
-		delete str;
+//		delete str;
 	}else{
 		MessageBox::Show("Temperature not set\n20K assumed");
 		res.temp = 20;
@@ -184,7 +184,7 @@ float Form1::get_collision_rate()
 		res = 0.20;
 		MessageBox::Show("Collision rate not between 0 and 1\n0.20 assumed");
 	}
-	delete str;
+//	delete str;
 
 	return res;
 }
@@ -404,9 +404,43 @@ System::Void Form1::set_end_of_simulation(Input_data d, clock_t time)
 	this->richTextBoxResults->Refresh();
 }
 
+System::Void Form1::reset_results()
+{
+	this->richTextBoxResults->Clear();
+	this->textBoxEKin->Clear();
+	this->textBoxEPot->Clear();
+	this->textBoxETot->Clear();
+	this->textBoxECoh->Clear();
+	this->textBoxMSD->Clear();
+	this->textBoxIntP->Clear();
+	this->textBoxResTemp->Clear();
+	this->textBoxDebTemp->Clear();
+	this->textBoxSpecHeat->Clear();
+	this->textBoxDiffCo->Clear();
+
+	this->richTextBoxResults->Refresh();
+	this->textBoxEKin->Refresh();
+	this->textBoxEPot->Refresh();
+	this->textBoxETot->Refresh();
+	this->textBoxECoh->Refresh();
+	this->textBoxMSD->Refresh();
+	this->textBoxIntP->Refresh();
+	this->textBoxResTemp->Refresh();
+	this->textBoxDebTemp->Refresh();
+	this->textBoxSpecHeat->Refresh();
+	this->textBoxDiffCo->Refresh();
+}
+
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
-	Material mat = selected_material();
+	reset_results();
+	Material mat;
+	if(this->listBoxMaterial->SelectedIndex == -1){
+		MessageBox::Show("No material selected!\nChoosing the first material in the list.");
+		mat = materials[0];
+	}else{
+		mat = selected_material();
+	}
 
 	Input_data d = get_data();
 	d.cStruct = get_structure();

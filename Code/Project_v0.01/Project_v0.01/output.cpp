@@ -15,6 +15,12 @@ void outputter::init_data_file()
 
 }
 
+outputter::~outputter()
+{
+	file.close();
+	visualisation_file.close();
+}
+
 outputter::outputter()
 {
 	file.open("toto.txt");

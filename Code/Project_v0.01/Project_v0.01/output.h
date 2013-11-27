@@ -11,6 +11,7 @@ private:
 	std::ofstream file;
 	std::ofstream visualisation_file;
 public:
+	~outputter();
 	outputter();
 	outputter(char* filename);
 	outputter(char* filename, char* vis_name);

@@ -9,14 +9,6 @@
 #define NULL 0
 #endif
 
-
-world::~world()
-{
-	writer.close_files();
-	delete[] bulk;
-	delete[] atoms;
-}
-
 void world::unset_world()
 {
 	writer.close_files();
@@ -134,7 +126,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	
 	/* Scale the centre of mass velocity */
 	sum_vel /= N;
-	sum_vel2 /= N;
+	sum_vel2 *= mass;
 	T_start = temp;
 	float scale_factor = sqrt(3*kB*temp/sum_vel2);
 	for(unsigned int i = 0; i < N; i++){
@@ -229,13 +221,15 @@ float world::msd(atom a, int N)
 
 float world::debye_temp(float msd, float T, float m)
 {
-	float theta_D = (3*hBar*T)/(m*kB*msd);
-	return(theta_D);
+ 	float theta_D = (3*hBar*hBar*T)/(m*kB*msd);
+	return sqrt(theta_D);
 }
 
 /* 
 cohEnergy is not used at the moment it is 
 calculated in the process when data is saved in data[]
+
+Not anymore, now it is used / Johan
 */
 float world::cohEnergy (int N, float totEnergy)
 {
@@ -394,9 +388,12 @@ void world::integrate(unsigned int t_end)
 	}
 
 	float collisionTest = 0;
-	float sigma = sqrt(T_start);
+	float sigma = 0;
+//	if(atoms != 0){
+		sigma = sqrt(T_start*kB/atoms[0].mass);
+//	}
 	std::default_random_engine generator;
-	std::normal_distribution<float> gauss(T_start,sigma);
+	std::normal_distribution<float> gauss(0,sigma);
 	float collision_val = collision_rate*time_step*1e-15;
 
 	for(unsigned int t = 0; t < t_end; t++){
@@ -422,18 +419,16 @@ void world::integrate(unsigned int t_end)
 		for(int i = 0; i < this->N; i++){
 			this->verlet_integrator.verlet_integration_velocity(this->bulk[i]);
 			this->kinetic_energy(this->atoms[i]);
-		}
-
-		/* Andersen thermostat */
-		
-		if(thermostat){
-			for(int i = 0; i < this->N; i++){
+			/* Andersen thermostat */
+			if(thermostat){
 				collisionTest = ((float)rand())/RAND_MAX;
 				if(collisionTest  < collision_val){
 					this->atoms[i].vel = vector_3d(gauss(generator),gauss(generator),gauss(generator));
 				}
 			}
 		}
+
+		
 
 		calc_temperature(this->get_kinetic_energy(), this->N);
 		calc_pressure(this->verlet_integrator.get_p_int(), this->N, this->V);
@@ -443,7 +438,7 @@ void world::integrate(unsigned int t_end)
 		data[1] = this->get_kinetic_energy(); //Kinetic energy
 		data[2] = this->verlet_integrator.get_epot(); //Potential energy
 		data[3] = this->get_kinetic_energy() + this->verlet_integrator.get_epot(); // Total energy
-		data[4] = data[3]/this->N; // Cohesive energy
+		data[4] = this->cohEnergy(this->N, data[3]); // Cohesive energy
 		data[5] = r_msd; // MSD
 		data[6] = P; // Presure
 		data[7] = T; // Temperature

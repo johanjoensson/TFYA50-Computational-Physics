@@ -16,11 +16,6 @@ inputter::inputter(char* file_name)
 	file.open(file_name, std::ios::in);
 }
 
-void inputter::close_file()
-{
-	file.close();
-}
-
 void extract_mat_param(Material &mat, std::string data, unsigned int j)
 {
 	switch(j){

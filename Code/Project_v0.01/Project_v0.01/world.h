@@ -51,7 +51,6 @@ private:
 	void calc_specific_heat(float E_kin, float E_kin_sqr, int N);
 
 public:
-	~world();
 	world();
 	world(unsigned int n);
 	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type);

@@ -30,7 +30,7 @@ plot(A.Time, A.Temperature)
 title('Temperature')
 
 subplot(3,3,8)
-%%plot(A.Time, A.Debeye_Temperature)
+plot(A.Time, A.Debeye_Temperature)
 title('Debeye temperature')
 
 subplot(3,3,9)
