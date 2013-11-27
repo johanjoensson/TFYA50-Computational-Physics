@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>L:\TFYA50\Code\Project_v0.01\Project_v0.01;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Simon L\Documents\GitHub\TFYA50-Computational-Physics\Code\Project_v0.01\Project_v0.01;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -86,16 +86,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.ico" />
+    <None Include="materials.txt" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Project_v0.01\Project_v0.01\atom.cpp" />
+    <ClCompile Include="..\..\Project_v0.01\Project_v0.01\average.cpp" />
     <ClCompile Include="..\..\Project_v0.01\Project_v0.01\output.cpp" />
     <ClCompile Include="..\..\Project_v0.01\Project_v0.01\vector_lib.cpp" />
     <ClCompile Include="..\..\Project_v0.01\Project_v0.01\velocity_verlet_integration.cpp" />
     <ClCompile Include="..\..\Project_v0.01\Project_v0.01\verlet_list.cpp" />
     <ClCompile Include="..\..\Project_v0.01\Project_v0.01\world.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="Project_GUI_v.0.01.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +111,7 @@
     <ClInclude Include="Form1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="input.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

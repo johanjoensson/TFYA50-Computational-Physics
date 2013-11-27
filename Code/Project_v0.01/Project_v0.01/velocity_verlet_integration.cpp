@@ -90,7 +90,7 @@ vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
 	float ri = 1/r;
 	float ri2 = ri*ri;
 	float ri6 = ri2*ri2*ri2;
-	ff = 48*epsi*sig6*(sig6*ri*ri6*ri6-0.5*ri*ri6);
+	ff = 48*epsi*ri2*sig6*(sig6*ri6*ri6-0.5*ri6);
 	vector_3d f = d*ff*ri;
 	float ecut = 4*ri6*epsi*sig6*(sig6*ri6-1);
 	float ric3 = 1/(cutoff*cutoff*cutoff);
