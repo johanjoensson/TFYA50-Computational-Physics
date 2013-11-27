@@ -128,7 +128,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 //	sum_vel /= N;
 	/* Scale kinetic energy */
 	T_start = temp;
-	float scale_factor = sqrt(3*kB*N*temp/(mass*sum_vel2));
+	float scale_factor = sqrt(3*kB*N*temp/(1.660538921e-17*mass*sum_vel2));
 	for(unsigned int i = 0; i < N; i++){
 		atoms[i].vel = (atoms[i].vel)*scale_factor;
 	}
