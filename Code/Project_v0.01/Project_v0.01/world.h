@@ -4,7 +4,7 @@
 #include "output.h"
 
 /* ************ Natural Constants ************ */
-#define kB 8.6173324e-5 /*Boltzmann's Constant in units of kB*/ //kB 8.6173324e-5 /* Boltzmann's Constant [eV/K] */
+#define kB 1.3806488e-23 /*Boltzmann's Constant in SI units*/ //kB 8.6173324e-5 /* Boltzmann's Constant [eV/K] */
 #define hBar 6.5821189e-1 /* plancks constant/2pi [ev*fs] */
 
 
