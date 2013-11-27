@@ -194,9 +194,11 @@ void world::kinetic_energy()
 	E_kin_sqr = 0;
 }
 
-void world::kinetic_energy(atom a)
+void world::kinetic_energy(atom a) /* Kinetic energy calculated in [eV] */
 {
-	float temp = a.mass*a.vel*a.vel;
+	float temp = SI_natural(a.vel*a.vel, 'v', 1, 'I', 'd'); /* Convert [Å/fs] to [1/c] */
+	temp = SI_natural(temp, 'v', 1, 'I', 'I');
+	temp = 0.5*a.mass*temp*temp;
 	E_kin += temp;
 	E_kin_sqr += temp*temp;
 }
@@ -212,17 +214,19 @@ float world::get_kinetic_energy_squared()
 	return E_kin_sqr;
 }
 
-float world::msd(atom a, int N)
+float world::msd(atom a, int N) /* MSD calculated in [Å] */
 {
 	vector_3d R = a.pos.diff(a.orig_pos, x_tot, y_tot, z_tot);
 	float r=(R*R)/N;
 	return(r);
 }
 
-float world::debye_temp(float msd, float T, float m)
+float world::debye_temp(float msd, float T, float m) /* Debye temperature calculated in [K] */
 {
- 	float theta_D = (3*hBar*hBar*T)/(m*kB*msd);
-	return sqrt(theta_D);
+ 	msd = SI_natural(msd, 'l', 1, 'd', 'I');
+	m = SI_natural(m, 'm', 1, 'I', 'I'); 
+	float theta_D = (3*T)/(m*msd); /* theta_D = (3*hBar*hBar*T)/(m*kB*msd); */
+	return SI_natural(sqrt(theta_D), 'T', 0, 'I', 'I');
 }
 
 /* 
@@ -360,17 +364,18 @@ void world::diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a
 	}
 }
 
-void world::calc_temperature(float E_kin, int N) //Temperature
+void world::calc_temperature(float E_kin, int N) /* Temperature calculated in [K] */
 {
-	T = E_kin / (3.0*kB*N);
+	T = 2*E_kin / (3.0/**kB*/*N);
+	T = SI_natural(T, 'T', 0, 'I', 'I');
 }
 
 void world::calc_pressure(float p_sum, int N, float V) //internal pressure
 {
-	P = N*kB*T/V + 1/(6*V)* p_sum;
+	P = 1e30*kB*N*T/V + 1/(6*V)* p_sum;
 }
 
-void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N)
+void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific heat constant calculated in [J/K] */
 {
 	C_v = 3*N*kB/(2-4*N*(E_kin_sqr - E_kin*E_kin)/(3*E_kin*E_kin));
 }
@@ -479,6 +484,13 @@ float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_pref
 				arg *= 1.9732705e-7;
 			break;
 
+		case 'T':
+			if(SI == 1)
+				arg /= 11604.5629;
+			else
+				arg *= 11604.5629;
+			break;
+
 		case 'v':
 			if(SI == 1)
 				arg /= 2.99792458e8;
@@ -519,13 +531,6 @@ float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_pref
 				arg /= 5.3442883e-28;
 			else
 				arg *= 5.3442883e-28;
-			break;
-
-		case 'T':
-			if(SI == 1)
-				arg /= 11604.5629;
-			else
-				arg *= 11604.5629;
 			break;
 
 		default:
