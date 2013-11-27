@@ -23,7 +23,7 @@ float* averageValue(int startTime, int endTime){
 	
 	if (input.is_open()){
 		int i = 0;
-		while(startTime<i){
+		while(i < startTime){
 			std::getline(input, line);
 			i++;
 		}

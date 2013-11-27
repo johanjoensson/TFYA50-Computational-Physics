@@ -305,7 +305,7 @@ System::Void Form1::set_information(Material m, Input_data d, int N)
 	ss.clear();
 	ss.str("");
 
-	ss << std::endl << "------------------------------------------------------------------------------------------------------------------------";
+	ss << std::endl << "-----------------------------------------------------------------------------------------------------------";
 	ss << std::endl;
 
 	ss << "\tStarting simulation! Live Long and prosper!" << std::endl;

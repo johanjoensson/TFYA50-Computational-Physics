@@ -114,81 +114,41 @@ vector_3d::vector_3d()
 
 float vector_3d::distance(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot)
 {
-	vector_3d dist = *this - atom2_pos;
-	if(dist.x*dist.x > 0.25*x_tot*x_tot)
-	{
-		if(this->x > atom2_pos.x)
-			dist.x -= x_tot;
-		else
-			dist.x += x_tot;
-	}
-	if(dist.y*dist.y > 0.25*y_tot*y_tot)
-	{
-		if(this->y > atom2_pos.y)
-			dist.y -= y_tot;
-		else
-			dist.y += y_tot;
-	}	
-	if(dist.z*dist.z > 0.25*z_tot*z_tot)
-	{
-		if(this->z > atom2_pos.z)
-			dist.z -= z_tot;
-		else
-			dist.z += z_tot;
-	}	
+	vector_3d dist = this->diff(atom2_pos, x_tot, y_tot, z_tot);
 	return sqrt(dist*dist);
 }
 
 vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot)
 {
 	vector_3d dist = *this - atom2_pos;
+	int d;
 	if(dist.x*dist.x > 0.25*x_tot*x_tot){
-		if(this->x > atom2_pos.x){
-			dist.x -= x_tot;
-		}else{
-			dist.x += x_tot;
-		}
+		d = (int)dist.x/x_tot;
+		dist.x -= d*x_tot;
 	}
 	if(dist.y*dist.y > 0.25*y_tot*y_tot)
 	{
-		if(this->y > atom2_pos.y){
-			dist.y -= y_tot;
-		}else{
-			dist.y += y_tot;
-		}
+		d = (int)dist.y/y_tot;
+		dist.x -= d*y_tot;
 	}	
 	if(dist.z*dist.z > 0.25*z_tot*z_tot)
 	{
-		if(this->z > atom2_pos.z){
-			dist.z -= z_tot;
-		}else{
-			dist.z += z_tot;
-		}
+		d = (int)dist.z/z_tot;
+		dist.z -= d*z_tot;
 	}	
 	return dist;
 }
 
-vector_3d vector_3d::reposi(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot)
+void vector_3d::place(float x_tot, float y_tot, float z_tot)
 {
-	if(atom2_pos.x < 0){
-		atom2_pos.x += x_tot;
-	}
-	if(atom2_pos.x > x_tot){
-		atom2_pos.x -= x_tot;
-	}
-	if(atom2_pos.y < 0){
-		atom2_pos.y += y_tot;
-	}
-	if(atom2_pos.y > y_tot){
-		atom2_pos.y -= y_tot;
-	}	
-	if(atom2_pos.z < 0){
-		atom2_pos.z += z_tot;
-	}
-	if(atom2_pos.z > z_tot){
-		atom2_pos.z -= z_tot;
-	}
-	return atom2_pos;
+	int d = this->x/x_tot;
+	this->x -= d*x_tot;
+
+	d = this->y/y_tot;
+	this->y -= d*y_tot;
+
+	d = this->y/y_tot;
+	this->y -= d*y_tot;
 }
 
 

@@ -367,7 +367,7 @@ void world::diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a
 
 void world::calc_temperature(float E_kin, int N) /* Temperature calculated in [K] */
 {
-	T = 2*E_kin / (3.0/**kB*/*N);
+	T = 2*E_kin / (3.0*/*kB_T*/N);
 	T = SI_natural(T, 'T', 0, 'I', 'I');
 }
 
