@@ -378,7 +378,7 @@ void world::calc_pressure(float p_sum, int N, float V) //internal pressure
 
 void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific heat constant calculated in [J/K] */
 {
-	C_v = 3*N*kB/(2-4*N*(E_kin_sqr - E_kin*E_kin)/(3*E_kin*E_kin));
+	C_v = 3*N*kB*1.660538921e27/((2-4*N*(E_kin_sqr - E_kin*E_kin)/(3*E_kin*E_kin))*atoms[0].mass);
 }
 
 void world::integrate(unsigned int t_end)
