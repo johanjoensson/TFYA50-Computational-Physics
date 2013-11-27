@@ -349,7 +349,8 @@ System::Void Form1::set_end_of_simulation(Input_data d, clock_t time)
 	ss.clear();
 	ss.str("");
 
-	float *res = get_averages(d.t_start, d.t_end);
+	float* res;
+	res = averageValue(d.t_start, d.t_end);
 
 	ss << res[0];
 	this->textBoxEKin->Text = context->marshal_as<System::String^>(ss.str());
@@ -402,6 +403,7 @@ System::Void Form1::set_end_of_simulation(Input_data d, clock_t time)
 	ss.str("");
 
 	this->richTextBoxResults->Refresh();
+	delete res;
 }
 
 System::Void Form1::reset_results()

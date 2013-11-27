@@ -201,6 +201,10 @@ private: System::Windows::Forms::Label^  label35;
 			this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
 			this->listBoxMaterial = (gcnew System::Windows::Forms::ListBox());
 			this->tabPageStructure = (gcnew System::Windows::Forms::TabPage());
+			this->label34 = (gcnew System::Windows::Forms::Label());
+			this->label33 = (gcnew System::Windows::Forms::Label());
+			this->label32 = (gcnew System::Windows::Forms::Label());
+			this->label31 = (gcnew System::Windows::Forms::Label());
 			this->textBoxEpsilon = (gcnew System::Windows::Forms::TextBox());
 			this->labelEpsilon = (gcnew System::Windows::Forms::Label());
 			this->textBoxSigma = (gcnew System::Windows::Forms::TextBox());
@@ -222,6 +226,8 @@ private: System::Windows::Forms::Label^  label35;
 			this->textBoxLatConst = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->tabPageCalculation = (gcnew System::Windows::Forms::TabPage());
+			this->label36 = (gcnew System::Windows::Forms::Label());
+			this->label35 = (gcnew System::Windows::Forms::Label());
 			this->textBoxTemp = (gcnew System::Windows::Forms::TextBox());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->textBoxCollisionRate = (gcnew System::Windows::Forms::TextBox());
@@ -235,6 +241,16 @@ private: System::Windows::Forms::Label^  label35;
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->tabPageResult = (gcnew System::Windows::Forms::TabPage());
+			this->label30 = (gcnew System::Windows::Forms::Label());
+			this->label29 = (gcnew System::Windows::Forms::Label());
+			this->label28 = (gcnew System::Windows::Forms::Label());
+			this->label27 = (gcnew System::Windows::Forms::Label());
+			this->label26 = (gcnew System::Windows::Forms::Label());
+			this->label25 = (gcnew System::Windows::Forms::Label());
+			this->label24 = (gcnew System::Windows::Forms::Label());
+			this->label23 = (gcnew System::Windows::Forms::Label());
+			this->label22 = (gcnew System::Windows::Forms::Label());
+			this->label21 = (gcnew System::Windows::Forms::Label());
 			this->textBoxIntP = (gcnew System::Windows::Forms::TextBox());
 			this->label20 = (gcnew System::Windows::Forms::Label());
 			this->textBoxDiffCo = (gcnew System::Windows::Forms::TextBox());
@@ -257,22 +273,6 @@ private: System::Windows::Forms::Label^  label35;
 			this->label16 = (gcnew System::Windows::Forms::Label());
 			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
-			this->label21 = (gcnew System::Windows::Forms::Label());
-			this->label22 = (gcnew System::Windows::Forms::Label());
-			this->label23 = (gcnew System::Windows::Forms::Label());
-			this->label24 = (gcnew System::Windows::Forms::Label());
-			this->label25 = (gcnew System::Windows::Forms::Label());
-			this->label26 = (gcnew System::Windows::Forms::Label());
-			this->label27 = (gcnew System::Windows::Forms::Label());
-			this->label28 = (gcnew System::Windows::Forms::Label());
-			this->label29 = (gcnew System::Windows::Forms::Label());
-			this->label30 = (gcnew System::Windows::Forms::Label());
-			this->label31 = (gcnew System::Windows::Forms::Label());
-			this->label32 = (gcnew System::Windows::Forms::Label());
-			this->label33 = (gcnew System::Windows::Forms::Label());
-			this->label34 = (gcnew System::Windows::Forms::Label());
-			this->label35 = (gcnew System::Windows::Forms::Label());
-			this->label36 = (gcnew System::Windows::Forms::Label());
 			this->tabControl1->SuspendLayout();
 			this->tabPage1->SuspendLayout();
 			this->tabPageStructure->SuspendLayout();
@@ -286,10 +286,10 @@ private: System::Windows::Forms::Label^  label35;
 			this->tabControl1->Controls->Add(this->tabPageStructure);
 			this->tabControl1->Controls->Add(this->tabPageCalculation);
 			this->tabControl1->Controls->Add(this->tabPageResult);
-			this->tabControl1->Location = System::Drawing::Point(12, 12);
+			this->tabControl1->Location = System::Drawing::Point(0, 0);
 			this->tabControl1->Name = L"tabControl1";
 			this->tabControl1->SelectedIndex = 0;
-			this->tabControl1->Size = System::Drawing::Size(636, 450);
+			this->tabControl1->Size = System::Drawing::Size(639, 450);
 			this->tabControl1->TabIndex = 2;
 			// 
 			// tabPage1
@@ -341,11 +341,47 @@ private: System::Windows::Forms::Label^  label35;
 			this->tabPageStructure->Location = System::Drawing::Point(4, 22);
 			this->tabPageStructure->Name = L"tabPageStructure";
 			this->tabPageStructure->Padding = System::Windows::Forms::Padding(3);
-			this->tabPageStructure->Size = System::Drawing::Size(628, 424);
+			this->tabPageStructure->Size = System::Drawing::Size(631, 424);
 			this->tabPageStructure->TabIndex = 0;
 			this->tabPageStructure->Text = L"Structure";
 			this->tabPageStructure->UseVisualStyleBackColor = true;
 			this->tabPageStructure->Click += gcnew System::EventHandler(this, &Form1::tabPageStructure_Click);
+			// 
+			// label34
+			// 
+			this->label34->AutoSize = true;
+			this->label34->Location = System::Drawing::Point(244, 124);
+			this->label34->Name = L"label34";
+			this->label34->Size = System::Drawing::Size(20, 13);
+			this->label34->TabIndex = 58;
+			this->label34->Text = L"eV";
+			// 
+			// label33
+			// 
+			this->label33->AutoSize = true;
+			this->label33->Location = System::Drawing::Point(244, 96);
+			this->label33->Name = L"label33";
+			this->label33->Size = System::Drawing::Size(14, 13);
+			this->label33->TabIndex = 57;
+			this->label33->Text = L"Å";
+			// 
+			// label32
+			// 
+			this->label32->AutoSize = true;
+			this->label32->Location = System::Drawing::Point(244, 67);
+			this->label32->Name = L"label32";
+			this->label32->Size = System::Drawing::Size(14, 13);
+			this->label32->TabIndex = 56;
+			this->label32->Text = L"Å";
+			// 
+			// label31
+			// 
+			this->label31->AutoSize = true;
+			this->label31->Location = System::Drawing::Point(244, 40);
+			this->label31->Name = L"label31";
+			this->label31->Size = System::Drawing::Size(14, 13);
+			this->label31->TabIndex = 55;
+			this->label31->Text = L"Å";
 			// 
 			// textBoxEpsilon
 			// 
@@ -557,6 +593,24 @@ private: System::Windows::Forms::Label^  label35;
 			this->tabPageCalculation->UseVisualStyleBackColor = true;
 			this->tabPageCalculation->Click += gcnew System::EventHandler(this, &Form1::tabPageCalculation_Click);
 			// 
+			// label36
+			// 
+			this->label36->AutoSize = true;
+			this->label36->Location = System::Drawing::Point(541, 81);
+			this->label36->Name = L"label36";
+			this->label36->Size = System::Drawing::Size(14, 13);
+			this->label36->TabIndex = 60;
+			this->label36->Text = L"K";
+			// 
+			// label35
+			// 
+			this->label35->AutoSize = true;
+			this->label35->Location = System::Drawing::Point(300, 88);
+			this->label35->Name = L"label35";
+			this->label35->Size = System::Drawing::Size(15, 13);
+			this->label35->TabIndex = 59;
+			this->label35->Text = L"fs";
+			// 
 			// textBoxTemp
 			// 
 			this->textBoxTemp->Location = System::Drawing::Point(448, 78);
@@ -708,9 +762,99 @@ private: System::Windows::Forms::Label^  label35;
 			this->tabPageResult->Text = L"Results";
 			this->tabPageResult->UseVisualStyleBackColor = true;
 			// 
+			// label30
+			// 
+			this->label30->AutoSize = true;
+			this->label30->Location = System::Drawing::Point(239, 325);
+			this->label30->Name = L"label30";
+			this->label30->Size = System::Drawing::Size(48, 13);
+			this->label30->TabIndex = 55;
+			this->label30->Text = L"Å^2/fs \?";
+			// 
+			// label29
+			// 
+			this->label29->AutoSize = true;
+			this->label29->Location = System::Drawing::Point(239, 291);
+			this->label29->Name = L"label29";
+			this->label29->Size = System::Drawing::Size(39, 13);
+			this->label29->TabIndex = 54;
+			this->label29->Text = L"J/kg K";
+			// 
+			// label28
+			// 
+			this->label28->AutoSize = true;
+			this->label28->Location = System::Drawing::Point(239, 257);
+			this->label28->Name = L"label28";
+			this->label28->Size = System::Drawing::Size(14, 13);
+			this->label28->TabIndex = 53;
+			this->label28->Text = L"K";
+			// 
+			// label27
+			// 
+			this->label27->AutoSize = true;
+			this->label27->Location = System::Drawing::Point(239, 189);
+			this->label27->Name = L"label27";
+			this->label27->Size = System::Drawing::Size(20, 13);
+			this->label27->TabIndex = 52;
+			this->label27->Text = L"Pa";
+			// 
+			// label26
+			// 
+			this->label26->AutoSize = true;
+			this->label26->Location = System::Drawing::Point(239, 223);
+			this->label26->Name = L"label26";
+			this->label26->Size = System::Drawing::Size(14, 13);
+			this->label26->TabIndex = 51;
+			this->label26->Text = L"K";
+			// 
+			// label25
+			// 
+			this->label25->AutoSize = true;
+			this->label25->Location = System::Drawing::Point(239, 155);
+			this->label25->Name = L"label25";
+			this->label25->Size = System::Drawing::Size(14, 13);
+			this->label25->TabIndex = 50;
+			this->label25->Text = L"Å";
+			// 
+			// label24
+			// 
+			this->label24->AutoSize = true;
+			this->label24->Location = System::Drawing::Point(239, 121);
+			this->label24->Name = L"label24";
+			this->label24->Size = System::Drawing::Size(20, 13);
+			this->label24->TabIndex = 49;
+			this->label24->Text = L"eV";
+			// 
+			// label23
+			// 
+			this->label23->AutoSize = true;
+			this->label23->Location = System::Drawing::Point(239, 87);
+			this->label23->Name = L"label23";
+			this->label23->Size = System::Drawing::Size(20, 13);
+			this->label23->TabIndex = 48;
+			this->label23->Text = L"eV";
+			// 
+			// label22
+			// 
+			this->label22->AutoSize = true;
+			this->label22->Location = System::Drawing::Point(239, 53);
+			this->label22->Name = L"label22";
+			this->label22->Size = System::Drawing::Size(20, 13);
+			this->label22->TabIndex = 47;
+			this->label22->Text = L"eV";
+			// 
+			// label21
+			// 
+			this->label21->AutoSize = true;
+			this->label21->Location = System::Drawing::Point(239, 19);
+			this->label21->Name = L"label21";
+			this->label21->Size = System::Drawing::Size(20, 13);
+			this->label21->TabIndex = 46;
+			this->label21->Text = L"eV";
+			// 
 			// textBoxIntP
 			// 
-			this->textBoxIntP->Location = System::Drawing::Point(145, 186);
+			this->textBoxIntP->Location = System::Drawing::Point(145, 185);
 			this->textBoxIntP->Name = L"textBoxIntP";
 			this->textBoxIntP->ReadOnly = true;
 			this->textBoxIntP->Size = System::Drawing::Size(87, 20);
@@ -719,7 +863,7 @@ private: System::Windows::Forms::Label^  label35;
 			// label20
 			// 
 			this->label20->AutoSize = true;
-			this->label20->Location = System::Drawing::Point(15, 190);
+			this->label20->Location = System::Drawing::Point(15, 189);
 			this->label20->Name = L"label20";
 			this->label20->Size = System::Drawing::Size(86, 13);
 			this->label20->TabIndex = 44;
@@ -727,7 +871,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxDiffCo
 			// 
-			this->textBoxDiffCo->Location = System::Drawing::Point(145, 322);
+			this->textBoxDiffCo->Location = System::Drawing::Point(145, 321);
 			this->textBoxDiffCo->Name = L"textBoxDiffCo";
 			this->textBoxDiffCo->ReadOnly = true;
 			this->textBoxDiffCo->Size = System::Drawing::Size(87, 20);
@@ -736,7 +880,7 @@ private: System::Windows::Forms::Label^  label35;
 			// label18
 			// 
 			this->label18->AutoSize = true;
-			this->label18->Location = System::Drawing::Point(15, 326);
+			this->label18->Location = System::Drawing::Point(15, 325);
 			this->label18->Name = L"label18";
 			this->label18->Size = System::Drawing::Size(101, 13);
 			this->label18->TabIndex = 42;
@@ -744,7 +888,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxSpecHeat
 			// 
-			this->textBoxSpecHeat->Location = System::Drawing::Point(145, 288);
+			this->textBoxSpecHeat->Location = System::Drawing::Point(145, 287);
 			this->textBoxSpecHeat->Name = L"textBoxSpecHeat";
 			this->textBoxSpecHeat->ReadOnly = true;
 			this->textBoxSpecHeat->Size = System::Drawing::Size(87, 20);
@@ -753,7 +897,7 @@ private: System::Windows::Forms::Label^  label35;
 			// labelHeatCap
 			// 
 			this->labelHeatCap->AutoSize = true;
-			this->labelHeatCap->Location = System::Drawing::Point(15, 292);
+			this->labelHeatCap->Location = System::Drawing::Point(15, 291);
 			this->labelHeatCap->Name = L"labelHeatCap";
 			this->labelHeatCap->Size = System::Drawing::Size(69, 13);
 			this->labelHeatCap->TabIndex = 40;
@@ -761,7 +905,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(15, 372);
+			this->button1->Location = System::Drawing::Point(18, 372);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(110, 23);
 			this->button1->TabIndex = 39;
@@ -780,7 +924,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxDebTemp
 			// 
-			this->textBoxDebTemp->Location = System::Drawing::Point(145, 254);
+			this->textBoxDebTemp->Location = System::Drawing::Point(145, 253);
 			this->textBoxDebTemp->Name = L"textBoxDebTemp";
 			this->textBoxDebTemp->ReadOnly = true;
 			this->textBoxDebTemp->Size = System::Drawing::Size(87, 20);
@@ -788,7 +932,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxResTemp
 			// 
-			this->textBoxResTemp->Location = System::Drawing::Point(145, 220);
+			this->textBoxResTemp->Location = System::Drawing::Point(145, 219);
 			this->textBoxResTemp->Name = L"textBoxResTemp";
 			this->textBoxResTemp->ReadOnly = true;
 			this->textBoxResTemp->Size = System::Drawing::Size(87, 20);
@@ -796,7 +940,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxMSD
 			// 
-			this->textBoxMSD->Location = System::Drawing::Point(145, 152);
+			this->textBoxMSD->Location = System::Drawing::Point(145, 151);
 			this->textBoxMSD->Name = L"textBoxMSD";
 			this->textBoxMSD->ReadOnly = true;
 			this->textBoxMSD->Size = System::Drawing::Size(87, 20);
@@ -804,7 +948,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxECoh
 			// 
-			this->textBoxECoh->Location = System::Drawing::Point(145, 118);
+			this->textBoxECoh->Location = System::Drawing::Point(145, 117);
 			this->textBoxECoh->Name = L"textBoxECoh";
 			this->textBoxECoh->ReadOnly = true;
 			this->textBoxECoh->Size = System::Drawing::Size(87, 20);
@@ -812,7 +956,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxETot
 			// 
-			this->textBoxETot->Location = System::Drawing::Point(145, 84);
+			this->textBoxETot->Location = System::Drawing::Point(145, 83);
 			this->textBoxETot->Name = L"textBoxETot";
 			this->textBoxETot->ReadOnly = true;
 			this->textBoxETot->Size = System::Drawing::Size(87, 20);
@@ -820,7 +964,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxEPot
 			// 
-			this->textBoxEPot->Location = System::Drawing::Point(145, 50);
+			this->textBoxEPot->Location = System::Drawing::Point(145, 49);
 			this->textBoxEPot->Name = L"textBoxEPot";
 			this->textBoxEPot->ReadOnly = true;
 			this->textBoxEPot->Size = System::Drawing::Size(87, 20);
@@ -828,7 +972,7 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxEKin
 			// 
-			this->textBoxEKin->Location = System::Drawing::Point(145, 16);
+			this->textBoxEKin->Location = System::Drawing::Point(145, 15);
 			this->textBoxEKin->Name = L"textBoxEKin";
 			this->textBoxEKin->ReadOnly = true;
 			this->textBoxEKin->Size = System::Drawing::Size(87, 20);
@@ -837,7 +981,7 @@ private: System::Windows::Forms::Label^  label35;
 			// labelDebTemp
 			// 
 			this->labelDebTemp->AutoSize = true;
-			this->labelDebTemp->Location = System::Drawing::Point(15, 258);
+			this->labelDebTemp->Location = System::Drawing::Point(15, 257);
 			this->labelDebTemp->Name = L"labelDebTemp";
 			this->labelDebTemp->Size = System::Drawing::Size(97, 13);
 			this->labelDebTemp->TabIndex = 30;
@@ -846,7 +990,7 @@ private: System::Windows::Forms::Label^  label35;
 			// label13
 			// 
 			this->label13->AutoSize = true;
-			this->label13->Location = System::Drawing::Point(15, 156);
+			this->label13->Location = System::Drawing::Point(15, 155);
 			this->label13->Name = L"label13";
 			this->label13->Size = System::Drawing::Size(31, 13);
 			this->label13->TabIndex = 29;
@@ -855,7 +999,7 @@ private: System::Windows::Forms::Label^  label35;
 			// label14
 			// 
 			this->label14->AutoSize = true;
-			this->label14->Location = System::Drawing::Point(15, 122);
+			this->label14->Location = System::Drawing::Point(15, 121);
 			this->label14->Name = L"label14";
 			this->label14->Size = System::Drawing::Size(87, 13);
 			this->label14->TabIndex = 28;
@@ -864,7 +1008,7 @@ private: System::Windows::Forms::Label^  label35;
 			// label15
 			// 
 			this->label15->AutoSize = true;
-			this->label15->Location = System::Drawing::Point(15, 88);
+			this->label15->Location = System::Drawing::Point(15, 87);
 			this->label15->Name = L"label15";
 			this->label15->Size = System::Drawing::Size(67, 13);
 			this->label15->TabIndex = 27;
@@ -873,7 +1017,7 @@ private: System::Windows::Forms::Label^  label35;
 			// label16
 			// 
 			this->label16->AutoSize = true;
-			this->label16->Location = System::Drawing::Point(15, 54);
+			this->label16->Location = System::Drawing::Point(15, 53);
 			this->label16->Name = L"label16";
 			this->label16->Size = System::Drawing::Size(84, 13);
 			this->label16->TabIndex = 26;
@@ -882,7 +1026,7 @@ private: System::Windows::Forms::Label^  label35;
 			// label17
 			// 
 			this->label17->AutoSize = true;
-			this->label17->Location = System::Drawing::Point(15, 20);
+			this->label17->Location = System::Drawing::Point(15, 19);
 			this->label17->Name = L"label17";
 			this->label17->Size = System::Drawing::Size(75, 13);
 			this->label17->TabIndex = 25;
@@ -891,161 +1035,17 @@ private: System::Windows::Forms::Label^  label35;
 			// label8
 			// 
 			this->label8->AutoSize = true;
-			this->label8->Location = System::Drawing::Point(15, 224);
+			this->label8->Location = System::Drawing::Point(15, 223);
 			this->label8->Name = L"label8";
 			this->label8->Size = System::Drawing::Size(67, 13);
 			this->label8->TabIndex = 18;
 			this->label8->Text = L"Temperature";
 			// 
-			// label21
-			// 
-			this->label21->AutoSize = true;
-			this->label21->Location = System::Drawing::Point(238, 19);
-			this->label21->Name = L"label21";
-			this->label21->Size = System::Drawing::Size(20, 13);
-			this->label21->TabIndex = 46;
-			this->label21->Text = L"eV";
-			// 
-			// label22
-			// 
-			this->label22->AutoSize = true;
-			this->label22->Location = System::Drawing::Point(238, 57);
-			this->label22->Name = L"label22";
-			this->label22->Size = System::Drawing::Size(20, 13);
-			this->label22->TabIndex = 47;
-			this->label22->Text = L"eV";
-			// 
-			// label23
-			// 
-			this->label23->AutoSize = true;
-			this->label23->Location = System::Drawing::Point(238, 91);
-			this->label23->Name = L"label23";
-			this->label23->Size = System::Drawing::Size(20, 13);
-			this->label23->TabIndex = 48;
-			this->label23->Text = L"eV";
-			// 
-			// label24
-			// 
-			this->label24->AutoSize = true;
-			this->label24->Location = System::Drawing::Point(238, 125);
-			this->label24->Name = L"label24";
-			this->label24->Size = System::Drawing::Size(20, 13);
-			this->label24->TabIndex = 49;
-			this->label24->Text = L"eV";
-			// 
-			// label25
-			// 
-			this->label25->AutoSize = true;
-			this->label25->Location = System::Drawing::Point(238, 159);
-			this->label25->Name = L"label25";
-			this->label25->Size = System::Drawing::Size(14, 13);
-			this->label25->TabIndex = 50;
-			this->label25->Text = L"Å";
-			// 
-			// label26
-			// 
-			this->label26->AutoSize = true;
-			this->label26->Location = System::Drawing::Point(238, 224);
-			this->label26->Name = L"label26";
-			this->label26->Size = System::Drawing::Size(14, 13);
-			this->label26->TabIndex = 51;
-			this->label26->Text = L"K";
-			// 
-			// label27
-			// 
-			this->label27->AutoSize = true;
-			this->label27->Location = System::Drawing::Point(244, 189);
-			this->label27->Name = L"label27";
-			this->label27->Size = System::Drawing::Size(26, 13);
-			this->label27->TabIndex = 52;
-			this->label27->Text = L"Pa\?";
-			// 
-			// label28
-			// 
-			this->label28->AutoSize = true;
-			this->label28->Location = System::Drawing::Point(238, 258);
-			this->label28->Name = L"label28";
-			this->label28->Size = System::Drawing::Size(20, 13);
-			this->label28->TabIndex = 53;
-			this->label28->Text = L"K\?";
-			// 
-			// label29
-			// 
-			this->label29->AutoSize = true;
-			this->label29->Location = System::Drawing::Point(238, 292);
-			this->label29->Name = L"label29";
-			this->label29->Size = System::Drawing::Size(13, 13);
-			this->label29->TabIndex = 54;
-			this->label29->Text = L"\?";
-			// 
-			// label30
-			// 
-			this->label30->AutoSize = true;
-			this->label30->Location = System::Drawing::Point(239, 326);
-			this->label30->Name = L"label30";
-			this->label30->Size = System::Drawing::Size(13, 13);
-			this->label30->TabIndex = 55;
-			this->label30->Text = L"\?";
-			// 
-			// label31
-			// 
-			this->label31->AutoSize = true;
-			this->label31->Location = System::Drawing::Point(244, 40);
-			this->label31->Name = L"label31";
-			this->label31->Size = System::Drawing::Size(14, 13);
-			this->label31->TabIndex = 55;
-			this->label31->Text = L"Å";
-			// 
-			// label32
-			// 
-			this->label32->AutoSize = true;
-			this->label32->Location = System::Drawing::Point(244, 67);
-			this->label32->Name = L"label32";
-			this->label32->Size = System::Drawing::Size(14, 13);
-			this->label32->TabIndex = 56;
-			this->label32->Text = L"Å";
-			// 
-			// label33
-			// 
-			this->label33->AutoSize = true;
-			this->label33->Location = System::Drawing::Point(244, 96);
-			this->label33->Name = L"label33";
-			this->label33->Size = System::Drawing::Size(14, 13);
-			this->label33->TabIndex = 57;
-			this->label33->Text = L"Å";
-			// 
-			// label34
-			// 
-			this->label34->AutoSize = true;
-			this->label34->Location = System::Drawing::Point(244, 124);
-			this->label34->Name = L"label34";
-			this->label34->Size = System::Drawing::Size(20, 13);
-			this->label34->TabIndex = 58;
-			this->label34->Text = L"eV";
-			// 
-			// label35
-			// 
-			this->label35->AutoSize = true;
-			this->label35->Location = System::Drawing::Point(300, 88);
-			this->label35->Name = L"label35";
-			this->label35->Size = System::Drawing::Size(15, 13);
-			this->label35->TabIndex = 59;
-			this->label35->Text = L"fs";
-			// 
-			// label36
-			// 
-			this->label36->AutoSize = true;
-			this->label36->Location = System::Drawing::Point(541, 81);
-			this->label36->Name = L"label36";
-			this->label36->Size = System::Drawing::Size(14, 13);
-			this->label36->TabIndex = 60;
-			this->label36->Text = L"K";
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(651, 462);
+			this->ClientSize = System::Drawing::Size(640, 446);
 			this->Controls->Add(this->tabControl1);
 			this->Name = L"Form1";
 			this->Text = L"TFYA50";

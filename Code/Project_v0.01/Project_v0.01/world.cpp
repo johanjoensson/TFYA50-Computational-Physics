@@ -125,7 +125,6 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	}
 	
 	/* Scale the centre of mass velocity */
-//	sum_vel /= N;
 	/* Scale kinetic energy */
 	T_start = temp;
 	float scale_factor = sqrt(3*kB*N*temp/(1.660538921e-17*mass*sum_vel2));
@@ -371,12 +370,12 @@ void world::calc_temperature(float E_kin, int N) /* Temperature calculated in [K
 	T = SI_natural(T, 'T', 0, 'I', 'I');
 }
 
-void world::calc_pressure(float p_sum, int N, float V) //internal pressure
+void world::calc_pressure(float p_sum, int N, float V) //internal pressure calculated in [Pa]
 {
 	P = 1e30*kB*N*T/V + 1.660538921e13/(6*V)* p_sum;
 }
 
-void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific heat constant calculated in [J/K] */
+void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific heat constant calculated in [J/K kg] */
 {
 	C_v = 3*N*kB*1.660538921e27/((2-4*N*(E_kin_sqr - E_kin*E_kin)/(3*E_kin*E_kin))*atoms[0].mass);
 }

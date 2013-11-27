@@ -9,16 +9,17 @@ float* averageValue(int startTime, int endTime){
 	std::string token;
 
 	
-	float average[10];
+	float *average = new float[10];
 	float tmp_avg[10];
 	int dt = endTime-startTime;
 
 	
 	input.seekg(0, input.beg);	
 	
-	float E_kin,E_pot,E_tot,E_coh,MSD,int_p,temp,deb,Spec_heat,diff_const;
+	//float E_kin,E_pot,E_tot,E_coh,MSD,int_p,temp,deb,Spec_heat,diff_const;
 	//float tmp_E_kin, tmp_E_pot, tmp_E_tot, tmp_E_coh, tmp_MSD, tmp_int_p, tmp_temp, tmp_deb, tmp_Spec_heat;
-	E_kin=E_pot=E_tot=E_coh=MSD=int_p=temp=deb=Spec_heat=diff_const=0;
+	/* Had to initialise everyone separately, otherwise the results were slightly off */
+	float E_kin= 0, E_pot=0, E_tot=0, E_coh=0, MSD=0, int_p=0, temp=0, deb=0, Spec_heat=0, diff_const=0;
 	
 	
 	if (input.is_open()){
