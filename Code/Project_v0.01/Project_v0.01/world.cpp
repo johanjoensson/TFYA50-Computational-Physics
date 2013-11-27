@@ -373,7 +373,7 @@ void world::calc_temperature(float E_kin, int N) /* Temperature calculated in [K
 
 void world::calc_pressure(float p_sum, int N, float V) //internal pressure
 {
-	P = 1e30*kB*N*T/V + 1/(6*V)* p_sum;
+	P = 1e30*kB*N*T/V + 1.660538921e13/(6*V)* p_sum;
 }
 
 void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific heat constant calculated in [J/K] */
