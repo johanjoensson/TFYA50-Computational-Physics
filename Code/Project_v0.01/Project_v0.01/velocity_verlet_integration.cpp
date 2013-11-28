@@ -70,6 +70,9 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 		/* Calculate the vector between 2 atoms, with PBC */
 		vector_3d r = particle.data->pos.diff(current->data->pos, x_dim, y_dim, z_dim);
 		if(r*r < cutoff*cutoff){
+			if(r*r == 0){
+				System::Windows::Forms::MessageBox::Show("Whoa there cowboy!");
+			}
 			/* Update velocity and acceleration of the particle */
 			tmp_force = calculate_force(particle.data, current->data);
 			particle.data->incr_next_acc(tmp_force/particle.data->mass);
@@ -93,7 +96,7 @@ vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
 	float ri = 1/r;
 	float ri2 = ri*ri;
 	float ri6 = ri2*ri2*ri2;
-	ff = 48*epsi*ri2*sig6*(sig6*ri6*ri6-0.5*ri6);
+	ff = 48*epsi*ri*sig6*(sig6*ri6*ri6-0.5*ri6);
 	vector_3d f = d*ff*ri;
 	float ecut = 4*ri6*epsi*sig6*(sig6*ri6-1);
 	float ric3 = 1/(cutoff*cutoff*cutoff);

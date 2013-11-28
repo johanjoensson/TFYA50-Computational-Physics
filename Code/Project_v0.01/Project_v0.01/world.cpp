@@ -457,6 +457,7 @@ void world::integrate(unsigned int t_end)
 		if(max_disp > 0.5*cutoff){
 			for(unsigned int i = 0; i < this->N; i++){
 				this->bulk[i].clear_verlet_list();
+				this->bulk[i].data->zero_displacement();
 			}
 			max_disp = 0;
 			this->update_verlet_lists();
