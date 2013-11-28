@@ -126,6 +126,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	}
 	
 	/* Scale the centre of mass velocity */
+	sum_vel /= N;
 	/* Scale kinetic energy */
 	T_start = temp;
 	float scale_factor = sqrt(3*kB*N*temp/(1.660538921e-17*mass*sum_vel2));
@@ -395,9 +396,8 @@ void world::integrate(unsigned int t_end)
 
 	float collisionTest = 0;
 	float sigma = 0;
-//	if(atoms != 0){
-		sigma = sqrt(T_start*kB/atoms[0].mass);
-//	}
+	sigma = sqrt(T_start*kB/atoms[0].mass);
+
 	std::default_random_engine generator;
 	std::normal_distribution<float> gauss(0,sigma);
 	float collision_val = collision_rate*time_step*1e-15;
