@@ -396,7 +396,8 @@ void world::integrate(unsigned int t_end)
 
 	float collisionTest = 0;
 	float sigma = 0;
-	sigma = sqrt(T_start*kB/atoms[0].mass);
+	/* set sigma to the proper units [Å/fs] */
+	sigma = sqrt(T_start*kB/(atoms[0].mass*atomic_u))*1e-5;
 
 	std::default_random_engine generator;
 	std::normal_distribution<float> gauss(0,sigma);
