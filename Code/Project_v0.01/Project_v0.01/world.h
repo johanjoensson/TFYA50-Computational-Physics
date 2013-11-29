@@ -7,7 +7,7 @@
 #define kB 1.3806488e-23 /*Boltzmann's Constant in SI units*/ //kB 8.6173324e-5 /* Boltzmann's Constant [eV/K] */
 //#define kB_T 8.6173324e-5
 #define hBar 6.5821189e-1 /* plancks constant/2pi [ev*fs] */
-
+#define atomic_u 1.66055389e-27
 
 enum type_of_average
 {

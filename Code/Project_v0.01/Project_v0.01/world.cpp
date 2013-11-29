@@ -129,7 +129,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	sum_vel /= N;
 	/* Scale kinetic energy */
 	T_start = temp;
-	float scale_factor = sqrt(3*kB*N*temp/(1.660538921e-17*mass*sum_vel2));
+	float scale_factor = sqrt(3*kB*N*temp/(atomic_u*1e10*mass*sum_vel2));
 	for(unsigned int i = 0; i < N; i++){
 		atoms[i].vel = (atoms[i].vel)*scale_factor;
 	}
@@ -379,7 +379,7 @@ void world::calc_pressure(float p_sum, int N, float V) //internal pressure calcu
 
 void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific heat constant calculated in [J/K kg] */
 {
-	C_v = 3*N*kB*1.660538921e27/((2-4*N*(E_kin_sqr - E_kin*E_kin)/(3*E_kin*E_kin))*atoms[0].mass);
+	C_v = 3*N*kB/((2-4*N*(E_kin_sqr - E_kin*E_kin)/(3*E_kin*E_kin))*atoms[0].mass*atomic_u);
 }
 
 void world::integrate(unsigned int t_end)
@@ -397,7 +397,8 @@ void world::integrate(unsigned int t_end)
 
 	float collisionTest = 0;
 	float sigma = 0;
-	sigma = sqrt(T_start*kB/atoms[0].mass);
+	/* set sigma to the proper units [Å/fs] */
+	sigma = sqrt(3*T_start*kB/(atoms[0].mass*1.66053892e-27))*1e-5;
 
 	std::default_random_engine generator;
 	std::normal_distribution<float> gauss(0,sigma);
