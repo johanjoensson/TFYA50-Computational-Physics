@@ -124,6 +124,7 @@ vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z
 	int d = 0;
 	if(dist.x*dist.x > 0.25*x_tot*x_tot){
 		d = (int)(dist.x/x_tot);
+
 		d += dist.x/std::abs(dist.x);
 		dist.x -= d*x_tot;
 	}

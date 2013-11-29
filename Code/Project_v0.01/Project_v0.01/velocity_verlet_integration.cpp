@@ -87,7 +87,7 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 	particle.data->vel += 0.5*(particle.data->acc + particle.data->get_next_acc())*h;
 
 	/* Scale velocities so that we don't leave the bulk in one single time step */
-	vector_3d dist = h*particle.data->vel;
+/*	vector_3d dist = h*particle.data->vel;
 	int dx = (int)(dist.x/x_dim);
 	int dy = (int)(dist.y/y_dim);
 	int dz = (int)(dist.z/z_dim);
