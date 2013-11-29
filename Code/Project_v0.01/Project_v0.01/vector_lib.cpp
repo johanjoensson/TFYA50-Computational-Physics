@@ -1,7 +1,6 @@
 #include "vector_lib.h"
 
-#include <math.h>
-
+#include <cmath>
 
 /******************************************************************************
 * Normalise the vector, so that it has absolute value 1						  *
@@ -120,8 +119,9 @@ float vector_3d::distance(vector_3d atom2_pos, float x_tot, float y_tot, float z
 
 vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot)
 {
-	vector_3d dist = *this - atom2_pos;
-	int d;
+	/* r = x2 - x1 , vector from current atom to the other atom*/
+	vector_3d dist = atom2_pos - *this;
+	int d = 0;
 	if(dist.x*dist.x > 0.25*x_tot*x_tot){
 		d = (int)dist.x/x_tot;
 		if(dist.x > 0){

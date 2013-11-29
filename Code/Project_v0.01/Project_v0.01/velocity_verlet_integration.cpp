@@ -50,12 +50,12 @@ void integrator::reset_epot()
 void integrator::verlet_integration_position(verlet_list particle)
 {
 	/* Update position of particle */
-	vector_3d move = particle.data->vel*h + 0.5*particle.data->acc*h*h;
-	particle.data->incr_displacement(move.abs());
-	particle.data->pos += move;
+	vector_3d tmp = particle.data->pos;
+	particle.data->pos += particle.data->vel*h + 0.5*particle.data->acc*h*h;
+	tmp -= particle.data->pos;
+	particle.data->incr_displacement(tmp.abs());
 	/* Periodic boundary conditions */
 	particle.data->pos.place(x_dim, y_dim, z_dim);
-//	particle.data->pos = particle.data->pos.reposi(particle.data->pos + move, x_dim, y_dim, z_dim);
 }
 
 /* The second part of the Velocity verlet algorithm, updates velocity */
@@ -75,13 +75,29 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 			}
 			/* Update velocity and acceleration of the particle */
 			tmp_force = calculate_force(particle.data, current->data);
-			particle.data->incr_next_acc(tmp_force/particle.data->mass);
-			current->data->decr_next_acc(tmp_force/current->data->mass);
+//			particle.data->incr_next_acc(tmp_force/particle.data->mass);
+//			current->data->decr_next_acc(tmp_force/current->data->mass);
+
+			particle.data->decr_next_acc(tmp_force/particle.data->mass);
+			current->data->incr_next_acc(tmp_force/current->data->mass);
 		}
 		current = current->next;
 	}	
 	
 	particle.data->vel += 0.5*(particle.data->acc + particle.data->get_next_acc())*h;
+
+	/* Scale velocities so that we don't leave the bulk in one single time step */
+/*	vector_3d dist = h*particle.data->vel;
+	int dx = (int)(dist.x/x_dim);
+	int dy = (int)(dist.y/y_dim);
+	int dz = (int)(dist.z/z_dim);
+
+	vector_3d vel_diff(dx*x_dim/h, dy*y_dim/h, dz*z_dim/h);
+	particle.data->vel -= vel_diff;
+	if(dx != 0 || dy != 0 || dz != 0)
+		System::Windows::Forms::MessageBox::Show("Whoa there!");
+	/****************************************************************************/
+
 	particle.data->update_acceleration();
 }
 

@@ -135,7 +135,9 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	for(unsigned int i = 0; i < N; i++){
 		atoms[i].vel = (atoms[i].vel)*scale_factor;
 	}
+
 	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
+
 }
 
 void world::set_timestep(float h)
@@ -184,11 +186,16 @@ void world::set_epsilon(float epsilon)
 void world::update_verlet_lists()
 {
 	for(int i = 0; i < this->N; i++){
+		update_verlet_list(i);
+	}
+}
+
+void world::update_verlet_list(int i)
+{
 		this->bulk[i].data->zero_displacement();
 		for(int j = i + 1; j < this->N; j++){
 			this->bulk[i].add_atom(this->bulk[j]);
 		}
-	}
 }
 
 void world::kinetic_energy()
@@ -475,10 +482,9 @@ void world::integrate()
 		if(max_disp[0] > 0.5*cutoff){
 			for(unsigned int i = 0; i < this->N; i++){
 				this->bulk[i].clear_verlet_list();
-//				this->bulk[i].data->zero_displacement();
+				max_disp[0] = 0, max_disp[1] = 0;
+				this->update_verlet_list(i);
 			}
-			max_disp[0] = 0, max_disp[1] = 0;
-			this->update_verlet_lists();
 		}
 	}
 
