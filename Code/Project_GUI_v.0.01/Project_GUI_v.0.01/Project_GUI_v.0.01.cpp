@@ -466,9 +466,9 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 	set_information(mat, d, w->N);
 	clock_t time = clock();
 //	AfxBeginThread(thread_integrate,w);
-	w.integrate();
+	w->integrate();
 
-	w.unset_world();
+	w->unset_world();
 	delete w;
 	time = clock() - time;
 	set_end_of_simulation(d, time);
