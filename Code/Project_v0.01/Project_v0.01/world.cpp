@@ -121,17 +121,20 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	for(int i = 0; i < N; i++){
 		atoms[i].mass = mass;
 		sum_vel += atoms[i].vel;
-		sum_vel2 += atoms[i].vel*atoms[i].vel;
-
 		bulk[i].data = &atoms[i];
 		bulk[i].set_dimensions(x_tot, y_tot, z_tot);
 	}
 	
 	/* Scale the centre of mass velocity */
 	sum_vel /= N;
+	for(int i = 0; i < N; i++){
+		atoms[i].vel -= sum_vel;
+		sum_vel2 += atoms[i].vel*atoms[i].vel;
+	}
+	sum_vel2 /= N;
 	/* Scale kinetic energy */
 	T_start = temp;
-	float scale_factor = sqrt(3*kB*N*temp/(atomic_u*1e10*mass*sum_vel2));
+	float scale_factor = sqrt(3*kB*temp/(atomic_u*1e10*mass*sum_vel2));
 	for(unsigned int i = 0; i < N; i++){
 		atoms[i].vel = (atoms[i].vel)*scale_factor;
 	}
