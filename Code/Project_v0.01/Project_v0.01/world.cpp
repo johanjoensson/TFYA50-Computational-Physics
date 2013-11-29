@@ -384,7 +384,8 @@ void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific 
 
 void world::integrate(unsigned int t_end)
 {
-	float max_disp = 0;
+	float max_disp[2];
+	max_disp[0] = 0, max_disp[1] = 0;
 	float data[10];
 
 	this->update_verlet_lists();
@@ -413,8 +414,11 @@ void world::integrate(unsigned int t_end)
 			this->verlet_integrator.verlet_integration_position(this->bulk[i]);
 			this->r_msd += this->msd(this->atoms[i], this->N);
 
-			if(this->bulk[i].data->get_displacement() > max_disp){
-				max_disp = this->bulk[i].data->get_displacement();
+			if(this->bulk[i].data->get_displacement() > max_disp[0]){
+				max_disp[1] = max_disp[0];
+				max_disp[0] = this->bulk[i].data->get_displacement();
+			}else if(this->bulk[i].data->get_displacement() > max_disp[1]){
+				max_disp[1]  = this->bulk[i].data->get_displacement();
 			}
 			if(visualise)
 			{
@@ -454,12 +458,12 @@ void world::integrate(unsigned int t_end)
 		writer.store_data(data);
 		
 			
-		if(max_disp > 0.5*cutoff){
+		if(max_disp[0] + max_disp[1] > 0.5*cutoff){
 			for(unsigned int i = 0; i < this->N; i++){
 				this->bulk[i].clear_verlet_list();
-				this->bulk[i].data->zero_displacement();
+//				this->bulk[i].data->zero_displacement();
 			}
-			max_disp = 0;
+			max_disp[0] = 0, max_disp[1] = 0;
 			this->update_verlet_lists();
 		}
 	}

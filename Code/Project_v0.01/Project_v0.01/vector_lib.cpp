@@ -124,16 +124,31 @@ vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z
 	int d;
 	if(dist.x*dist.x > 0.25*x_tot*x_tot){
 		d = (int)dist.x/x_tot;
+		if(dist.x > 0){
+			d++;
+		}else{
+			d--;
+		}
 		dist.x -= d*x_tot;
 	}
 	if(dist.y*dist.y > 0.25*y_tot*y_tot)
 	{
 		d = (int)dist.y/y_tot;
-		dist.x -= d*y_tot;
+		if(dist.y > 0){
+			d++;
+		}else{
+			d--;
+		}
+		dist.y -= d*y_tot;
 	}	
 	if(dist.z*dist.z > 0.25*z_tot*z_tot)
 	{
 		d = (int)dist.z/z_tot;
+		if(dist.z > 0){
+			d++;
+		}else{
+			d--;
+		}
 		dist.z -= d*z_tot;
 	}	
 	return dist;
