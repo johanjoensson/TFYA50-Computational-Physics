@@ -158,7 +158,7 @@ Input_data Form1::get_data()
 //		delete str;
 	}else{
 		MessageBox::Show("Time step size not set\n20 assumed");
-		res.t_end = 20;
+		res.t_step = 20;
 	}
 	if(this->textBoxTemp->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxTemp->Text);
