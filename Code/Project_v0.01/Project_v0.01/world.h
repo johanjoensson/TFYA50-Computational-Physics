@@ -82,6 +82,7 @@ public:
 	float get_kinetic_energy();
 	float get_kinetic_energy_squared();
 	void update_verlet_lists();
+	void world::update_verlet_list(int i);
 	void world_2(unsigned int x, unsigned int y, unsigned int z, float a);
 	
 /*
