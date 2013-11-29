@@ -80,7 +80,7 @@ world::world(unsigned int n)
 set positions for all atoms in structure
 x,y,z = a = lattice constant, type = type of crystal structure (BCC or FCC or Diamond)
 */
-world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, enum crystalStructure type)	
+world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, enum crystalStructure type, int t_stop, int t_start)	
 {
 
 	init();
@@ -88,6 +88,8 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	y_tot = y*a;
 	z_tot = z*a;
 	V = x_tot*y_tot*z_tot;
+	t_end = t_stop;
+	t_start = t_start;
 	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
 	switch (type)
 	{
@@ -382,11 +384,17 @@ void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific 
 	C_v = 3*N*kB/((2-4*N*(E_kin_sqr - E_kin*E_kin)/(3*E_kin*E_kin))*atoms[0].mass*atomic_u);
 }
 
-void world::integrate(unsigned int t_end)
+void world::integrate()
 {
 	float max_disp[2];
 	max_disp[0] = 0, max_disp[1] = 0;
-	float data[10];
+
+	unsigned int storage_interval = 500;
+	float **data;
+	data= new float*[storage_interval];
+	for(int i = 0; i < storage_interval; i++){
+		data[i] = new float[10];
+	}
 
 	this->update_verlet_lists();
 
@@ -445,27 +453,42 @@ void world::integrate(unsigned int t_end)
 		calc_pressure(this->verlet_integrator.get_p_int(), this->N, this->V);
 		calc_specific_heat(this->get_kinetic_energy(), this->get_kinetic_energy_squared(), this->N);
 
-		data[0] = t*time_step; // Elapsed time
-		data[1] = this->get_kinetic_energy(); //Kinetic energy
-		data[2] = this->verlet_integrator.get_epot(); //Potential energy
-		data[3] = this->get_kinetic_energy() + this->verlet_integrator.get_epot(); // Total energy
-		data[4] = this->cohEnergy(this->N, data[3]); // Cohesive energy
-		data[5] = r_msd; // MSD
-		data[6] = P; // Presure
-		data[7] = T; // Temperature
-		data[8] = this->debye_temp(r_msd, T, atoms[0].mass); // Debye temperature
-		data[9] = this->C_v;//specific heat
+		if(t%storage_interval == 0 && t > 0){
+			for(int i = 0; i < storage_interval; i++){
+				writer.store_data(data[i]);
+			}
+		}
 
-		writer.store_data(data);
+		data[t%storage_interval][0] = t*time_step; // Elapsed time
+		data[t%storage_interval][1] = this->get_kinetic_energy(); //Kinetic energy
+		data[t%storage_interval][2] = this->verlet_integrator.get_epot(); //Potential energy
+		data[t%storage_interval][3] = this->get_kinetic_energy() + this->verlet_integrator.get_epot(); // Total energy
+		data[t%storage_interval][4] = this->cohEnergy(this->N, data[t%storage_interval][3]); // Cohesive energy
+		data[t%storage_interval][5] = r_msd; // MSD
+		data[t%storage_interval][6] = P; // Presure
+		data[t%storage_interval][7] = T; // Temperature
+		data[t%storage_interval][8] = this->debye_temp(r_msd, T, atoms[0].mass); // Debye temperature
+		data[t%storage_interval][9] = this->C_v;//specific heat
 		
 			
-		if(max_disp[0] + max_disp[1] > 0.5*cutoff){
+//		if(max_disp[0] + max_disp[1] > 0.5*cutoff){
+		if(max_disp[0] > 0.5*cutoff){
 			for(unsigned int i = 0; i < this->N; i++){
 				this->bulk[i].clear_verlet_list();
 //				this->bulk[i].data->zero_displacement();
 			}
 			max_disp[0] = 0, max_disp[1] = 0;
 			this->update_verlet_lists();
+		}
+	}
+
+	if(t_end%storage_interval != 0){
+		for(int i = 0; i < t_end%storage_interval; i++){
+			writer.store_data(data[i]);
+		}
+	}else{
+		for(int i = 0; i < storage_interval; i++){
+			writer.store_data(data[i]);
 		}
 	}
 }

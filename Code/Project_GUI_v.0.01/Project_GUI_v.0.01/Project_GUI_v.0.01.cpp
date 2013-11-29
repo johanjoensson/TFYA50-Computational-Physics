@@ -1,5 +1,7 @@
 // Project_GUI_v.0.01.cpp : main project file.
 
+#include <afxwin.h>
+
 #include "Form1.h"
 #include "output.h"
 #include "input.h"
@@ -7,9 +9,8 @@
 #include <msclr\marshal.h>
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
-#include <Windows.h>
+//#include <Windows.h>
 #include <crtdbg.h>
-
 
 using namespace Project_GUI_v001;
 
@@ -433,6 +434,8 @@ System::Void Form1::reset_results()
 	this->textBoxDiffCo->Refresh();
 }
 
+UINT thread_integrate(LPVOID pParam);
+
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
 	reset_results();
@@ -446,27 +449,45 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 
 	Input_data d = get_data();
 	d.cStruct = get_structure();
-	world w(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct);
-	w.set_sigma(mat.sigma);
-	w.set_epsilon(mat.epsilon);
-	w.set_timestep(d.t_step);
-	w.set_cutoff(d.cut_off);
+	world *w = new world(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct, d.t_end, d.t_start);
+	w->set_sigma(mat.sigma);
+	w->set_epsilon(mat.epsilon);
+	w->set_timestep(d.t_step);
+	w->set_cutoff(d.cut_off);
 
 	if(this->checkBoxTermo->Checked){
-		w.set_thermostat(true);
-		w.set_collision_rate(this->get_collision_rate());
+		w->set_thermostat(true);
+		w->set_collision_rate(this->get_collision_rate());
 	}
 	if(this->checkBoxVisualise->Checked){
-		w.set_visualisation(true);
+		w->set_visualisation(true);
 	}
 
-	set_information(mat, d, w.N);
+	set_information(mat, d, w->N);
 	clock_t time = clock();
-	w.integrate(d.t_end);
+//	AfxBeginThread(thread_integrate,w);
+	w.integrate();
 
 	w.unset_world();
+	delete w;
 	time = clock() - time;
 	set_end_of_simulation(d, time);
 
 	MessageBox::Show("Simulation complete!");
+}
+
+
+UINT thread_integrate(LPVOID pParam)
+{
+	world* pObject = (world*)pParam;
+	if (pObject == NULL)
+		return 1;   // if pObject is not valid
+
+	pObject->integrate();
+
+	pObject->unset_world();
+	delete pObject;
+	return 0; // pObject is of type world
+
+
 }

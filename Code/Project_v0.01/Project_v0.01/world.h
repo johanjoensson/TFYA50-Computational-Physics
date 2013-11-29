@@ -54,7 +54,7 @@ private:
 public:
 	world();
 	world(unsigned int n);
-	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type);
+	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type, int t_stop, int t_start);
 	void unset_world();
 	float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix);
 
@@ -64,7 +64,6 @@ public:
 	void set_collision_rate(float f);
 	void set_thermostat(bool val);
 	void set_visualisation(bool val);
-
 	void set_sigma(float sigma);
 	void set_epsilon(float epsilon);
 
@@ -76,6 +75,9 @@ public:
 	float y_tot;
 	float z_tot;
 	float V; //Volume
+
+	int t_end;
+	int t_start;
 
 	void kinetic_energy(atom a);
 	void kinetic_energy();
@@ -110,6 +112,6 @@ public:
 	void fccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 	void diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 
-	void integrate(unsigned int t_end);
+	void integrate();
 };
 
