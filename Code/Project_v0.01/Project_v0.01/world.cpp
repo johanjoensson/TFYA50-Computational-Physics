@@ -481,8 +481,7 @@ void world::integrate()
 		data[t%storage_interval][9] = this->C_v;//specific heat
 		
 			
-//		if(max_disp[0] + max_disp[1] > 0.5*cutoff){
-		if(max_disp[0] > 0.5*cutoff){
+		if(max_disp[0] + max_disp[1] > 0.5*cutoff){
 			for(unsigned int i = 0; i < this->N; i++){
 				this->bulk[i].clear_verlet_list();
 				max_disp[0] = 0, max_disp[1] = 0;
