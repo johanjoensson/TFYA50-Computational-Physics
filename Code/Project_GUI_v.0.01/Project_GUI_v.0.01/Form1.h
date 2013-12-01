@@ -16,6 +16,8 @@ struct Input_data{
 	int t_start;
 	int t_end;
 	float t_step;
+	unsigned int storage;
+	unsigned int vis;
 	crystalStructure cStruct;
 };
 
@@ -181,6 +183,15 @@ private: System::Windows::Forms::Label^  label32;
 private: System::Windows::Forms::Label^  label31;
 private: System::Windows::Forms::Label^  label36;
 private: System::Windows::Forms::Label^  label35;
+private: System::Windows::Forms::TextBox^  textBoxVisInt;
+
+private: System::Windows::Forms::Label^  labelVisInt;
+private: System::Windows::Forms::TextBox^  textBoxDataInt;
+
+private: System::Windows::Forms::Label^  labelDataInt;
+
+
+
 
 
 
@@ -226,6 +237,8 @@ private: System::Windows::Forms::Label^  label35;
 			this->textBoxLatConst = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->tabPageCalculation = (gcnew System::Windows::Forms::TabPage());
+			this->textBoxVisInt = (gcnew System::Windows::Forms::TextBox());
+			this->labelVisInt = (gcnew System::Windows::Forms::Label());
 			this->label36 = (gcnew System::Windows::Forms::Label());
 			this->label35 = (gcnew System::Windows::Forms::Label());
 			this->textBoxTemp = (gcnew System::Windows::Forms::TextBox());
@@ -273,6 +286,8 @@ private: System::Windows::Forms::Label^  label35;
 			this->label16 = (gcnew System::Windows::Forms::Label());
 			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->textBoxDataInt = (gcnew System::Windows::Forms::TextBox());
+			this->labelDataInt = (gcnew System::Windows::Forms::Label());
 			this->tabControl1->SuspendLayout();
 			this->tabPage1->SuspendLayout();
 			this->tabPageStructure->SuspendLayout();
@@ -298,7 +313,7 @@ private: System::Windows::Forms::Label^  label35;
 			this->tabPage1->Location = System::Drawing::Point(4, 22);
 			this->tabPage1->Name = L"tabPage1";
 			this->tabPage1->Padding = System::Windows::Forms::Padding(3);
-			this->tabPage1->Size = System::Drawing::Size(628, 424);
+			this->tabPage1->Size = System::Drawing::Size(631, 424);
 			this->tabPage1->TabIndex = 3;
 			this->tabPage1->Text = L"Material";
 			this->tabPage1->UseVisualStyleBackColor = true;
@@ -570,6 +585,10 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// tabPageCalculation
 			// 
+			this->tabPageCalculation->Controls->Add(this->textBoxDataInt);
+			this->tabPageCalculation->Controls->Add(this->labelDataInt);
+			this->tabPageCalculation->Controls->Add(this->textBoxVisInt);
+			this->tabPageCalculation->Controls->Add(this->labelVisInt);
 			this->tabPageCalculation->Controls->Add(this->label36);
 			this->tabPageCalculation->Controls->Add(this->label35);
 			this->tabPageCalculation->Controls->Add(this->textBoxTemp);
@@ -587,11 +606,30 @@ private: System::Windows::Forms::Label^  label35;
 			this->tabPageCalculation->Location = System::Drawing::Point(4, 22);
 			this->tabPageCalculation->Name = L"tabPageCalculation";
 			this->tabPageCalculation->Padding = System::Windows::Forms::Padding(3);
-			this->tabPageCalculation->Size = System::Drawing::Size(628, 424);
+			this->tabPageCalculation->Size = System::Drawing::Size(631, 424);
 			this->tabPageCalculation->TabIndex = 1;
 			this->tabPageCalculation->Text = L"Calculations";
 			this->tabPageCalculation->UseVisualStyleBackColor = true;
 			this->tabPageCalculation->Click += gcnew System::EventHandler(this, &Form1::tabPageCalculation_Click);
+			// 
+			// textBoxVisInt
+			// 
+			this->textBoxVisInt->Location = System::Drawing::Point(201, 156);
+			this->textBoxVisInt->Name = L"textBoxVisInt";
+			this->textBoxVisInt->Size = System::Drawing::Size(87, 20);
+			this->textBoxVisInt->TabIndex = 62;
+			this->textBoxVisInt->Visible = false;
+			this->textBoxVisInt->TextChanged += gcnew System::EventHandler(this, &Form1::textBox1_TextChanged_2);
+			// 
+			// labelVisInt
+			// 
+			this->labelVisInt->AutoSize = true;
+			this->labelVisInt->Location = System::Drawing::Point(9, 160);
+			this->labelVisInt->Name = L"labelVisInt";
+			this->labelVisInt->Size = System::Drawing::Size(178, 13);
+			this->labelVisInt->TabIndex = 61;
+			this->labelVisInt->Text = L"Store visualisation every # timesteps";
+			this->labelVisInt->Visible = false;
 			// 
 			// label36
 			// 
@@ -660,21 +698,21 @@ private: System::Windows::Forms::Label^  label35;
 			// 
 			// textBoxTStep
 			// 
-			this->textBoxTStep->Location = System::Drawing::Point(198, 84);
+			this->textBoxTStep->Location = System::Drawing::Point(201, 84);
 			this->textBoxTStep->Name = L"textBoxTStep";
 			this->textBoxTStep->Size = System::Drawing::Size(87, 20);
 			this->textBoxTStep->TabIndex = 29;
 			// 
 			// textBoxTEnd
 			// 
-			this->textBoxTEnd->Location = System::Drawing::Point(198, 50);
+			this->textBoxTEnd->Location = System::Drawing::Point(201, 50);
 			this->textBoxTEnd->Name = L"textBoxTEnd";
 			this->textBoxTEnd->Size = System::Drawing::Size(87, 20);
 			this->textBoxTEnd->TabIndex = 28;
 			// 
 			// textBoxTStart
 			// 
-			this->textBoxTStart->Location = System::Drawing::Point(198, 16);
+			this->textBoxTStart->Location = System::Drawing::Point(201, 16);
 			this->textBoxTStart->Name = L"textBoxTStart";
 			this->textBoxTStart->Size = System::Drawing::Size(87, 20);
 			this->textBoxTStart->TabIndex = 27;
@@ -757,7 +795,7 @@ private: System::Windows::Forms::Label^  label35;
 			this->tabPageResult->Location = System::Drawing::Point(4, 22);
 			this->tabPageResult->Name = L"tabPageResult";
 			this->tabPageResult->Padding = System::Windows::Forms::Padding(3);
-			this->tabPageResult->Size = System::Drawing::Size(628, 424);
+			this->tabPageResult->Size = System::Drawing::Size(631, 424);
 			this->tabPageResult->TabIndex = 2;
 			this->tabPageResult->Text = L"Results";
 			this->tabPageResult->UseVisualStyleBackColor = true;
@@ -767,9 +805,9 @@ private: System::Windows::Forms::Label^  label35;
 			this->label30->AutoSize = true;
 			this->label30->Location = System::Drawing::Point(239, 325);
 			this->label30->Name = L"label30";
-			this->label30->Size = System::Drawing::Size(48, 13);
+			this->label30->Size = System::Drawing::Size(42, 13);
 			this->label30->TabIndex = 55;
-			this->label30->Text = L"Å^2/fs \?";
+			this->label30->Text = L"Å^2/fs ";
 			// 
 			// label29
 			// 
@@ -1041,6 +1079,22 @@ private: System::Windows::Forms::Label^  label35;
 			this->label8->TabIndex = 18;
 			this->label8->Text = L"Temperature";
 			// 
+			// textBoxDataInt
+			// 
+			this->textBoxDataInt->Location = System::Drawing::Point(201, 185);
+			this->textBoxDataInt->Name = L"textBoxDataInt";
+			this->textBoxDataInt->Size = System::Drawing::Size(87, 20);
+			this->textBoxDataInt->TabIndex = 64;
+			// 
+			// labelDataInt
+			// 
+			this->labelDataInt->AutoSize = true;
+			this->labelDataInt->Location = System::Drawing::Point(9, 189);
+			this->labelDataInt->Name = L"labelDataInt";
+			this->labelDataInt->Size = System::Drawing::Size(142, 13);
+			this->labelDataInt->TabIndex = 63;
+			this->labelDataInt->Text = L"Store data every # timesteps";
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -1078,8 +1132,7 @@ private: System::Void label2_Click(System::Object^  sender, System::EventArgs^  
 		 }
 private: System::Void label3_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
-private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
-		 }
+private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::EventArgs^  e);
 private: System::Void textBox7_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void label4_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -1104,6 +1157,7 @@ private: crystalStructure get_structure();
 private: System::Void set_information(Material m, Input_data d, int N);
 private: System::Void set_end_of_simulation(Input_data d, clock_t time);
 private: System::Void reset_results();
+private: System::Void set_intervals();
 
 private: System::Void radioButtonFCC_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(this->radioButtonFCC->Checked){
@@ -1132,6 +1186,8 @@ private: System::Void textBoxTStart_TextChanged(System::Object^  sender, System:
 private: System::Void label5_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void label6_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void textBox1_TextChanged_2(System::Object^  sender, System::EventArgs^  e) {
 		 }
 };
 }

@@ -44,6 +44,9 @@ void world::init()
 	visualise = false;
 	thermostat = false;
 
+	vis_interval = 10;
+	storage_interval = 500;
+
 	verlet_integrator = integrator();
 }
 
@@ -139,7 +142,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 		atoms[i].vel = (atoms[i].vel)*scale_factor;
 	}
 
-	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
+//	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
 
 }
 
@@ -166,6 +169,12 @@ void world::toggle_visualisation()
 void world::set_visualisation(bool val)
 {
 	visualise = val;
+}
+
+void world::set_intervals(unsigned int store, unsigned int vis)
+{
+	storage_interval = store;
+	vis_interval = vis;
 }
 
 void world::set_thermostat(bool val)
@@ -398,12 +407,17 @@ void world::integrate()
 {
 	float max_disp[2];
 	max_disp[0] = 0, max_disp[1] = 0;
-
-	unsigned int storage_interval = 500;
+	
 	float **data;
 	data= new float*[storage_interval];
 	for(int i = 0; i < storage_interval; i++){
 		data[i] = new float[10];
+	}
+
+	atom **vis_data;
+	vis_data = new atom*[vis_interval];
+	for(unsigned int i = 0; i < vis_interval; i++){
+		vis_data[i] = new atom[N];
 	}
 
 	this->update_verlet_lists();
@@ -412,22 +426,24 @@ void world::integrate()
 	for(unsigned int i = 0; i < this->N; i++){
 		writer.store_atom(*this->bulk[i].data);
 	}
+	writer.timestep_end();
 
 	float collisionTest = 0;
 	float sigma = 0;
 	/* set sigma to the proper units [Å/fs] */
-	sigma = sqrt(3*T_start*kB/(atoms[0].mass*1.66053892e-27))*1e-5;
+	sigma = sqrt(T_start*kB/(atoms[0].mass*1.66053892e-27));//*1e-5;
 
 	std::default_random_engine generator;
 	std::normal_distribution<float> gauss(0,sigma);
 	float collision_val = collision_rate*time_step*1e-15;
 
+	int atom_count = 0;
 	for(unsigned int t = 0; t < t_end; t++){
 		this->verlet_integrator.reset_p_int();
 		this->verlet_integrator.reset_epot();
 		this->kinetic_energy();
 		this->r_msd = 0;
-
+		atom_count = 0;
 		/* First part of Verlet integration */
 		for(int i = 0; i < this->N; i++){
 			this->verlet_integrator.verlet_integration_position(this->bulk[i]);
@@ -439,10 +455,13 @@ void world::integrate()
 			}else if(this->bulk[i].data->get_displacement() > max_disp[1]){
 				max_disp[1]  = this->bulk[i].data->get_displacement();
 			}
-			if(visualise)
+			if(visualise && t%vis_interval == 0)
 			{
 				writer.store_atom(*this->bulk[i].data);
 			}
+		}
+		if(visualise && t%vis_interval == 0){
+			writer.timestep_end();
 		}
 		/* Second part of Verlet integration */
 		for(int i = 0; i < this->N; i++){
@@ -452,12 +471,11 @@ void world::integrate()
 			if(thermostat){
 				collisionTest = ((float)rand())/RAND_MAX;
 				if(collisionTest  < collision_val){
-					this->atoms[i].vel = vector_3d(gauss(generator),gauss(generator),gauss(generator));
+					this->atoms[i].vel = 1e-5 *vector_3d(gauss(generator),gauss(generator),gauss(generator));
 				}
 			}
 		}
 
-		
 
 		calc_temperature(this->get_kinetic_energy(), this->N);
 		calc_pressure(this->verlet_integrator.get_p_int(), this->N, this->V);
@@ -489,6 +507,7 @@ void world::integrate()
 			}
 		}
 	}
+	/* Integration loop is done, phew! */
 
 	if(t_end%storage_interval != 0){
 		for(int i = 0; i < t_end%storage_interval; i++){

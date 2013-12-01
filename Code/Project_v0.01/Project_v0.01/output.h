@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "atom.h"
 
@@ -10,6 +11,8 @@ class outputter{
 private:
 	std::ofstream file;
 	std::ofstream visualisation_file;
+
+	std::ostringstream temp;
 public:
 	~outputter();
 	outputter();
@@ -17,6 +20,7 @@ public:
 	outputter(char* filename, char* vis_name);
 	void store_data(float data[8]);
 	void store_atom(atom a);
+	void timestep_end();
 	void init_data_file();
 	void close_files();
 };

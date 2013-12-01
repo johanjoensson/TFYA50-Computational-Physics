@@ -57,8 +57,18 @@ void outputter::store_data(float data[10])
 
 void outputter::store_atom(atom a)
 {
-	visualisation_file << a.pos;
+//	visualisation_file << a.pos;
+//	visualisation_file.flush();
+	temp << a.pos;
+}
+
+void outputter::timestep_end()
+{
+	visualisation_file << temp.str() << std::endl;
+//	visualisation_file << std::endl;
 	visualisation_file.flush();
+	temp.clear();
+	temp.str("");
 }
 
 void outputter::close_files()

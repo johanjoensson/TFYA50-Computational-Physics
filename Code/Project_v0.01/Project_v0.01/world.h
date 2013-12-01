@@ -67,6 +67,8 @@ public:
 	void set_sigma(float sigma);
 	void set_epsilon(float epsilon);
 
+	void set_intervals(unsigned int store, unsigned int vis);
+
 	integrator verlet_integrator;
 	unsigned int N;
 	atom *atoms;
@@ -78,6 +80,9 @@ public:
 
 	int t_end;
 	int t_start;
+
+	unsigned int vis_interval;
+	unsigned int storage_interval;
 
 	void kinetic_energy(atom a);
 	void kinetic_energy();

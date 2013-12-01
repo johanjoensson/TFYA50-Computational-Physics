@@ -12,6 +12,8 @@
 //#include <Windows.h>
 #include <crtdbg.h>
 
+bool simulating = false;
+
 using namespace Project_GUI_v001;
 
 System::Void Form1::set_materials(unsigned int l)
@@ -44,6 +46,12 @@ System::Void Form1::checkBox2_CheckedChanged(System::Object^  sender, System::Ev
 {
 	this->labelCollisionRate->Visible = !this->labelCollisionRate->Visible;
 	this->textBoxCollisionRate->Visible = !this->textBoxCollisionRate->Visible;
+}
+
+System::Void Form1::checkBox1_CheckedChanged(System::Object^  sender, System::EventArgs^  e)
+{
+	this->labelVisInt->Visible = !this->labelVisInt->Visible;
+	this->textBoxVisInt->Visible = !this->textBoxVisInt->Visible;
 }
 
 System::Void Form1::listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e)
@@ -168,6 +176,25 @@ Input_data Form1::get_data()
 	}else{
 		MessageBox::Show("Temperature not set\n20K assumed");
 		res.temp = 20;
+	}
+
+	if(this->textBoxDataInt->Text != ""){
+		str = context->marshal_as<const char*>(this->textBoxXdim->Text);
+		res.storage = atoi(str);
+//		delete str;
+	}else{
+		res.storage = 500;
+	}
+	if(this->checkBoxVisualise->Checked){
+		if(this->textBoxVisInt->Text != ""){
+			str = context->marshal_as<const char*>(this->textBoxXdim->Text);
+			res.vis = atoi(str);
+//			delete str;
+		}else{
+			res.vis = 20;
+		}
+	}else{
+		res.vis = 0;
 	}
 	return res;
 }
@@ -327,6 +354,21 @@ float* get_averages(int t_start, int t_end)
 	return data;
 }
 
+System::Void Form1::set_intervals()
+{
+	Input_data res;
+	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+	const char* str;
+
+	if(this->textBoxDataInt->Text != ""){
+		str = context->marshal_as<const char*>(this->textBoxXdim->Text);
+		res.x = atoi(str);
+//		delete str;
+	}else{
+		MessageBox::Show("x-dimensions not set\n0 assumed");
+		res.x = 0;
+	}
+}
 
 
 System::Void Form1::set_end_of_simulation(Input_data d, clock_t time)
@@ -438,56 +480,46 @@ UINT thread_integrate(LPVOID pParam);
 
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
-	reset_results();
-	Material mat;
-	if(this->listBoxMaterial->SelectedIndex == -1){
-		MessageBox::Show("No material selected!\nChoosing the first material in the list.");
-		mat = materials[0];
+	if(!simulating){
+		reset_results();
+		Material mat;
+		if(this->listBoxMaterial->SelectedIndex == -1){
+			MessageBox::Show("No material selected!\nChoosing the first material in the list.");
+			mat = materials[0];
+		}else{
+			mat = selected_material();
+		}
+
+		Input_data d = get_data();
+		d.cStruct = get_structure();
+		world *w = new world(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct, d.t_end, d.t_start);
+		w->set_sigma(mat.sigma);
+		w->set_epsilon(mat.epsilon);
+		w->set_timestep(d.t_step);
+		w->set_cutoff(d.cut_off);
+
+		if(this->checkBoxTermo->Checked){
+			w->set_thermostat(true);
+			w->set_collision_rate(this->get_collision_rate());
+		}
+		if(this->checkBoxVisualise->Checked){
+			w->set_visualisation(true);
+		}
+		w->set_intervals(d.storage, d.vis);
+
+		set_information(mat, d, w->N);
+		clock_t time = clock();
+
+		w->integrate();
+
+		w->unset_world();
+		delete w;
+
+		time = clock() - time;
+		set_end_of_simulation(d, time);
+
+		MessageBox::Show("Simulation complete!");
 	}else{
-		mat = selected_material();
+		MessageBox::Show("Cannot start new simulation, simulation in progress\nWait for the current simulation to end.");
 	}
-
-	Input_data d = get_data();
-	d.cStruct = get_structure();
-	world *w = new world(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct, d.t_end, d.t_start);
-	w->set_sigma(mat.sigma);
-	w->set_epsilon(mat.epsilon);
-	w->set_timestep(d.t_step);
-	w->set_cutoff(d.cut_off);
-
-	if(this->checkBoxTermo->Checked){
-		w->set_thermostat(true);
-		w->set_collision_rate(this->get_collision_rate());
-	}
-	if(this->checkBoxVisualise->Checked){
-		w->set_visualisation(true);
-	}
-
-	set_information(mat, d, w->N);
-	clock_t time = clock();
-//	AfxBeginThread(thread_integrate,w);
-	w->integrate();
-
-	w->unset_world();
-	delete w;
-	time = clock() - time;
-	set_end_of_simulation(d, time);
-
-	MessageBox::Show("Simulation complete!");
-}
-
-
-UINT thread_integrate(LPVOID pParam)
-{
-	world* pObject = (world*)pParam;
-	if (pObject == NULL)
-		return 1;   // if pObject is not valid
-
-	pObject->integrate();
-
-	pObject->unset_world();
-	delete pObject;
-	return 0; // pObject is of type world
-
-
 }
