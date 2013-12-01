@@ -414,12 +414,6 @@ void world::integrate()
 		data[i] = new float[10];
 	}
 
-	atom **vis_data;
-	vis_data = new atom*[vis_interval];
-	for(unsigned int i = 0; i < vis_interval; i++){
-		vis_data[i] = new atom[N];
-	}
-
 	this->update_verlet_lists();
 
 	/* Store the initial positions of all atoms */
@@ -518,6 +512,11 @@ void world::integrate()
 			writer.store_data(data[i]);
 		}
 	}
+
+	for(int i = 0; i < storage_interval; i++){
+		delete[] data[i];
+	}
+	delete[] data;
 }
 
 float world::SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix)

@@ -157,13 +157,22 @@ vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z
 void vector_3d::place(float x_tot, float y_tot, float z_tot)
 {
 	int d = this->x/x_tot;
+	if(this->x < 0){
+		d--;
+	}
 	this->x -= d*x_tot;
 
 	d = this->y/y_tot;
+	if(this->y < 0){
+		d--;
+	}
 	this->y -= d*y_tot;
 
-	d = this->y/y_tot;
-	this->y -= d*y_tot;
+	d = this->z/z_tot;
+	if(this->z < 0){
+		d--;
+	}
+	this->z -= d*z_tot;
 }
 
 
