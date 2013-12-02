@@ -31,7 +31,7 @@ vector_3d vector_3d::operator* (float a)
 vector_3d vector_3d::operator/ (float a)
 {
 	vector_3d res = *this;
-	return 1/a*res;
+	return (1/a)*res;
 }
 
 float vector_3d::operator* (vector_3d v)

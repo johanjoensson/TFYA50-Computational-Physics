@@ -1,6 +1,7 @@
 #include "world.h"
 
 #include <random>
+#include <ctime>
 
 #include <sstream>
 
@@ -131,7 +132,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	/* Scale the centre of mass velocity */
 	sum_vel /= N;
 	for(int i = 0; i < N; i++){
-		atoms[i].vel -= sum_vel;
+		atoms[i].vel = atoms[i].vel - sum_vel;
 		sum_vel2 += atoms[i].vel*atoms[i].vel;
 	}
 	sum_vel2 /= N;
@@ -139,7 +140,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	T_start = temp;
 	float scale_factor = sqrt(3*kB*temp/(atomic_u*1e10*mass*sum_vel2));
 	for(unsigned int i = 0; i < N; i++){
-		atoms[i].vel = (atoms[i].vel)*scale_factor;
+		atoms[i].vel *= scale_factor;
 	}
 
 //	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
@@ -425,7 +426,7 @@ void world::integrate()
 	float collisionTest = 0;
 	float sigma = 0;
 	/* set sigma to the proper units [Å/fs] */
-	sigma = sqrt(T_start*kB/(atoms[0].mass*1.66053892e-27));//*1e-5;
+	sigma = sqrt(T_start*kB/(atoms[0].mass*1.66053892e-27))*1e-5;
 
 	std::default_random_engine generator;
 	std::normal_distribution<float> gauss(0,sigma);
@@ -465,7 +466,7 @@ void world::integrate()
 			if(thermostat){
 				collisionTest = ((float)rand())/RAND_MAX;
 				if(collisionTest  < collision_val){
-					this->atoms[i].vel = 1e-5 *vector_3d(gauss(generator),gauss(generator),gauss(generator));
+					this->atoms[i].vel = vector_3d(gauss(generator),gauss(generator),gauss(generator));
 				}
 			}
 		}
@@ -494,6 +495,7 @@ void world::integrate()
 		
 			
 		if(max_disp[0] + max_disp[1] > 0.5*cutoff){
+			max_disp[0] = 0, max_disp[1] = 0;
 			for(unsigned int i = 0; i < this->N; i++){
 				this->bulk[i].clear_verlet_list();
 				max_disp[0] = 0, max_disp[1] = 0;

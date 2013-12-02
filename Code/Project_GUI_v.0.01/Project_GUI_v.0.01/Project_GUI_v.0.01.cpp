@@ -6,10 +6,12 @@
 #include "output.h"
 #include "input.h"
 #include "average.h"
+
+#include <random>
+#include <ctime>
 #include <msclr\marshal.h>
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
-//#include <Windows.h>
 #include <crtdbg.h>
 
 bool simulating = false;
@@ -32,6 +34,7 @@ System::Void Form1::set_materials(unsigned int l)
 int main(array<System::String ^> ^args)
 {
 	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
+	srand(time(0));
 	// Enabling Windows XP visual effects before any controls are created
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 

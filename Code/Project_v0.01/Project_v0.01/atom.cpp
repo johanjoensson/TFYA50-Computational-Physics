@@ -14,7 +14,6 @@ atom::atom()
 
 atom::atom(vector_3d position)
 {
-	srand(std::time( 0 ));
 	pos = position;
 	orig_pos = position;
 	vel = vector_3d( 0.5 - static_cast<float> (rand())/static_cast<float>(RAND_MAX),0.5 - static_cast<float> (rand())/static_cast<float>(RAND_MAX),0.5 - static_cast<float> (rand())/static_cast<float>(RAND_MAX));
