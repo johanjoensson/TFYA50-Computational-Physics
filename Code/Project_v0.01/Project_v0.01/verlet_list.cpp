@@ -25,11 +25,16 @@ void verlet_list::set_dimensions(float x, float y, float z)
 	z_dim = z;
 }
 
+void verlet_list::set_PBC(PBC conditions)
+{
+	boundary = conditions;
+}
+
 void verlet_list::add_atom(verlet_list atom)
 {
 	verlet_list *next_atom = this->next;
 	
-	vector_3d r = this->data->pos.diff(atom.data->pos, x_dim, y_dim, z_dim);
+	vector_3d r = this->data->pos.diff(atom.data->pos, x_dim, y_dim, z_dim, boundary);
 
 	if(r*r < verlet_skin*verlet_skin){
 		this->next = new verlet_list();

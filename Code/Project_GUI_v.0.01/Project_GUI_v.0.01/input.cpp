@@ -5,15 +5,18 @@
 inputter::~inputter()
 {
 	file.close();
+	back2back_file.close();
 }
 
 void inputter::close_file()
 {
 	file.close();
+	back2back_file.close();
 }
 inputter::inputter(char* file_name)
 {
 	file.open(file_name, std::ios::in);
+	back2back_file.open("back2back.txt");
 }
 
 void extract_mat_param(Material &mat, std::string data, unsigned int j)
@@ -94,3 +97,32 @@ Material* inputter::get_material(char* text_file)
 	}
 	return res;
 }
+
+/*
+world* inputter::get_equi_data()
+{
+	if( back2back_file.is_open())
+	{
+		float mass, epsi, sigma, x_dim, y_dim, z_dim, N, cutoff, collision_rate;
+		float a, b, c, d, e, f;
+
+		back2back_file >> mass >> epsi >> x_dim >> y_dim >> z_dim >> N >> cutoff >> collision_rate;  
+		for(int i = 0; i < N; i++){
+			back2back_file >> a >> b >> c;
+			atoms[i].pos= vector_3d(a,b,c);
+			back2back_file >> d >> e >> f;
+			atoms[i].vel= vector_3d(d,e,f);
+
+		}
+
+		back2back_file.close();
+	}
+	else
+		std::cout << "Impossible to open the file!" << std::endl;
+
+
+	world *res = new world;
+
+	return res;
+}
+*/

@@ -1,7 +1,11 @@
+#ifndef WORLD_H
+#define WORLD_H
+
 #include "atom.h"
 #include "verlet_list.h"
 #include "velocity_verlet_integration.h"
 #include "output.h"
+
 
 /* ************ Natural Constants ************ */
 #define kB 1.3806488e-23 /*Boltzmann's Constant in SI units*/ //kB 8.6173324e-5 /* Boltzmann's Constant [eV/K] */
@@ -38,9 +42,13 @@ private:
 	float C_v;
 	float collision_rate;
 	float T_start;
+	float epsilon;
+	float sigma;
 
 	bool visualise;
 	bool thermostat;
+
+	PBC boundary;
 
 
 	outputter writer;
@@ -54,7 +62,7 @@ private:
 public:
 	world();
 	world(unsigned int n);
-	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type, int t_stop, int t_start);
+	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type, int t_stop, int t_start, PBC conditions);
 	void unset_world();
 	float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix);
 
@@ -64,8 +72,9 @@ public:
 	void set_collision_rate(float f);
 	void set_thermostat(bool val);
 	void set_visualisation(bool val);
-	void set_sigma(float sigma);
-	void set_epsilon(float epsilon);
+	void set_sigma(float sig);
+	void set_epsilon(float epsi);
+	void set_boundary(PBC conditions);
 
 	void set_intervals(unsigned int store, unsigned int vis);
 
@@ -117,7 +126,10 @@ public:
 	void bccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 	void fccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 	void diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a);
+	void back2back_init();
 
 	void integrate();
 };
+
+#endif /* WORLD_H */
 

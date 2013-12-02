@@ -2,6 +2,11 @@
 
 #include <cmath>
 
+/* Global variables for PBC */
+bool PBC_x = true;
+bool PBC_y = true;
+bool PBC_z = false;
+
 /******************************************************************************
 * Normalise the vector, so that it has absolute value 1						  *
 * Sets (x,y,z) = (x,y,z)/((x^2 + y^2 + z^2)^1/2)							  *
@@ -111,18 +116,18 @@ vector_3d::vector_3d()
 	z = 0;
 }
 
-float vector_3d::distance(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot)
+float vector_3d::distance(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot, PBC boundary)
 {
-	vector_3d dist = this->diff(atom2_pos, x_tot, y_tot, z_tot);
+	vector_3d dist = this->diff(atom2_pos, x_tot, y_tot, z_tot, boundary);
 	return sqrt(dist*dist);
 }
 
-vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot)
+vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z_tot, PBC boundary)
 {
 	/* r = x2 - x1 , vector from current atom to the other atom*/
 	vector_3d dist = atom2_pos - *this;
 	int d = 0;
-	if(dist.x*dist.x > 0.25*x_tot*x_tot){
+	if((dist.x*dist.x > 0.25*x_tot*x_tot) && boundary.x){
 		d = (int)dist.x/x_tot;
 		if(dist.x > 0){
 			d++;
@@ -131,7 +136,7 @@ vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z
 		}
 		dist.x -= d*x_tot;
 	}
-	if(dist.y*dist.y > 0.25*y_tot*y_tot)
+	if((dist.y*dist.y > 0.25*y_tot*y_tot) && boundary.y)
 	{
 		d = (int)dist.y/y_tot;
 		if(dist.y > 0){
@@ -141,7 +146,7 @@ vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z
 		}
 		dist.y -= d*y_tot;
 	}	
-	if(dist.z*dist.z > 0.25*z_tot*z_tot)
+	if((dist.z*dist.z > 0.25*z_tot*z_tot) && boundary.z)
 	{
 		d = (int)dist.z/z_tot;
 		if(dist.z > 0){
@@ -154,25 +159,32 @@ vector_3d vector_3d::diff(vector_3d atom2_pos, float x_tot, float y_tot, float z
 	return dist;
 }
 
-void vector_3d::place(float x_tot, float y_tot, float z_tot)
+void vector_3d::place(float x_tot, float y_tot, float z_tot, PBC boundary)
 {
-	int d = this->x/x_tot;
-	if(this->x < 0){
-		d--;
+	int d = 0;
+	if(boundary.x){
+		d = this->x/x_tot;
+		if(this->x < 0){
+			d--;
+		}
+		this->x -= d*x_tot;
 	}
-	this->x -= d*x_tot;
 
-	d = this->y/y_tot;
-	if(this->y < 0){
-		d--;
+	if(boundary.y){
+		d = this->y/y_tot;
+		if(this->y < 0){
+			d--;
+		}
+		this->y -= d*y_tot;
 	}
-	this->y -= d*y_tot;
 
-	d = this->z/z_tot;
-	if(this->z < 0){
-		d--;
+	if(boundary.z){
+		d = this->z/z_tot;
+		if(this->z < 0){
+			d--;
+		}
+		this->z -= d*z_tot;
 	}
-	this->z -= d*z_tot;
 }
 
 

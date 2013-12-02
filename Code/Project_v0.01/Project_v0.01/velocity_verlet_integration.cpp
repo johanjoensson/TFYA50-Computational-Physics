@@ -37,6 +37,11 @@ void integrator::set_epsilon(float epsilon)
 	epsi = epsilon;
 }
 
+void integrator::set_PBC(PBC conditions)
+{
+	boundary = conditions;
+}
+
 float integrator::get_epot()
 {
 	return e_pot;
@@ -55,7 +60,7 @@ void integrator::verlet_integration_position(verlet_list particle)
 	tmp -= particle.data->pos;
 	particle.data->incr_displacement(tmp.abs());
 	/* Periodic boundary conditions */
-	particle.data->pos.place(x_dim, y_dim, z_dim);
+	particle.data->pos.place(x_dim, y_dim, z_dim, boundary);
 }
 
 /* The second part of the Velocity verlet algorithm, updates velocity */
@@ -68,7 +73,7 @@ void integrator::verlet_integration_velocity(verlet_list particle)
 	while(current != NULL){
 		
 		/* Calculate the vector between 2 atoms, with PBC */
-		vector_3d r = particle.data->pos.diff(current->data->pos, x_dim, y_dim, z_dim);
+		vector_3d r = particle.data->pos.diff(current->data->pos, x_dim, y_dim, z_dim, boundary);
 		if(r*r < cutoff*cutoff){
 			/* Update velocity and acceleration of the particle */
 			tmp_force = calculate_force(particle.data, current->data);
@@ -104,8 +109,8 @@ vector_3d integrator::calculate_force(atom *atom_a, atom *atom_b)
 	float sigma = 0.0017;
 	vector_3d a = atom_a->pos;
 	vector_3d b = atom_b->pos;
-	vector_3d d = a.diff(b, x_dim, y_dim, z_dim);
-	float r = a.distance(b, x_dim, y_dim, z_dim);
+	vector_3d d = a.diff(b, x_dim, y_dim, z_dim, boundary);
+	float r = a.distance(b, x_dim, y_dim, z_dim, boundary);
 	float ri = 1/r;
 	float ri2 = ri*ri;
 	float ri6 = ri2*ri2*ri2;

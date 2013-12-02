@@ -5,6 +5,7 @@
 #include <fstream>
 
 #include "vector_lib.h"
+#include "world.h"
 
 struct Material{
 	std::string name;
@@ -17,6 +18,8 @@ struct Material{
 class inputter{
 private:
 	std::ifstream file;
+	std::ifstream back2back_file;
+
 
 public:
 	~inputter();
@@ -26,6 +29,8 @@ public:
 	unsigned int num_mat;
 
 	Material* get_material(char* text_file);
+
+	world* get_equi_data();
 	
 };
 

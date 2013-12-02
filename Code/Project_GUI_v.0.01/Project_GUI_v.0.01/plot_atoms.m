@@ -42,9 +42,12 @@ function plot_atoms()
     y = atoms(1).y;
     z = atoms(1).z;
     ht = scatter3(x, y, z);
-    xlim([xmin xmax*1.25])
-    ylim([ymin ymax*1.25])
-    zlim([zmin zmax*1.25])
+    xlim([xmin xmax*1.25]);
+    xlabel('x');
+    ylim([ymin ymax*1.25]);
+    ylabel('y');
+    zlim([zmin zmax*1.25]);
+    zlabel('z');
     set(ht,'XDataSource','x');
     set(ht,'YDataSource','y');
     set(ht,'ZDataSource','z');

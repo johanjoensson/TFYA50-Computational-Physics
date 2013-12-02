@@ -9,6 +9,13 @@
 
 #include <iostream>
 
+/* Periodic Boundary Conditions */
+struct PBC{
+	bool x;
+	bool y;
+	bool z;
+};
+
 /******************************************************************************
  * 3D vectors, useful for most things										  * 
 ******************************************************************************/
@@ -118,13 +125,14 @@ public:
 	friend std::ostream& operator<< (std::ostream &out, const vector_3d &a)
 	{ out << "(" << a.x << ", " << a.y << ", " << a.z << ")"; return out; }
 	
+	/* Periodic boundary conditions */
 	float distance(vector_3d atom2_pos, float x_tot, float y_tot, float
-	z_tot);
+	z_tot, PBC boundary);
 
 	vector_3d diff(vector_3d atom2_pos, float x_tot, float y_tot, float
-	z_tot);
+	z_tot, PBC boundary);
 
-	void place(float x_tot, float y_tot, float z_tot);
+	void place(float x_tot, float y_tot, float z_tot, PBC boundary);
 
 };
 

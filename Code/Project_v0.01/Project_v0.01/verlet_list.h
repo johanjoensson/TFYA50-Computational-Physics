@@ -7,6 +7,7 @@ class verlet_list{
 private:
 	float verlet_skin;
 	float x_dim, y_dim, z_dim;
+	PBC boundary;
 public:
 	/* Empty constructor initialises everythin to NULL ( = 0) */
 	verlet_list();
@@ -30,5 +31,6 @@ public:
 	void set_verlet_skin(float r);
 
 	void set_dimensions(float x, float y, float z);
+	void set_PBC(PBC conditions);
 };
 #endif /* VERLET_LIST_H */

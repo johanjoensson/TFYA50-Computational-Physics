@@ -20,6 +20,7 @@ private:
 
 	float p_int;
 	float e_pot;
+	PBC boundary;
 public:
 	integrator();
 
@@ -28,6 +29,7 @@ public:
 	void set_sigma6(float sigma);
 	void set_epsilon(float epsilon);
 	void set_dimensions(float x, float y, float z);
+	void set_PBC(PBC conditions);
 
 	void verlet_integration_position(verlet_list particle);
 	void verlet_integration_velocity(verlet_list particle);
