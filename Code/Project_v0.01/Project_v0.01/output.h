@@ -11,6 +11,7 @@ class outputter{
 private:
 	std::ofstream file;
 	std::ofstream visualisation_file;
+	std::ofstream back2back_file;
 
 	std::ostringstream temp;
 public:
@@ -20,6 +21,7 @@ public:
 	outputter(char* filename, char* vis_name);
 	void store_data(float data[8]);
 	void store_atom(atom a);
+	void store_back2back(float mass, float epsi, float sigma, float x_dim, float y_dim, float z_dim, int N, float cutoff, float collision_rate, atom* a);
 	void timestep_end();
 	void init_data_file();
 	void close_files();

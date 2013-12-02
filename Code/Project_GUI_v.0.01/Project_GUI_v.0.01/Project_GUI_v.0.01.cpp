@@ -276,7 +276,7 @@ crystalStructure Form1::get_structure()
 PBC Form1::get_PBC()
 {
 	PBC res;
-	if(!this->checkBoxPeriodic->Checked){
+	if(this->checkBoxPeriodic->Checked){
 		res.x = this->checkBoxPeriodicX->Checked;
 		res.y = this->checkBoxPeriodicY->Checked;
 		res.z = this->checkBoxPeriodicZ->Checked;
@@ -355,7 +355,7 @@ System::Void Form1::set_information(Material m, Input_data d, int N)
 		ss.clear();
 		ss.str("");
 	}
-	if(this->checkBoxTermo->Checked){
+/*	if(this->checkBoxTermo->Checked){
 		msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
 		const char* str;
 		str = context->marshal_as<const char*>(this->textBoxCollisionRate->Text);
@@ -364,7 +364,7 @@ System::Void Form1::set_information(Material m, Input_data d, int N)
 		ss.clear();
 		ss.str("");
 	}
-
+*/
 	ss << "Running for " << d.t_end << " timesteps," << " with a timestep of " << d.t_step << "fs" << std::endl;
 	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
 	ss.clear();
@@ -525,9 +525,6 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 		reset_results();
 		Material mat;
 		PBC conditions;
-		conditions.x = true;
-		conditions.y= true;
-		conditions.z = false;
 		if(this->listBoxMaterial->SelectedIndex == -1){
 			MessageBox::Show("No material selected!\nChoosing the first material in the list.");
 			mat = materials[0];
@@ -539,8 +536,8 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 		conditions = get_PBC();
 		d.cStruct = get_structure();
 		world *w = new world(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct, d.t_end, d.t_start, conditions);
-		w->set_sigma(mat.sigma);
-		w->set_epsilon(mat.epsilon);
+		w->set_sigma(d.sigma);
+		w->set_epsilon(d.epsilon);
 		w->set_timestep(d.t_step);
 		w->set_cutoff(d.cut_off);
 

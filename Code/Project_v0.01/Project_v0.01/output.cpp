@@ -19,12 +19,14 @@ outputter::~outputter()
 {
 	file.close();
 	visualisation_file.close();
+	back2back_file.close();
 }
 
 outputter::outputter()
 {
 	file.open("toto.txt");
 	visualisation_file.open("titi.txt", std::ios::out|std::ios::trunc);
+	back2back_file.open("back2back.txt", std::ios::out|std::ios::trunc);
 	init_data_file();
 }
 
@@ -62,6 +64,16 @@ void outputter::store_atom(atom a)
 	temp << a.pos;
 }
 
+void outputter::store_back2back(float mass, float epsi, float sigma, float x_dim, float y_dim, float z_dim, int N, float cutoff, float collision_rate, atom* a)
+{
+	back2back_file << mass << " " << epsi << " " << sigma << " " << x_dim << " " << y_dim << " " << z_dim << " " << N << " " << cutoff << " " << collision_rate;
+	for(int	i = 0; i < N; i++){
+			back2back_file << a[i].pos << a[i].vel;
+	}
+	back2back_file.flush();
+	return;
+}
+
 void outputter::timestep_end()
 {
 	visualisation_file << temp.str() << std::endl;
@@ -75,4 +87,5 @@ void outputter::close_files()
 {
 	file.close();
 	visualisation_file.close();
+	back2back_file.close();
 }

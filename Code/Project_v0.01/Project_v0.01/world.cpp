@@ -191,13 +191,15 @@ void world::set_collision_rate(float f){
 	collision_rate = f;
 }
 
-void world::set_sigma(float sigma)
+void world::set_sigma(float sig)
 {
-	this->verlet_integrator.set_sigma6(sigma);
+	this->sigma = sig;
+	this->verlet_integrator.set_sigma6(sig);
 }
-void world::set_epsilon(float epsilon)
+void world::set_epsilon(float epsi)
 {
-	this->verlet_integrator.set_epsilon(epsilon);
+	this->epsilon = epsi;
+	this->verlet_integrator.set_epsilon(epsi);
 }
 
 void world::set_boundary(PBC conditions)
@@ -435,12 +437,12 @@ void world::integrate()
 	writer.timestep_end();
 
 	float collisionTest = 0;
-	float sigma = 0;
+	float std_dev = 0;
 	/* set sigma to the proper units [Å/fs] */
-	sigma = sqrt(T_start*kB/(atoms[0].mass*1.66053892e-27))*1e-5;
+	std_dev = sqrt(T_start*kB/(atoms[0].mass*1.66053892e-27))*1e-5;
 
 	std::default_random_engine generator;
-	std::normal_distribution<float> gauss(0,sigma);
+	std::normal_distribution<float> gauss(0,std_dev);
 	float collision_val = collision_rate*time_step*1e-15;
 
 	int atom_count = 0;
@@ -526,9 +528,19 @@ void world::integrate()
 		}
 	}
 
+	float x_dim = 0, y_dim = 0, z_dim = 0;
+	if(boundary.x)
+		x_dim = x_tot;
+	if(boundary.y)
+		y_dim = y_tot;
+	if(boundary.z)
+		z_dim = z_tot;
+	writer.store_back2back(atoms[0].mass, this->epsilon, this->sigma, x_dim, y_dim, z_dim, N, cutoff, collision_rate, atoms);
+
 	for(int i = 0; i < storage_interval; i++){
 		delete[] data[i];
 	}
+
 	delete[] data;
 }
 
