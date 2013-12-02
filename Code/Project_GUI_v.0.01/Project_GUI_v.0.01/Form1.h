@@ -3,6 +3,7 @@
 
 #include "world.h"
 #include "input.h"
+#include "vector_lib.h"
 
 struct Input_data{
 	int x;
@@ -189,6 +190,15 @@ private: System::Windows::Forms::Label^  labelVisInt;
 private: System::Windows::Forms::TextBox^  textBoxDataInt;
 
 private: System::Windows::Forms::Label^  labelDataInt;
+private: System::Windows::Forms::CheckBox^  checkBoxPeriodicY;
+private: System::Windows::Forms::CheckBox^  checkBoxPeriodicZ;
+private: System::Windows::Forms::CheckBox^  checkBoxPeriodicX;
+
+
+
+
+private: System::Windows::Forms::CheckBox^  checkBoxPeriodic;
+
 
 
 
@@ -237,6 +247,12 @@ private: System::Windows::Forms::Label^  labelDataInt;
 			this->textBoxLatConst = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->tabPageCalculation = (gcnew System::Windows::Forms::TabPage());
+			this->checkBoxPeriodicY = (gcnew System::Windows::Forms::CheckBox());
+			this->checkBoxPeriodicZ = (gcnew System::Windows::Forms::CheckBox());
+			this->checkBoxPeriodicX = (gcnew System::Windows::Forms::CheckBox());
+			this->checkBoxPeriodic = (gcnew System::Windows::Forms::CheckBox());
+			this->textBoxDataInt = (gcnew System::Windows::Forms::TextBox());
+			this->labelDataInt = (gcnew System::Windows::Forms::Label());
 			this->textBoxVisInt = (gcnew System::Windows::Forms::TextBox());
 			this->labelVisInt = (gcnew System::Windows::Forms::Label());
 			this->label36 = (gcnew System::Windows::Forms::Label());
@@ -286,8 +302,6 @@ private: System::Windows::Forms::Label^  labelDataInt;
 			this->label16 = (gcnew System::Windows::Forms::Label());
 			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
-			this->textBoxDataInt = (gcnew System::Windows::Forms::TextBox());
-			this->labelDataInt = (gcnew System::Windows::Forms::Label());
 			this->tabControl1->SuspendLayout();
 			this->tabPage1->SuspendLayout();
 			this->tabPageStructure->SuspendLayout();
@@ -585,6 +599,10 @@ private: System::Windows::Forms::Label^  labelDataInt;
 			// 
 			// tabPageCalculation
 			// 
+			this->tabPageCalculation->Controls->Add(this->checkBoxPeriodicY);
+			this->tabPageCalculation->Controls->Add(this->checkBoxPeriodicZ);
+			this->tabPageCalculation->Controls->Add(this->checkBoxPeriodicX);
+			this->tabPageCalculation->Controls->Add(this->checkBoxPeriodic);
 			this->tabPageCalculation->Controls->Add(this->textBoxDataInt);
 			this->tabPageCalculation->Controls->Add(this->labelDataInt);
 			this->tabPageCalculation->Controls->Add(this->textBoxVisInt);
@@ -611,6 +629,67 @@ private: System::Windows::Forms::Label^  labelDataInt;
 			this->tabPageCalculation->Text = L"Calculations";
 			this->tabPageCalculation->UseVisualStyleBackColor = true;
 			this->tabPageCalculation->Click += gcnew System::EventHandler(this, &Form1::tabPageCalculation_Click);
+			// 
+			// checkBoxPeriodicY
+			// 
+			this->checkBoxPeriodicY->AutoSize = true;
+			this->checkBoxPeriodicY->Location = System::Drawing::Point(384, 168);
+			this->checkBoxPeriodicY->Name = L"checkBoxPeriodicY";
+			this->checkBoxPeriodicY->Size = System::Drawing::Size(31, 17);
+			this->checkBoxPeriodicY->TabIndex = 68;
+			this->checkBoxPeriodicY->Text = L"y";
+			this->checkBoxPeriodicY->UseVisualStyleBackColor = true;
+			this->checkBoxPeriodicY->Visible = false;
+			// 
+			// checkBoxPeriodicZ
+			// 
+			this->checkBoxPeriodicZ->AutoSize = true;
+			this->checkBoxPeriodicZ->Location = System::Drawing::Point(384, 191);
+			this->checkBoxPeriodicZ->Name = L"checkBoxPeriodicZ";
+			this->checkBoxPeriodicZ->Size = System::Drawing::Size(31, 17);
+			this->checkBoxPeriodicZ->TabIndex = 67;
+			this->checkBoxPeriodicZ->Text = L"z";
+			this->checkBoxPeriodicZ->UseVisualStyleBackColor = true;
+			this->checkBoxPeriodicZ->Visible = false;
+			this->checkBoxPeriodicZ->CheckedChanged += gcnew System::EventHandler(this, &Form1::checkBox3_CheckedChanged);
+			// 
+			// checkBoxPeriodicX
+			// 
+			this->checkBoxPeriodicX->AutoSize = true;
+			this->checkBoxPeriodicX->Location = System::Drawing::Point(384, 145);
+			this->checkBoxPeriodicX->Name = L"checkBoxPeriodicX";
+			this->checkBoxPeriodicX->Size = System::Drawing::Size(31, 17);
+			this->checkBoxPeriodicX->TabIndex = 66;
+			this->checkBoxPeriodicX->Text = L"x";
+			this->checkBoxPeriodicX->UseVisualStyleBackColor = true;
+			this->checkBoxPeriodicX->Visible = false;
+			// 
+			// checkBoxPeriodic
+			// 
+			this->checkBoxPeriodic->AutoSize = true;
+			this->checkBoxPeriodic->Location = System::Drawing::Point(362, 122);
+			this->checkBoxPeriodic->Name = L"checkBoxPeriodic";
+			this->checkBoxPeriodic->Size = System::Drawing::Size(183, 17);
+			this->checkBoxPeriodic->TabIndex = 65;
+			this->checkBoxPeriodic->Text = L"Use periodic boundary conditions";
+			this->checkBoxPeriodic->UseVisualStyleBackColor = true;
+			this->checkBoxPeriodic->CheckedChanged += gcnew System::EventHandler(this, &Form1::checkBox1_CheckedChanged_1);
+			// 
+			// textBoxDataInt
+			// 
+			this->textBoxDataInt->Location = System::Drawing::Point(201, 185);
+			this->textBoxDataInt->Name = L"textBoxDataInt";
+			this->textBoxDataInt->Size = System::Drawing::Size(87, 20);
+			this->textBoxDataInt->TabIndex = 64;
+			// 
+			// labelDataInt
+			// 
+			this->labelDataInt->AutoSize = true;
+			this->labelDataInt->Location = System::Drawing::Point(9, 189);
+			this->labelDataInt->Name = L"labelDataInt";
+			this->labelDataInt->Size = System::Drawing::Size(142, 13);
+			this->labelDataInt->TabIndex = 63;
+			this->labelDataInt->Text = L"Store data every # timesteps";
 			// 
 			// textBoxVisInt
 			// 
@@ -1079,22 +1158,6 @@ private: System::Windows::Forms::Label^  labelDataInt;
 			this->label8->TabIndex = 18;
 			this->label8->Text = L"Temperature";
 			// 
-			// textBoxDataInt
-			// 
-			this->textBoxDataInt->Location = System::Drawing::Point(201, 185);
-			this->textBoxDataInt->Name = L"textBoxDataInt";
-			this->textBoxDataInt->Size = System::Drawing::Size(87, 20);
-			this->textBoxDataInt->TabIndex = 64;
-			// 
-			// labelDataInt
-			// 
-			this->labelDataInt->AutoSize = true;
-			this->labelDataInt->Location = System::Drawing::Point(9, 189);
-			this->labelDataInt->Name = L"labelDataInt";
-			this->labelDataInt->Size = System::Drawing::Size(142, 13);
-			this->labelDataInt->TabIndex = 63;
-			this->labelDataInt->Text = L"Store data every # timesteps";
-			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -1158,6 +1221,7 @@ private: System::Void set_information(Material m, Input_data d, int N);
 private: System::Void set_end_of_simulation(Input_data d, clock_t time);
 private: System::Void reset_results();
 private: System::Void set_intervals();
+private: PBC get_PBC();
 
 private: System::Void radioButtonFCC_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(this->radioButtonFCC->Checked){
@@ -1189,6 +1253,9 @@ private: System::Void label6_Click(System::Object^  sender, System::EventArgs^  
 		 }
 private: System::Void textBox1_TextChanged_2(System::Object^  sender, System::EventArgs^  e) {
 		 }
+private: System::Void checkBox3_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void checkBox1_CheckedChanged_1(System::Object^  sender, System::EventArgs^  e);
 };
 }
 

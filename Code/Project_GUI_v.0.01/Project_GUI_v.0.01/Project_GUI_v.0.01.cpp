@@ -7,14 +7,13 @@
 #include "input.h"
 #include "average.h"
 
+
 #include <random>
 #include <ctime>
 #include <msclr\marshal.h>
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
 #include <crtdbg.h>
-
-bool simulating = false;
 
 using namespace Project_GUI_v001;
 
@@ -57,6 +56,12 @@ System::Void Form1::checkBox1_CheckedChanged(System::Object^  sender, System::Ev
 	this->textBoxVisInt->Visible = !this->textBoxVisInt->Visible;
 }
 
+System::Void Form1::checkBox1_CheckedChanged_1(System::Object^  sender, System::EventArgs^  e)
+{
+	this->checkBoxPeriodicX->Visible = !this->checkBoxPeriodicX->Visible;
+	this->checkBoxPeriodicY->Visible = !this->checkBoxPeriodicY->Visible;
+	this->checkBoxPeriodicZ->Visible = !this->checkBoxPeriodicZ->Visible;
+}
 System::Void Form1::listBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e)
 {
 	Material mat = selected_material();
@@ -268,6 +273,21 @@ crystalStructure Form1::get_structure()
 	return res;
 }
 
+PBC Form1::get_PBC()
+{
+	PBC res;
+	if(!this->checkBoxPeriodic->Checked){
+		res.x = this->checkBoxPeriodicX->Checked;
+		res.y = this->checkBoxPeriodicY->Checked;
+		res.z = this->checkBoxPeriodicZ->Checked;
+	}else{
+		res.x =false;
+		res.y = false;
+		res.z = false;
+	}
+	return res;
+}
+
 System::Void Form1::set_information(Material m, Input_data d, int N)
 {
 	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
@@ -325,6 +345,25 @@ System::Void Form1::set_information(Material m, Input_data d, int N)
 	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
 	ss.clear();
 	ss.str("");
+
+	if(this->checkBoxTermo->Checked){
+		msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+		const char* str;
+		str = context->marshal_as<const char*>(this->textBoxCollisionRate->Text);
+		ss << "Using Anderson thermostat with a collision rate of" << str << std::endl;
+		this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+		ss.clear();
+		ss.str("");
+	}
+	if(this->checkBoxTermo->Checked){
+		msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+		const char* str;
+		str = context->marshal_as<const char*>(this->textBoxCollisionRate->Text);
+		ss << "Using Anderson thermostat with a collision rate of" << str << std::endl;
+		this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+		ss.clear();
+		ss.str("");
+	}
 
 	ss << "Running for " << d.t_end << " timesteps," << " with a timestep of " << d.t_step << "fs" << std::endl;
 	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
@@ -483,9 +522,12 @@ UINT thread_integrate(LPVOID pParam);
 
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
-	if(!simulating){
 		reset_results();
 		Material mat;
+		PBC conditions;
+		conditions.x = true;
+		conditions.y= true;
+		conditions.z = false;
 		if(this->listBoxMaterial->SelectedIndex == -1){
 			MessageBox::Show("No material selected!\nChoosing the first material in the list.");
 			mat = materials[0];
@@ -494,8 +536,9 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 		}
 
 		Input_data d = get_data();
+		conditions = get_PBC();
 		d.cStruct = get_structure();
-		world *w = new world(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct, d.t_end, d.t_start);
+		world *w = new world(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct, d.t_end, d.t_start, conditions);
 		w->set_sigma(mat.sigma);
 		w->set_epsilon(mat.epsilon);
 		w->set_timestep(d.t_step);
@@ -522,7 +565,4 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 		set_end_of_simulation(d, time);
 
 		MessageBox::Show("Simulation complete!");
-	}else{
-		MessageBox::Show("Cannot start new simulation, simulation in progress\nWait for the current simulation to end.");
-	}
 }

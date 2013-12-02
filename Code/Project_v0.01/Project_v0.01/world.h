@@ -41,6 +41,7 @@ private:
 
 	bool visualise;
 	bool thermostat;
+	PBC boundary;
 
 
 	outputter writer;
@@ -54,7 +55,7 @@ private:
 public:
 	world();
 	world(unsigned int n);
-	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type, int t_stop, int t_start);
+	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type, int t_stop, int t_start, PBC conditions);
 	void unset_world();
 	float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix);
 
@@ -66,6 +67,7 @@ public:
 	void set_visualisation(bool val);
 	void set_sigma(float sigma);
 	void set_epsilon(float epsilon);
+	void set_boundary(PBC conditions);
 
 	void set_intervals(unsigned int store, unsigned int vis);
 

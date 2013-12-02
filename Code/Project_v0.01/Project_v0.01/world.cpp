@@ -84,7 +84,7 @@ world::world(unsigned int n)
 set positions for all atoms in structure
 x,y,z = a = lattice constant, type = type of crystal structure (BCC or FCC or Diamond)
 */
-world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, enum crystalStructure type, int t_stop, int t_start)	
+world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, enum crystalStructure type, int t_stop, int t_start, PBC conditions)	
 {
 
 	init();
@@ -94,7 +94,10 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 	V = x_tot*y_tot*z_tot;
 	t_end = t_stop;
 	t_start = t_start;
+	boundary = conditions;
+	verlet_integrator.set_PBC(conditions);
 	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
+	
 	switch (type)
 	{
 	case BCC:
@@ -127,6 +130,7 @@ world::world(unsigned int x, unsigned int y, unsigned int z, float a, float mass
 		sum_vel += atoms[i].vel;
 		bulk[i].data = &atoms[i];
 		bulk[i].set_dimensions(x_tot, y_tot, z_tot);
+		bulk[i].set_PBC(boundary);
 	}
 	
 	/* Scale the centre of mass velocity */
@@ -196,6 +200,12 @@ void world::set_epsilon(float epsilon)
 	this->verlet_integrator.set_epsilon(epsilon);
 }
 
+void world::set_boundary(PBC conditions)
+{
+	boundary = conditions;
+	verlet_integrator.set_PBC(conditions);
+}
+
 void world::update_verlet_lists()
 {
 	for(int i = 0; i < this->N; i++){
@@ -240,7 +250,7 @@ float world::get_kinetic_energy_squared()
 
 float world::msd(atom a, int N) /* MSD calculated in [Å] */
 {
-	vector_3d R = a.pos.diff(a.orig_pos, x_tot, y_tot, z_tot);
+	vector_3d R = a.pos.diff(a.orig_pos, x_tot, y_tot, z_tot, boundary);
 	float r=(R*R)/N;
 	return(r);
 }
@@ -406,6 +416,7 @@ void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific 
 
 void world::integrate()
 {
+
 	float max_disp[2];
 	max_disp[0] = 0, max_disp[1] = 0;
 	
