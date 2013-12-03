@@ -23,14 +23,24 @@ atom::atom(vector_3d position)
 	displacement = 0;
 }
 
-atom::atom(vector_3d position, vector_3d velocity, vector_3d acceleration)
+atom::atom(vector_3d orig_position, vector_3d position, vector_3d velocity)
+{
+	pos = position;
+	orig_pos = orig_position;
+	vel = velocity;
+	acc = vector_3d(0,0,0);
+	next_acc = vector_3d(0,0,0);
+	displacement = 0;
+}
+
+atom::atom(vector_3d position, vector_3d velocity)
 {
 	pos = position;
 	orig_pos = position;
 	vel = velocity;
-	acc = acceleration;
+	acc = vector_3d(0,0,0);
 	next_acc = vector_3d(0,0,0);
-	mass = 37199230118;
+//	mass = 37199230118;
 	displacement = 0;
 }
 

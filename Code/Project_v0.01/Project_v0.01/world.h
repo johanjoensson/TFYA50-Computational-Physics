@@ -62,6 +62,7 @@ private:
 public:
 	world();
 	world(unsigned int n);
+	world(unsigned int n, float x_dim, float y_dim, float z_dim, float temp);
 	world(unsigned int x, unsigned int y, unsigned int z, float a, float mass, float temp, crystalStructure type, int t_stop, int t_start, PBC conditions);
 	void unset_world();
 	float SI_natural(float arg, char quantity, int SI, char in_prefix, char out_prefix);
@@ -75,8 +76,17 @@ public:
 	void set_sigma(float sig);
 	void set_epsilon(float epsi);
 	void set_boundary(PBC conditions);
+	void set_times(unsigned int start, unsigned int stop, float ts);
 
 	void set_intervals(unsigned int store, unsigned int vis);
+
+	float get_sigma();
+	float get_epsilon();
+	float get_collision_rate();
+	PBC get_PBC();
+	float get_cutoff();
+	bool get_thermostat();
+	float get_T_start();
 
 	integrator verlet_integrator;
 	unsigned int N;
@@ -87,8 +97,8 @@ public:
 	float z_tot;
 	float V; //Volume
 
-	int t_end;
-	int t_start;
+	unsigned int t_end;
+	unsigned int t_start;
 
 	unsigned int vis_interval;
 	unsigned int storage_interval;
@@ -98,7 +108,7 @@ public:
 	float get_kinetic_energy();
 	float get_kinetic_energy_squared();
 	void update_verlet_lists();
-	void world::update_verlet_list(int i);
+	void update_verlet_list(int i);
 	void world_2(unsigned int x, unsigned int y, unsigned int z, float a);
 	
 /*
@@ -126,7 +136,7 @@ public:
 	void bccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 	void fccSetup(unsigned int x, unsigned int y, unsigned int z, float a);
 	void diamondSetup(unsigned int x, unsigned int y, unsigned int z, float a);
-	void back2back_init();
+	void back2bak_store();
 
 	void integrate();
 };

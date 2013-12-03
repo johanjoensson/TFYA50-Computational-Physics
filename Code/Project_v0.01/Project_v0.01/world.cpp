@@ -44,11 +44,34 @@ void world::init()
 
 	visualise = false;
 	thermostat = false;
+	collision_rate = 0;
 
 	vis_interval = 10;
 	storage_interval = 500;
 
 	verlet_integrator = integrator();
+}
+
+world::world(unsigned int n, float x_dim, float y_dim, float z_dim, float temp)
+{
+	init();
+	T_start = temp;
+	N = n;
+	atoms = new atom[N];
+	bulk = new verlet_list[N];
+
+	x_tot = x_dim;
+	y_tot = y_dim;
+	z_tot = z_dim;
+	V = x_tot*y_tot*z_tot;
+
+	verlet_integrator.set_dimensions(x_tot, y_tot, z_tot);
+
+	for(int i = 0; i < n; i++){
+		bulk[i].data = &atoms[i];
+		bulk[i].set_verlet_skin(1.5*cutoff);
+		bulk[i].set_dimensions(x_tot, y_tot, z_tot);
+	}
 }
 
 /* A simple and stupid constructor, takes the number of atoms to be created only */
@@ -76,6 +99,7 @@ world::world(unsigned int n)
 	for(int i = 0; i < n; i++){
 		bulk[i].data = &atoms[i];
 		bulk[i].set_verlet_skin(1.5*cutoff);
+		bulk[i].set_PBC(boundary);
 	}
 }
 
@@ -193,8 +217,8 @@ void world::set_collision_rate(float f){
 
 void world::set_sigma(float sig)
 {
-	this->sigma = sig;
-	this->verlet_integrator.set_sigma6(sig);
+	sigma = sig;
+	verlet_integrator.set_sigma6(sig);
 }
 void world::set_epsilon(float epsi)
 {
@@ -202,10 +226,58 @@ void world::set_epsilon(float epsi)
 	this->verlet_integrator.set_epsilon(epsi);
 }
 
+float world::get_epsilon()
+{
+	return this->epsilon;
+}
+
+float world::get_sigma()
+{
+	return this->sigma;
+}
+
+float world::get_collision_rate()
+{
+	if(thermostat){
+		return collision_rate;
+	}
+	return 0;
+}
+
+float world::get_cutoff()
+{
+	return cutoff;
+}
+
+PBC world::get_PBC()
+{
+	return boundary;
+}
+
+bool world::get_thermostat()
+{
+	return thermostat;
+}
+
 void world::set_boundary(PBC conditions)
 {
 	boundary = conditions;
 	verlet_integrator.set_PBC(conditions);
+	for(int i = 0; i < N; i++){
+		bulk[i].set_PBC(conditions);
+	}
+}
+
+float world::get_T_start()
+{
+	return T_start;
+}
+
+void world::set_times(unsigned int start, unsigned int stop, float ts)
+{
+	start_time = start;
+	time_step = ts;
+	t_end = stop;
 }
 
 void world::update_verlet_lists()
@@ -416,8 +488,21 @@ void world::calc_specific_heat(float E_kin, float E_kin_sqr, int N) /* Specific 
 	C_v = 3*N*kB/((2-4*N*(E_kin_sqr - E_kin*E_kin)/(3*E_kin*E_kin))*atoms[0].mass*atomic_u);
 }
 
+void world::back2bak_store()
+{
+	int per_x = 0, per_y = 0, per_z = 0;
+	if(boundary.x)
+		per_x = 1;
+	if(boundary.y)
+		per_y = 1;
+	if(boundary.z)
+		per_z = 1;
+	writer.store_back2back(atoms[0].mass, this->epsilon, this->sigma, x_tot, y_tot, z_tot, per_x, per_y, per_z, N, cutoff, collision_rate, T_start, atoms);
+}
+
 void world::integrate()
 {
+	writer.init_data_file();
 
 	float max_disp[2];
 	max_disp[0] = 0, max_disp[1] = 0;
@@ -443,7 +528,7 @@ void world::integrate()
 
 	std::default_random_engine generator;
 	std::normal_distribution<float> gauss(0,std_dev);
-	float collision_val = collision_rate*time_step*1e-15;
+	float collision_val = collision_rate*time_step;
 
 	int atom_count = 0;
 	for(unsigned int t = 0; t < t_end; t++){
@@ -511,7 +596,6 @@ void world::integrate()
 			max_disp[0] = 0, max_disp[1] = 0;
 			for(unsigned int i = 0; i < this->N; i++){
 				this->bulk[i].clear_verlet_list();
-				max_disp[0] = 0, max_disp[1] = 0;
 				this->update_verlet_list(i);
 			}
 		}
@@ -528,14 +612,7 @@ void world::integrate()
 		}
 	}
 
-	float x_dim = 0, y_dim = 0, z_dim = 0;
-	if(boundary.x)
-		x_dim = x_tot;
-	if(boundary.y)
-		y_dim = y_tot;
-	if(boundary.z)
-		z_dim = z_tot;
-	writer.store_back2back(atoms[0].mass, this->epsilon, this->sigma, x_dim, y_dim, z_dim, N, cutoff, collision_rate, atoms);
+	back2bak_store();
 
 	for(int i = 0; i < storage_interval; i++){
 		delete[] data[i];

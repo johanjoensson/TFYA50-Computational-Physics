@@ -24,13 +24,15 @@ private:
 public:
 	~inputter();
 	inputter(char* file_name);
+	inputter();
 	void close_file();
+	void close_b2b();
 
 	unsigned int num_mat;
 
 	Material* get_material(char* text_file);
 
-	world* get_equi_data();
+	world* get_equi_data(std::string str);
 	
 };
 

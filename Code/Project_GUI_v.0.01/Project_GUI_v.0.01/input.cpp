@@ -11,12 +11,21 @@ inputter::~inputter()
 void inputter::close_file()
 {
 	file.close();
+//	back2back_file.close();
+}
+void inputter::close_b2b()
+{
 	back2back_file.close();
 }
+
 inputter::inputter(char* file_name)
 {
 	file.open(file_name, std::ios::in);
-	back2back_file.open("back2back.txt");
+//	back2back_file.open("back2back.txt");
+}
+inputter::inputter()
+{
+//	back2back_file.open("back2back.txt");
 }
 
 void extract_mat_param(Material &mat, std::string data, unsigned int j)
@@ -56,7 +65,6 @@ int inputter::num_materials()
 
 Material* inputter::get_material(char* text_file)
 {
-	std::ofstream output("test.txt", std::ios::out|std::ios::trunc);
 	std::string str;
 	std::string delim = "\t";
 	std::string token;
@@ -68,10 +76,9 @@ Material* inputter::get_material(char* text_file)
 	}
 
 	num_mat = l - 1;
-	output << "Number of lines" << l << std::endl;
 	file.clear();
 	file.seekg(0, file.beg);
-	Material* res = new Material[l];
+	Material* res = new Material[l+1];
 	std::getline(file,str);
 
 	unsigned int i = 0;
@@ -84,45 +91,70 @@ Material* inputter::get_material(char* text_file)
 			token = str.substr(0, pos);
 			str.erase(0, pos + delim.length());
 			extract_mat_param(res[j], token, i);
-			output << token << " " ;
 
 			i++;
 		}
 		token = str;
 		extract_mat_param(res[j], token, i);
-		output << token << " " ;
-		output << std::endl;
 
 		j++;
 	}
 	return res;
 }
 
-/*
-world* inputter::get_equi_data()
+world* inputter::get_equi_data(std::string str)
 {
+	world *res;
+	PBC conditions;
+	back2back_file.open(str, std::ios::in);
 	if( back2back_file.is_open())
 	{
-		float mass, epsi, sigma, x_dim, y_dim, z_dim, N, cutoff, collision_rate;
-		float a, b, c, d, e, f;
+		std::string tmp;
+		unsigned int N, per_x, per_y, per_z;
+		float mass, epsi, sigma, x_dim, y_dim, z_dim, cutoff, collision_rate, temp;
+		float a, b, c, d, e, f, g, h, j;
 
-		back2back_file >> mass >> epsi >> x_dim >> y_dim >> z_dim >> N >> cutoff >> collision_rate;  
+		back2back_file >> mass >> epsi >> sigma >> x_dim >> y_dim >> z_dim >> per_x >> per_y >> per_z >> N >> cutoff >> collision_rate >> temp;  
+		res = new world(N, x_dim, y_dim, z_dim, temp);
+
 		for(int i = 0; i < N; i++){
-			back2back_file >> a >> b >> c;
-			atoms[i].pos= vector_3d(a,b,c);
-			back2back_file >> d >> e >> f;
-			atoms[i].vel= vector_3d(d,e,f);
-
+			back2back_file >> tmp >> a >> tmp >> b >> tmp >> c;
+			back2back_file >> tmp >> d >> tmp >> e >> tmp >> f;
+			back2back_file >> tmp >> g >> tmp >> h >> tmp >> j;
+			res->atoms[i] = atom(vector_3d(a,b,c),vector_3d(d,e,f), vector_3d(g,h,j));
+			res->atoms[i].mass = mass;
 		}
 
 		back2back_file.close();
+
+		if(per_x != 0){
+			conditions.x = true;
+		}else{
+			conditions.x = false;
+		}
+		if(per_y != 0){
+			conditions.y = true;
+		}else{
+			conditions.y = false;
+		}
+		if(per_z != 0){
+			conditions.z = true;
+		}else{
+			conditions.z = false;
+		}
+		res->set_epsilon(epsi);
+		res->set_sigma(sigma);
+		res->set_cutoff(cutoff);
+		
+		if(collision_rate != 0){
+			res->set_thermostat(true);
+			res->set_collision_rate(collision_rate);
+		}else{
+			res->set_thermostat(false);
+		}
+
+		res->set_boundary(conditions);
 	}
-	else
-		std::cout << "Impossible to open the file!" << std::endl;
-
-
-	world *res = new world;
 
 	return res;
 }
-*/

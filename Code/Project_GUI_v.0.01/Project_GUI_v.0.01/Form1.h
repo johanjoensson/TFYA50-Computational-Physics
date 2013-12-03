@@ -38,13 +38,20 @@ namespace Project_GUI_v001 {
 	{
 	public:
 		Material* materials;
+		bool back2back;
+	private: System::Windows::Forms::Button^  buttonEquilibrate;
+	public: 
+		int num_mat;
+		world* prev_simul;
 
 		Form1(void)
 		{
 			InitializeComponent();
+			back2back = false;
 			inputter input("materials.txt");
 			materials = input.get_material("materials.txt");
 			set_materials(input.num_mat);
+			num_mat = input.num_mat;
 			input.close_file();
 			//
 			//TODO: Add the constructor code here
@@ -302,6 +309,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxPeriodic;
 			this->label16 = (gcnew System::Windows::Forms::Label());
 			this->label17 = (gcnew System::Windows::Forms::Label());
 			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->buttonEquilibrate = (gcnew System::Windows::Forms::Button());
 			this->tabControl1->SuspendLayout();
 			this->tabPage1->SuspendLayout();
 			this->tabPageStructure->SuspendLayout();
@@ -599,6 +607,7 @@ private: System::Windows::Forms::CheckBox^  checkBoxPeriodic;
 			// 
 			// tabPageCalculation
 			// 
+			this->tabPageCalculation->Controls->Add(this->buttonEquilibrate);
 			this->tabPageCalculation->Controls->Add(this->checkBoxPeriodicY);
 			this->tabPageCalculation->Controls->Add(this->checkBoxPeriodicZ);
 			this->tabPageCalculation->Controls->Add(this->checkBoxPeriodicX);
@@ -1158,6 +1167,16 @@ private: System::Windows::Forms::CheckBox^  checkBoxPeriodic;
 			this->label8->TabIndex = 18;
 			this->label8->Text = L"Temperature";
 			// 
+			// buttonEquilibrate
+			// 
+			this->buttonEquilibrate->Location = System::Drawing::Point(12, 224);
+			this->buttonEquilibrate->Name = L"buttonEquilibrate";
+			this->buttonEquilibrate->Size = System::Drawing::Size(157, 28);
+			this->buttonEquilibrate->TabIndex = 69;
+			this->buttonEquilibrate->Text = L"Run from previous simulation";
+			this->buttonEquilibrate->UseVisualStyleBackColor = true;
+			this->buttonEquilibrate->Click += gcnew System::EventHandler(this, &Form1::buttonEquilibrate_Click);
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -1222,6 +1241,9 @@ private: System::Void set_end_of_simulation(Input_data d, clock_t time);
 private: System::Void reset_results();
 private: System::Void set_intervals();
 private: PBC get_PBC();
+private: System::Void set_PBC(PBC conditions);
+private: System::Void set_thermostat(float collision_rate);
+private: System::Void set_temperature(float temp);
 
 private: System::Void radioButtonFCC_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 			 if(this->radioButtonFCC->Checked){
@@ -1256,6 +1278,7 @@ private: System::Void textBox1_TextChanged_2(System::Object^  sender, System::Ev
 private: System::Void checkBox3_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void checkBox1_CheckedChanged_1(System::Object^  sender, System::EventArgs^  e);
+private: System::Void buttonEquilibrate_Click(System::Object^  sender, System::EventArgs^  e);
 };
 }
 

@@ -94,7 +94,7 @@ Input_data Form1::get_data()
 		str = context->marshal_as<const char*>(this->textBoxXdim->Text);
 		res.x = atoi(str);
 //		delete str;
-	}else{
+	}else if(!back2back){
 		MessageBox::Show("x-dimensions not set\n0 assumed");
 		res.x = 0;
 	}
@@ -102,7 +102,7 @@ Input_data Form1::get_data()
 		str = context->marshal_as<const char*>(this->textBoxYdim->Text);
 		res.y = atoi(str);
 //		delete str;
-	}else{
+	}else if(!back2back){
 		MessageBox::Show("y-dimensions not set\n0 assumed");
 		res.y = 0;
 	}
@@ -111,7 +111,7 @@ Input_data Form1::get_data()
 		str = context->marshal_as<const char*>(this->textBoxZdim->Text);
 		res.z = atoi(str);
 //		delete str;
-	}else{
+	}else if(!back2back){
 		MessageBox::Show("z-dimensions not set\n0 assumed");
 		res.z = 0;
 	}
@@ -174,8 +174,8 @@ Input_data Form1::get_data()
 		res.t_step = atof(str);
 //		delete str;
 	}else{
-		MessageBox::Show("Time step size not set\n20 assumed");
-		res.t_step = 20;
+		MessageBox::Show("Time step size not set\n2 assumed");
+		res.t_step = 2;
 	}
 	if(this->textBoxTemp->Text != ""){
 		str = context->marshal_as<const char*>(this->textBoxTemp->Text);
@@ -236,21 +236,25 @@ System::Void Form1::set_defaults(Material m)
 
 	std::ostringstream ss;
 
+	this->textBoxLatConst->Text = "";
 	ss << m.a;
 	this->textBoxLatConst->Text = context->marshal_as<System::String^>(ss.str());
 	ss.clear();
 	ss.str("");
 
+	this->textBoxCO->Text = "";
 	ss << 2.5*m.a;
 	this->textBoxCO->Text = context->marshal_as<System::String^>(ss.str());
 	ss.clear();
 	ss.str("");
 
+	this->textBoxSigma->Text = "";
 	ss << m.sigma;
 	this->textBoxSigma->Text = context->marshal_as<System::String^>(ss.str());
 	ss.clear();
 	ss.str("");
 
+	this->textBoxEpsilon->Text = "";
 	ss << m.epsilon;
 	this->textBoxEpsilon->Text = context->marshal_as<System::String^>(ss.str());
 	ss.clear();
@@ -266,7 +270,7 @@ crystalStructure Form1::get_structure()
 		res = BCC;
 	}else if(this->radioButtonDiamond->Checked){
 		res = DIAMOND;
-	}else{
+	}else if(!back2back){
 		MessageBox::Show("No crystal structure set!\nFCC assumed");
 		res = FCC;
 	}
@@ -293,10 +297,17 @@ System::Void Form1::set_information(Material m, Input_data d, int N)
 	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
 	std::ostringstream ss;
 
-	ss << "Material : " << m.name << std::endl;
-	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
-	ss.clear();
-	ss.str("");
+	if(!back2back){
+		ss << "Material : " << m.name << std::endl;
+		this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+		ss.clear();
+		ss.str("");
+	}else{
+		ss << "Running back to back simulation" << std::endl;
+		this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+		ss.clear();
+		ss.str("");
+	}
 
 	ss << "Mass of each atom : " << m.mass << "u" << std::endl;
 	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
@@ -308,39 +319,47 @@ System::Void Form1::set_information(Material m, Input_data d, int N)
 	ss.clear();
 	ss.str("");
 
-	ss << "Unit cells in - x: " << d.x << ", y: " << d.y << ", z: " << d.z << std::endl;
-	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
-	ss.clear();
-	ss.str("");
+	if(!back2back){
+		ss << "Unit cells in x: " << d.x << ", y: " << d.y << ", z: " << d.z << std::endl;
+		this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+		ss.clear();
+		ss.str("");
 
-	ss << "Lattice constant : " << d.a << "Å" << std::endl;
-	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
-	ss.clear();
-	ss.str("");
+		ss << "Lattice constant : " << d.a << "Å" << std::endl;
+		this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+		ss.clear();
+		ss.str("");
+	}
 
 	ss << "Sigma : " << d.sigma << "Å, epsilon : " << d.epsilon << "eV, cutoff distance: " << d.cut_off << "Å" << std::endl;
 	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
 	ss.clear();
 	ss.str("");
 
-	ss << "Crystal structure :" ;
-	switch(d.cStruct){
-	case FCC:
-		ss << " FCC";
-		break;
-	case BCC:
-		ss << " BCC";
-		break;
-	case DIAMOND:
-		ss << " Diamond";
-		break;
-	}
-	ss << std::endl;
+	if(!back2back){
+		ss << "Crystal structure :" ;
+		switch(d.cStruct){
+		case FCC:
+			ss << " FCC";
+			break;
+		case BCC:
+			ss << " BCC";
+			break;
+		case DIAMOND:
+			ss << " Diamond";
+			break;
+		default:
+			ss << " Loaded from file";
+			break;
+		}
+		ss << std::endl;
 
-	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
-	ss.clear();
-	ss.str("");
-	
+
+		this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
+		ss.clear();
+		ss.str("");
+	}
+
 	ss << "Starting simulation at : " << d.temp << "K" << std::endl;
 	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
 	ss.clear();
@@ -355,16 +374,27 @@ System::Void Form1::set_information(Material m, Input_data d, int N)
 		ss.clear();
 		ss.str("");
 	}
-/*	if(this->checkBoxTermo->Checked){
-		msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
-		const char* str;
-		str = context->marshal_as<const char*>(this->textBoxCollisionRate->Text);
-		ss << "Using Anderson thermostat with a collision rate of" << str << std::endl;
+	if(this->checkBoxPeriodic->Checked){
+		ss << "Using periodic boundary conditions in ";
+		if(this->checkBoxPeriodicX->Checked){
+			ss << "x-";
+		}
+		if(this->checkBoxPeriodicX->Checked && this->checkBoxPeriodicY->Checked){
+			ss << ", y-";
+		} else if(this->checkBoxPeriodicY->Checked){
+			ss << "y-";
+		}
+		if((this->checkBoxPeriodicX->Checked  || this->checkBoxPeriodicY->Checked) && this->checkBoxPeriodicZ->Checked){
+			ss << ", z-";
+		} else if(this->checkBoxPeriodicZ->Checked){
+			ss << "z-";
+		}
+		ss << "directions." << std::endl;
 		this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
 		ss.clear();
 		ss.str("");
 	}
-*/
+
 	ss << "Running for " << d.t_end << " timesteps," << " with a timestep of " << d.t_step << "fs" << std::endl;
 	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
 	ss.clear();
@@ -429,7 +459,7 @@ System::Void Form1::set_end_of_simulation(Input_data d, clock_t time)
 	ss.clear();
 	ss.str("");
 
-	ss <<"Which means " << (float) total_time/d.t_end << " seconds per time step" <<  std::endl;
+	ss <<"Which means an average of " << (float) total_time/d.t_end << " seconds per time step" <<  std::endl;
 	this->richTextBoxResults->AppendText(context->marshal_as<System::String^>(ss.str()));
 	ss.clear();
 	ss.str("");
@@ -518,16 +548,103 @@ System::Void Form1::reset_results()
 	this->textBoxDiffCo->Refresh();
 }
 
-UINT thread_integrate(LPVOID pParam);
+System::Void Form1::set_PBC(PBC conditions)
+{
+	if(conditions.x || conditions.y || conditions.z){
+		this->checkBoxPeriodic->Checked = true;
+		if(conditions.x)
+			this->checkBoxPeriodicX->Checked = true;
+		else
+			this->checkBoxPeriodicX->Checked = false;
+		if(conditions.y)
+			this->checkBoxPeriodicY->Checked = true;
+		else
+			this->checkBoxPeriodicY->Checked = false;
+		if(conditions.z)
+			this->checkBoxPeriodicZ->Checked = true;
+		else
+			this->checkBoxPeriodicZ->Checked = false;
+	}else{
+		this->checkBoxPeriodic->Checked = false;
+		this->checkBoxPeriodicX->Checked = false;
+		this->checkBoxPeriodicY->Checked = false;
+		this->checkBoxPeriodicZ->Checked = false;
+	}
+}
+
+System::Void Form1::set_thermostat(float collision_rate)
+{
+	this->checkBoxTermo->Checked = true;
+
+	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+
+	std::ostringstream ss;
+
+	this->textBoxCollisionRate->Text = "";
+	ss << collision_rate;
+	this->textBoxCollisionRate->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+}
+
+System::Void Form1::set_temperature(float temp)
+{
+	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+	std::ostringstream ss;
+
+	this->textBoxTemp->Text = "";
+	ss << temp;
+	this->textBoxTemp->Text = context->marshal_as<System::String^>(ss.str());
+	ss.clear();
+	ss.str("");
+}
+
+System::Void Form1::buttonEquilibrate_Click(System::Object^  sender, System::EventArgs^  e)
+{
+	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
+	std::string filename;
+	OpenFileDialog^ getEquiFile = gcnew OpenFileDialog;
+	if ( getEquiFile->ShowDialog() == System::Windows::Forms::DialogResult::OK )
+	{
+		filename = context->marshal_as<std::string>(getEquiFile->FileName);
+	}
+
+	back2back = true;
+	inputter input = inputter();
+	prev_simul = input.get_equi_data(filename);
+	input.close_b2b();
+	if(prev_simul == 0){
+		return;
+	}
+
+	Material mat;
+	PBC conditions;
+	mat.name = "Loaded from file!";
+	mat.epsilon = prev_simul->get_epsilon();
+	mat.sigma = prev_simul->get_sigma();
+	mat.a = prev_simul->get_cutoff()/2.5;
+	mat.mass = prev_simul->atoms[0].mass;
+	materials[num_mat + 1] = mat;
+	conditions = prev_simul->get_PBC();
+	set_PBC(conditions);
+	set_temperature(prev_simul->get_T_start());
+
+	if(prev_simul->get_thermostat())
+		set_thermostat(prev_simul->get_collision_rate());
+
+	set_defaults(mat);
+}
 
 System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e)
 {
 		reset_results();
 		Material mat;
 		PBC conditions;
-		if(this->listBoxMaterial->SelectedIndex == -1){
+		if(this->listBoxMaterial->SelectedIndex == -1 && !back2back){
 			MessageBox::Show("No material selected!\nChoosing the first material in the list.");
 			mat = materials[0];
+		}else if(back2back && prev_simul != 0){
+			mat = materials[num_mat + 1];
 		}else{
 			mat = selected_material();
 		}
@@ -535,7 +652,12 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 		Input_data d = get_data();
 		conditions = get_PBC();
 		d.cStruct = get_structure();
-		world *w = new world(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct, d.t_end, d.t_start, conditions);
+		world *w;
+		if(back2back && prev_simul != 0){
+			w = prev_simul;
+		}else{
+			w = new world(d.x,d.y,d.z,d.a, mat.mass, d.temp,d.cStruct, d.t_end, d.t_start, conditions);
+		}
 		w->set_sigma(d.sigma);
 		w->set_epsilon(d.epsilon);
 		w->set_timestep(d.t_step);
@@ -549,6 +671,7 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 			w->set_visualisation(true);
 		}
 		w->set_intervals(d.storage, d.vis);
+		w->set_times(d.t_start, d.t_end, d.t_step);
 
 		set_information(mat, d, w->N);
 		clock_t time = clock();

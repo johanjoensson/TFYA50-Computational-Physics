@@ -11,7 +11,8 @@ private:
 public:
 	atom();
 	atom(vector_3d position);
-	atom(vector_3d position, vector_3d velocity, vector_3d acceleration);
+	atom(vector_3d position, vector_3d velocity);
+	atom(vector_3d orig_pos, vector_3d position, vector_3d velocity);
 
 	void set_next_acc(vector_3d new_acc);
 	void incr_next_acc(vector_3d new_acc);
