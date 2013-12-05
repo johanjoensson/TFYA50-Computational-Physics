@@ -42,6 +42,8 @@ float* averageValue(int startTime, int endTime){
 				tmp_avg[j] = atof(token.c_str());
 				j++;
 			}
+			token = line;
+			tmp_avg[j] = atof(token.c_str());
 			
 			E_kin += tmp_avg[1];
 			E_pot += tmp_avg[2];
