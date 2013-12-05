@@ -209,15 +209,17 @@ Input_data Form1::get_data()
 
 float Form1::get_collision_rate()
 {
-	float res ;
+	float res, dt ;
 	msclr::interop::marshal_context ^ context = gcnew msclr::interop::marshal_context();
 	const char* str;
 
 	str = context->marshal_as<const char*>(this->textBoxCollisionRate->Text);
 	
 	res = atof(str);
-	if(res > 1.0 || res < 0.0){
-		res = 0.20;
+	str = context->marshal_as<const char*>(this->textBoxTStep->Text);
+	dt = atof(str); 
+	if(res*dt > 1.0 || res*dt < 0.0){
+		res = 0.20/dt;
 		MessageBox::Show("Collision rate not between 0 and 1\n0.20 assumed");
 	}
 //	delete str;
@@ -243,7 +245,7 @@ System::Void Form1::set_defaults(Material m)
 	ss.str("");
 
 	this->textBoxCO->Text = "";
-	ss << 2.5*m.a;
+	ss << 2.5*m.sigma;
 	this->textBoxCO->Text = context->marshal_as<System::String^>(ss.str());
 	ss.clear();
 	ss.str("");
@@ -679,7 +681,7 @@ System::Void Form1::button1_Click(System::Object^  sender, System::EventArgs^  e
 		w->integrate();
 
 		w->unset_world();
-		delete w;
+//		delete w;
 
 		time = clock() - time;
 		set_end_of_simulation(d, time);
