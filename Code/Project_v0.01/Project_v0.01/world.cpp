@@ -325,6 +325,12 @@ float world::get_kinetic_energy_squared()
 float world::msd(atom a, int N) /* MSD calculated in [Å] */
 {
 	vector_3d R = a.pos.diff(a.orig_pos, x_tot, y_tot, z_tot, boundary);
+	if(!boundary.x)
+		R.x = 0;
+	if(!boundary.y)
+		R.y = 0;
+	if(!boundary.z)
+		R.z = 0;
 	float r=(R*R)/N;
 	return(r);
 }
