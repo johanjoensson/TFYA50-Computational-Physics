@@ -1,1 +1,97 @@
 \section{Program overview}
+
+\subsection{General Description}
+
+The project goal is to design, implement and operate a Molecular Dynamics (MD) program. Thus the different step had been done for he completion of the project:
+
+\begin{itemize}
+\item MD coding design flow ; 
+\item correct selection and writing of code subroutines ;
+\item MD program assembling ;
+\item compiling, debugging and testing ;
+\item operating the program ;
+\item analyze results obtained with the program ;
+\item assert the quality of the results.
+\end{itemize}
+
+The program coding language is C++ and has been compiled with Visual Studio 2010 \textregistered. For the visualization of the different results, Matlab R2010b \textregistered was used to draw the curve and display the atoms movements.
+
+Our program uses the Verlet list, the Velocity Verlet algorithm and the Lennard Jones potential for the calculation.
+
+The simulation gives the following results at the end of each simulation:
+
+\begin{itemize}
+\item Kinetic Energy ;
+\item Potential Energy ;
+\item Total Energy ;
+\item Cohesive Energy ;
+\item Mean Square Displacement (MSD) ;
+\item Internal Pressure ; 
+\item Temperature ; 
+\item Debye Temperature ; 
+\item Specific Heat ; 
+\item Diffusion Coefficient.
+\end{itemize}
+
+And the time duration of the simulation as well as the average time per time step are displayed at the end of the simulation.
+
+\subsection{Program Capabilities}
+
+The program displays its capabilities in 4 different tab presented below.
+
+\subsubsection{Material}
+
+The program can simulate 38 different materials that can be chosen in the tab Material and the main materials that have been used for simulation are:
+
+\begin{itemize}
+\item Argon (Ar) ; 
+\item Silver (Ag).
+\end{itemize}
+
+As a reminder, the crystal structure of each material are notified.
+
+\subsubsection{Structure}
+
+Once the materials has been chosen, the following parameters are displayed and can be changed in the tab Structure:
+
+\begin{itemize}
+\item Lattice constant (in \AA) ; 
+\item Cutoff distance (in \AA) ;
+\item Sigma (in \AA) ; 
+\item Epsilon (in eV).
+\end{itemize}
+
+Then it is possible to choose the number of unit cells we want to use for the simulation in every direction, thus simulation of bulk and surface is possible.
+
+The crystalline structure can also be chosen among the 3 coded ones:
+
+\begin{itemize}
+\item Face-centered cubic (FCC) ; 
+\item Body-centered cubic (BCC);
+\item Diamond (DIA).
+\end{itemize}
+
+Since Argon and Silver both have a FCC structures, it is the one that we will be used for the simulation.
+
+\subsubsection{Calculations}
+
+This tab allows us to control the length of the simulation and the time of data storing using:
+
+\begin{itemize}
+\item Run for \# timesteps ; 
+\item Timestep size (in fs) ;
+\item Start calculations after \# timesteps ; 
+\item Store data every \# timesteps.
+\end{itemize}
+
+By clicking on the "Run from previous simulation" button, we can select a .txt file from which the simulation will run from by using the different material properties and atom's positions and velocities written in it.
+
+By ticking the "Include visualisation", a file will be written containing the atoms position at different timesteps which will be used in Matlab to visualize the atom displacement.
+
+Ticking "Thermostat" includes an Andersen thermostat for which we can choose the collision rate.
+
+The Temperature (in K) can also be defined and the periodic boundary conditions in every direction.
+
+\subsubsection{Results}
+
+In order to start the simulation, we have to clicl on the button 'Start Simulation". The window on the right display a summary of the simulation choice at the beginning of the simulation.
