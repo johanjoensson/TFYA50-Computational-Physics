@@ -15,8 +15,14 @@ and all it's neighbours). When we update the Verlet Lists we loop through all
 atoms in the bulk (or surface) and add all other atoms that are within the
 Verlet Skin, in order to avoid double counting the forces acting on each atom we
 only add one of the atoms to the other's Verlet List (i.e. if atoms i and j are
-within each other's Verlet Skin, atom j will be added to atom j, but not the
-other way around).
+within each other's Verlet Skin, atom j will be added to the Verlet List of atom
+i, but not the other way around).
+\begin{figure}
+\centering
+\includegraphics[width=7cm]{Verlet_list.png}
+\caption{Verlet skin and cutoff distance for an atom}
+\label{fig:verlet_list}
+\end{figure}
 \subsubsection{Updating the Verlet Lists}
 Since updating the Verlet Lists will be a huge time sink for the simulations
 (since the update is of complexity $\Theta(N^2)$ the time required will increase
@@ -27,22 +33,22 @@ the most in the system is greater than the difference between the Verlet Skin
 and the cutoff distance of the force calculations.
 That is we update if (and only if)
 \[
-\max_{i}(\texttt{disp}_i) + \max_{i \neq j}(\texttt{disp}_j) \geq
-\texttt{Verlet Skin} - \texttt{cutoff},\, \forall i = 1,\ldots, N
+\max_{i=1,\ldots,N}(\texttt{disp}_i) + \max_{i \neq j}(\texttt{disp}_j) \geq
+\texttt{Verlet Skin} - \texttt{cutoff}
 \]
 This way, we update the Verlet Lists only when we might need to (we still update
 a few times more than absolutely necessary, but this is hard to avoid).
 
 \subsection{The Verlet Integrator}
 In order to integrate the equations of motion for each atom, we need a numerical
-integrator. We choose the Velocity Verlet Algorithm for our simulations since it
+integrator. We chose the Velocity Verlet Algorithm for our simulations since it
 offers a good pay off between complexity and stability (i.e. time to perform
 calculations versus accuracy of calculations). The integration is performed in
-two steps. First the new positions of each atom is calculated depending on the
-velocity and acceleration currently acting on the atom. In the second step the
-new velocity and acceleration of each atom is calculated based on it current
-position and current acceleration (all according to the Velocity Verlet
-Algorithm).
+two steps. First the new position of each atom is calculated depending on the
+velocity and acceleration currently of the atom. In the second step the
+new velocity and acceleration of each atom is calculated based on it's new
+position as well as it's current and future acceleration (all according to the
+Velocity Verlet Algorithm).
 
 Below is the Velocity Verlet algorithm
 \begin{equation}
@@ -62,6 +68,7 @@ In our calculations we use the Lennard-Jones potential
 V_{LJ} = 4\epsilon\left( \left(\frac{\sigma}{r}\right)^{12} - \left(
 \frac{\sigma}{r} \right)^6 \right)
 \end{equation}
+Where $\epsilon$ and $\sigma$ are material parameters.
 And using the fact that 
 \begin{equation}
 \bar{F} = -\nabla(V)
@@ -69,3 +76,9 @@ And using the fact that
 We can calculate the force acting on each atom using only it's current position.
 In order to save computations we use the fact that $\bar{F}_{ij} = -
 \bar{F}_{ji}$ (Newton's third law).
+
+Since we use a truncated Lennard-Jones potential we only calculate the force
+between atoms that are within the cutoff distance of each other. Therefore when
+we calculate the force on an atom we loop through all atoms in it's Verlet List
+and check which of these are within the cutoff distance, instead of looping
+through all other atoms in the bulk (or surface).

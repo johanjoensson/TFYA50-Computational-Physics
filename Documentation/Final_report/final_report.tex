@@ -34,6 +34,11 @@
 \newcommand{\LIPSgodkannare}{Valeriu Chirita}
 \newcommand{\LIPSgodkantdatum}{}
 
+% Add the images folder to the default image search path
+% This way we don't have to write the entire path to the image, just the name of
+% the file (i.e. Verlet_list.png, instead of images/Verlet_list.png)
+\graphicspath{{./images/}}
+
 \begin{document}
 
 \LIPStitelsida
@@ -65,7 +70,7 @@
 \input{logics.tex}
 \input{manual.tex}
 \input{simulations.tex}
-\input{results.tex}
+\input{Results.tex}
 \input{analysis.tex}
 
 % \begin{tabular}{|p{43mm}|p{15mm}|p{70mm}|p{23mm}|}
