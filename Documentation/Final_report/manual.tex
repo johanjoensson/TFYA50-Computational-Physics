@@ -1,1 +1,24 @@
 \section{Manual}
+This section will give an introduction in how the program should and can be used. The first part discusses the setup and how to use the GUI. In the second part it discusses how to handle the output data.
+	\subsection{GUI}
+The GUI consists of window with four tabs. The first tab provides a list of elements that can be used for simulation. After each tom is written which crystal structure they have. To choose an element simply click it and select the next tab.
+
+Under the second tab is properties for setting up the dimensions and spacial properties of the simulation are found. The default values, dependent on which element  that was chosen in step before, will be set here. The pre set values can be changed according to the users wishes.
+
+The third tab consists of the simulation options. 
+	Time step size will determine how long every time step should be in femtoseconds.
+	Include visualization will when checked, produce a Matlab file  where the atomic movement can be seen
+	Save visualization time step, can be set so that not every point in the simulation is shed since that might take up to much storage space.
+	Thermostat will when checked activate the thermostat and an option to set the collision rate will also be given.
+	Collision rate is set t a number between 0 and 1 and will be the chance of an atom colliding with the thermostat heat bath.
+	Temperature is the starting temperature of the simulation. the atoms initial velocity will be scaled according to this. It will also be the temperature of the thermostat heat bath.
+	Boundary conditions will when checked simulate the sample as continuous in the chosen directions. If boundary conditions are set an atom drifting away will jump over to the other side. By unchecking these conditions it is also possible to do surface simulations.
+	
+The fourth and last tab is for starting the simulation and it will also provide the user with data on the simulation and present the average values for the listed properties when it's done.
+
+When the simulation is running the program will be paused and when done a message will be send and the program will be unpaused. After running a simulation to end, a back2back file is produced to allow for multiple runs from the last state. In tab 3 simply choose run from previous simulation and choose the desired saved file.
+
+Further more should a the user take notice and be cautious about that the program is producing new saving files with the same initial name every time it runs. This results in data being lost unless the user saves the back2back.txt, toto.txt, and titi.txt under different names or in a separate folder.
+
+\subsection{Matlab}
+Matlab is needed to produce the plots and to visualize the simulation. There are two Matlab files providing the programs that will take the data from toto.txt and titi.txt to calculate and plot the average values and the visualization respectively. To do so, launch Matlab and locate the folder with the Matlab files along with the txt files. In Matlab run the command ''plot\_data('toto.txt','\textbackslash{}t')'', where toto.txt is the name of the datafile and \textbackslash{}t is the delimiter. This allows the user to save files under different names and still being able to plot them. When running the command, nine plots will be produced. For the visualization part, simply run ''plot\_atoms()'' and the visualization will be loaded from the titi.txt file in the project folder.
