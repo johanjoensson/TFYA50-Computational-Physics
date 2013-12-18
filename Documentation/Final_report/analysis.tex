@@ -37,5 +37,18 @@ Furthermore can be seen in figure \ref{fig:diffusion_coeff_surface}, which is a 
 \end{figure}
 
 \subsection{Debye temperature}
-
+In this program the calculation of the Debye temperature is done with inverse proportion to the MSD and proportional to the temperature. The value stabilizes around 250 (see figure \ref{fig:debyetemp}) which corresponds fairly well to the tabulated properties (215K) \cite{bib:DebyeSilver}.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{debyetemp.png}
+	\caption{Debye temperature for a bulk}
+	\label{fig:debyetemp}
+\end{figure}
+For the surface simulation, the Debye Temperature will be a bit lower than for the bulk as seen in figure \ref{fig:debye_surface}.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{debye_surface.png}
+	\caption{Debye temperature for a surface}
+	\label{fig:debye_surface}
+\end{figure}
 
