@@ -60,13 +60,12 @@
 %% Argument till \LIPSversionsinfo: versionsnummer, datum, ändringar, utfört av, granskat av
 \addcontentsline{toc}{section}{Version log}
 \begin{LIPSdokumenthistorik}
-  \LIPSversionsinfo{0.1}{2013-09-27}{First draft}{Group}{DOC}
+  \LIPSversionsinfo{0.1}{2013-12-18}{First draft}{Group}{DOC}
 \end{LIPSdokumenthistorik}
 \newpage
 
 \input{introduction.tex}
 \input{program_overview.tex}
-\input{GUI.tex}
 \input{logics.tex}
 \input{manual.tex}
 \input{simulations.tex}
@@ -75,174 +74,6 @@
 \newpage
 \input{conclusion.tex}
 
-% \begin{tabular}{|p{43mm}|p{15mm}|p{70mm}|p{23mm}|}
-% \LIPSleverans{\textbf{Leverans}}{\textbf{Ansvarig / Godkänns av}}{\textbf{Syfte}}{\textbf{Färdig-datum}}
-% \LIPSleverans{Första version av Projektplan, tidplan och systemskiss}{Simon L / Tomas}{Beskriver hur projektet ska utföras och ger en handvisning till hur roboten ska fungera}{15/2-2012}
-% \LIPSleverans{Slutgiltig version av Projektplan, tidplan och systemskiss}{Simon L / Tomas}{Beskriver hur projektet ska utföras och ger en handvisning till hur konstruktionen av roboten ska ske}{23/2-2012}
-% \LIPSleverans{Första version av designspecifikation}{Johan / Olov}{Visar mer detaljerat hur konstruktionen av roboten ska ske}{13/3-2012}
-% \LIPSleverans{Slutgiltig version av designspecifikation}{Simon L / Olov}{Visar mer detaljerat hur konstruktionen av roboten ska ske}{16/3-2012}
-% \LIPSleverans{Tidrapporter och uppdaterad tidplan}{Simon L / Tomas}{Visar hur tidfördelningen mellan de olika aktiviteterna har gått under den senaste tidsperioden, samt hur projektgruppen tänkt lägga upp sitt framtida arbete}{12/3, 19/3, 26/3, 2/4, 16/4, 23/4, 30/4, 7/5, 14/5, 21/5}
-% \LIPSleverans{Statusrapport för projektet}{Simon L / Tomas}{Ger en bild av projektgruppens nuvarande status i förhållande till tidigare planering}{Vid begäran}
-% \LIPSleverans{Teknisk dokumentation och användaranvisning}{Gustav / Tomas}{Ger en detaljerad bild över hur systemet fungerar, information om användargränssnit och beskrivning hur roboten används}{Tre arbetsdagar innan redovisningen vecka 20}
-% \LIPSleverans{Muntlig presetation och demonstration}{Simon L / Tomas}{Slutleveransen som består av en 15-20 minuter lång presentation av robotens specifikationer och funktioner}{Vecka 20}
-% \LIPSleverans{Leverans av robot}{Markus / Tomas}{En robot som uppfyller ställda krav levereras till beställaren}{vecka 20, 2012}
-% \LIPSleverans{Efterstudie}{Simon L / (delges senare)}{Projektgruppen sammanställer här sina erfarenheter från projektarbetet och lämnar synpunkter på hur projektkursen skulle kunna förändras}{1/6-2012}
-% \hline
-% \end{tabular}
-
-
-
-
-% \begin{tabular}{|p{16mm}|p{31mm}|p{100mm}|}
-%         	\LIPSmilstolpe{\textbf{Namn}}{\textbf{Ansvarsområde}}{\textbf{Kommentar}}
-% 	\LIPSmilstolpe{Simon L}{Projektledare}{Ansvarar för att projektgruppens sammanlagda arbete går framåt mot uppsatta mål. Uppdaterar tidsplanen och skickar in tidrapport enl. överenskommelse med beställaren}
-% 	\LIPSmilstolpe{Mattias}{Dokumentansvarig}{Ansvarar för alla dokument och möteshandlingar}
-% 	\LIPSmilstolpe{Gustav}{Ansvarig för reglersystem}{Huvudansvarig för robotens styr-och reglersystem}
-% 	\LIPSmilstolpe{Johan}{Mjukvaruansvarig}{Ansvarar för framtagande och optimering av all programmeringskod i projektet.}
-% 	\LIPSmilstolpe{Tobias}{Hårdvaruansvarig}{Ansvarar för konstruktion av nödvändig hårdvara}
-% 	\LIPSmilstolpe{Simon W}{Testansvarig}{Ansvarig för att upprätta en testplan och kontinuerligt genomföra tester enligt denna}
-% \hline
-% \end{tabular}
-
-% \begin{tabular}{|p{40mm}|p{20mm}|p{50mm}|p{23mm}|}
-% \LIPSleverans{\textbf{Dokument}}{\textbf{Ansvarig / Godkänns av}}{\textbf{Syfte}}{\textbf{Färdig-datum}}
-% \LIPSleverans{Kravspecifikation}{Simon L / Tomas}{Definierar kraven som ställs på projektet}{2/2-2012}
-% \LIPSleverans{Projektplan, första inlämningnen}{Markus / Tomas}{Beskriver hur projektet ska utföras.}{15/2-2012}
-% \LIPSleverans{Systemskiss, första inlämningnen}{Markus / Tomas}{Beskriver hur systemet ska byggas upp}{15/2-2012}
-% \LIPSleverans{Tidplan, första inlämningnen}{Markus / Tomas}{Listar aktiviteternas budgeterade tidsåtgång.}{15/2-2012}
-% \LIPSleverans{Projektplan, slutgiltig inlämning}{Simon L / Tomas}{Beskriver hur projektet ska utföras.}{23/2-2012}
-% \LIPSleverans{Systemskiss, slutgiltig inlämning}{Simon L / Tomas}{Beskriver hur systemet ska byggas upp}{23/2-2012}
-% \LIPSleverans{Tidplan, slutgiltig inlämning}{Simon L / Tomas}{Listar aktiviteternas budgeterade tidsåtgång.}{23/2-2012}
-% \LIPSleverans{Designspecifikation, första inlämningen}{Johan / Olov}{Visar mer detaljerat hur konstruktionen av roboten ska ske}{13/3-2012}
-% \LIPSleverans{Designspecifikation, slutlig inlämning}{Simon L / Olov}{Visar mer detaljerat hur konstruktionen av roboten ska ske. Version 1.0 och högre skickas till Tomas}{16/3-2012}
-% \LIPSleverans{Tidrapporter och uppdaterad tidplan}{Markus / Tomas}{Visar budgeterad och spenderad tid, uppdelad på de olika aktiviteterna}{Måndagar varje vecka, med start 12/3 och slut 21/5-2012 (undantaget 9/4)}
-% \LIPSleverans{Statusrapport för projektet}{Simon L / Tomas}{Dokumentet ska översiktligt sammanfatta hur projektet fortskrider.}{Vid begäran}
-% \LIPSleverans{Teknisk dokumentation}{Gustav / Tomas}{Beskriver i detalj systemets uppbyggnad}{Tre arbetsdagar innan redovisningen, vecka 20}
-% \LIPSleverans{Användaranvisning}{Mattias / Tomas}{Beskriver hur produkten används och dess olika funktioner.}{Tre arbetsdagar innan redovisningen, vecka 20}
-% \LIPSleverans{Efterstudiedokument}{Simon L / (delges senare)}{Dokumenterar gruppens reflektioner över projektet och hur det har genomförts}{1/6-2012}
-% \hline
-% \end{tabular}
-
-%%\section{Utvecklingsmetodik}
-
-% \begin{tabular}{|p{7mm}|p{117mm}|p{23mm}|}
-%         	\LIPSmilstolpe{\textbf{Nr}}{\textbf{Beskrivning}}{\textbf{Datum}}
-% 	\LIPSmilstolpe{1}{Designspecifikationen accepterad av handledaren}{2012-03-16}
-% 	\LIPSmilstolpe{2}{Bussen fungerar som den ska}{2012-03-23}
-% 	\LIPSmilstolpe{3}{Data och mätvärden skickas via komunikationsenheten}{2012-04-30}
-% 	\LIPSmilstolpe{4}{Roboten kan upptäcka korsningar}{2012-04-19}
-% 	\LIPSmilstolpe{5}{Korrekt sensorinfo visas på PCn}{2012-04-20}
-% 	\LIPSmilstolpe{6}{Motorn regleras autonomt utifrån sensorvärdena}{2012-04-27}
-% 	\LIPSmilstolpe{7}{Styrkommandon utförs korrekt}{2012-05-04}
-% \hline
-% \end{tabular}
-
-% \begin{tabular}{|p{7mm}|p{117mm}|p{23mm}|}
-%         	\LIPSmilstolpe{\textbf{BP}}{\textbf{Beskrivning}}{\textbf{Datum}}
-% 	\LIPSmilstolpe{BP0}{Godkännande av projektdirektiv, beslut att starta förstudie}{2012-01-20}
-% 	\LIPSmilstolpe{BP1}{Godkännande av kravspecifikation, beslut att starta förberedelsefasen}{2012-02-02}
-% 	\LIPSmilstolpe{BP2}{Godkännande av projektplanering, beslut att starta utförandefasen}{2012-02-23}
-% 	\LIPSmilstolpe{BP3}{Godkännande av designspecifikation, beslut att fortsätta utförandefasen}{2012-03-16}
-% 	\LIPSmilstolpe{BP4}{Ej specifierad}{-}
-% 	\LIPSmilstolpe{BP5}{Godkännande av produktens funktionalitet, beslut att leverera}{vecka 19}
-% 	\LIPSmilstolpe{BP6}{Godkännande av leverans, beslut att upplösa projektgruppen}{2012-06-01}
-% \hline
-% \end{tabular}
-
-% \begin{longtable}{|p{7mm}|p{90mm}|p{23mm}|p{23mm}|}
-% 	\LIPSleverans{\textbf{Nr}}{\textbf{Beskrivning}}{\textbf{Beroende av aktivitet nr}}{\textbf{Beräknad tid (h)}} 
-% \LIPSaktivitet{Färdigställande av
-% designspec}{}{44} 
-% %% SENSOR
-% 	\LIPSaktivitet{Omvandling av analoga signaler till
-% digitala sådana}{}{12} 
-% 	\LIPSaktivitet{Trösklande av
-% sensorvärden}{2}{4} 
-% 	\LIPSaktivitet{Hitt skillnaden mellan önskade och
-% aktuella värden}{3}{4} 
-% 	\LIPSaktivitet{Skicka skilnaden till styrenheten (via
-% kommunikationsenheten)}{4 \& 10}{14} 
-% 	\LIPSaktivitet{Skicka avstånd i cm till display- och
-% kommunikationsenheten}{2 \& 10}{12} 
-% 	\LIPSaktivitet{Upptäck
-% riktningsmarkeringar}{1 \& 2}{20} 
-% 	\LIPSaktivitet{Hantera
-% riktningsmarkeringar}{6}{20} 
-% 	\LIPSaktivitet{Upptäck korsningar}{2 \&
-% 3}{20} 
-% %% KOMMUNIKATION
-% 	\LIPSaktivitet{Ordna master som sköter
-% buss}{}{50} 
-% 	\LIPSaktivitet{Skicka styrinfo till
-% pc}{15 \& 23 \& 10}{15} 
-% 	\LIPSaktivitet{Skicka sensorinfo till
-% pc}{5 \& 15 \& 23}{15} 
-% 	\LIPSaktivitet{Ta emot styrkommandon från
-% pc}{15 \& 23}{15} 
-% 	\LIPSaktivitet{Skicka styrkommando till styrenhet
-% från kommunikqtionsenhet}{10}{15} 
-% 	\LIPSaktivitet{Fixa blåtand i
-% kommunikationsenhet}{}{25} 
-% %% STYRENHET
-% 	\LIPSaktivitet{Ta emot sensorvärden
-% (Styrenhet)}{10 \& 5}{20} 
-% 	\LIPSaktivitet{Reglera motorer utifrånsensorvärden}{16 \& 19 \& 22}{40} 
-% 	\LIPSaktivitet{Ta emot styrkommandon
-% (styrenheten)från kommunikationsenheten}{10 \& 24 \& 14}{20} 
-% 	\LIPSaktivitet{Styra motorer (autonomt och manuellt)}{}{40} 
-% 	\LIPSaktivitet{Skicka styrinfo till
-% kommunikationsenheten från
-% styrenheten}{10}{20} 
-% 	\LIPSaktivitet{Hantera
-% specialkommandon}{8 \& 19}{30}
-% 	\LIPSaktivitet{Regulator}{5}{30} 
-% %% PC 
-% 	\LIPSaktivitet{Fixa blåtand i
-% pc}{}{25} 
-% 	\LIPSaktivitet{Hämta och skicka styrkommandon från
-% pc till kommunikationsenheten (Mjukvara)}{15 \& 23}{30} 
-% 	\LIPSaktivitet{Ta emot styrinfo i PC från
-% kommunikationsenheten}{15 \& 23 \& 20}{20} 
-% 	\LIPSaktivitet{Ta emot sensorinfo}{15 \& 23 \&
-% 6}{20} 
-% 	\LIPSaktivitet{Visa styrinfo på
-% skärm}{25}{2} 
-% 	\LIPSaktivitet{Visa sensorinfo på
-% skärm}{26}{2} 
-% 	\LIPSaktivitet{Ordna gränssnitt på
-% pc}{}{15} 
-% %% MONTERING OCH TEST
-% 	\LIPSaktivitet{Montering av
-% avståndssensorer}{}{10} 
-% 	\LIPSaktivitet{Montering av
-% linjesensorer}{}{10}
-% 	\LIPSaktivitet{Montering}{30 \&
-% 31}{20} 
-% 	\LIPSaktivitet{Utför styrkommandon}{18 \&
-% 21}{30} 
-% 	\LIPSaktivitet{Test av hela systemet}{2-33 \& (35)}{35} 
-% 	\LIPSaktivitet{Kalibrering av
-% sensorer}{}{20}
-% 	\LIPSaktivitet{Planering och utförande av tester}{}{10}
-% 	\LIPSaktivitet{Test av bussen}{}{10}
-% 	\LIPSaktivitet{Test av kommunikationsenheten}{}{10}
-% 	\LIPSaktivitet{Test av sensorenheten}{}{10}
-% 	\LIPSaktivitet{Test av styrenheten}{}{10}
-% %% EFTERARBETE OCH DOKUMENTATION
-% 	\LIPSaktivitet{Sammanställa och granska
-% teknisk dokumentation}{samtliga}{20} 
-% 	\LIPSaktivitet{Sammanställa och granska
-% Användarmanual}{37}{20} 
-% 	\LIPSaktivitet{Förbereda
-% redovisning}{38}{15} 
-% 	\LIPSaktivitet{Tidsloggning (ska ske
-% kontinuerligt)}{}{20} 
-% 	\LIPSaktivitet{Efterstudie}{39}{15}  
-% 	\LIPSaktivitet{Rest / Reservtid}{}{46}
-% 	\LIPSaktivitet{Möten}{}{70} 
-% 
-% \hline
-% \end{longtable}
 \newpage
 
 \addcontentsline{toc}{section}{References}
@@ -256,14 +87,6 @@ Oxford University press.
 \end{thebibliography}
 \newpage
 \appendix
-\section{Appendix}
-\label{LetterOA}
-
-\subsection{}
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[trim=5mm 5mm 5mm 5mm, clip=true, scale=0.6]{Images/Letterofagreement.pdf}
-%\end{figure}
 
 \end{document} 
 

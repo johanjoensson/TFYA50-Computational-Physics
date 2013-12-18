@@ -43,7 +43,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Johan\Desktop\TFYA50-Computational-Physics\Code\Project_v0.01\Project_v0.01;$(IncludePath)</IncludePath>
+    <IncludePath>D:\plugg\TFYA50 - CDIO\TFYA50\TFYA50-Computational-Physics\Code\Project_v0.01\Project_v0.01;D:\plugg\TFYA50 - CDIO\TFYA50\TFYA50-Computational-Physics\Code\Project_GUI_v.0.01\Project_GUI_v.0.01;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
